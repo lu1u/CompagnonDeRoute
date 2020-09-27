@@ -1,0 +1,29 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="attrColorPrimary">@color/colorPrimary</item>
+        <item name="attrColorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="attrColorPrimaryLight">@color/colorPrimaryLight</item>
+        <item name="attrColorAccent">@color/colorAccent</item>
+        <item name="attrColorAccentDark">@color/colorAccentDark</item>
+        <item name="attrColorAccentLight">@color/colorAccentLight</item>
+        <item name="attrColorGroupBackground">@android:color/white</item>
+        <item name="attrColorGroupBorder">@color/colorPrimaryDark</item>
+        <item name="attrColorFondBouton">@color/colorAccent</item>
+        <item name="attrColorFondBoutonPresse">@color/colorAccentLight</item>
+        <item name="attrColorBordBouton">@android:color/white</item>
+        <item name="attrColorImageBouton">@android:color/white</item>
+        <item name="attrColorFondToggleOff">@color/colorPrimary</item>
+        <item name="attrColorFondToggleOn">@color/colorAccent</item>
+        <item name="attrColorBorderToggleOff">@android:color/transparent</item>
+        <item name="attrColorBorderToggleOn">@android:color/transparent</item>
+        <item name="attrColorTexteRadioBoutons">@color/couleurTexteRadioBoutons</item>
+        <item name="attrColorBackground">@color/colorPrimaryLight</item>
+    </style>
+
+</resources>

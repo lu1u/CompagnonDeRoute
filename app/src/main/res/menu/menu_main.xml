@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_parametres"
+        android:title="Paramètres" />
+    <item
+        android:id="@+id/menu_synthese_vocale"
+        android:title="Synthèse vocale..." />
+    <item
+        android:id="@+id/menu_apropos"
+        android:title="A propos..." />
+    <item
+        android:id="@+id/menu_report"
+        android:title="Report" />
+</menu>

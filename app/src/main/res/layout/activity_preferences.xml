@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context=".preferences.PreferencesActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Paramètres"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Après rédémarrage:" />
+
+    <CheckBox
+        android:id="@+id/checkBoxReactiver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Réactiver si précédemment actif" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volume:" />
+
+    <CheckBox
+        android:id="@+id/checkBoxVolumeDefaut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volume par défaut du système" />
+
+    <SeekBar
+        android:id="@+id/seekBarVolume"
+        style="@style/Widget.AppCompat.SeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="15"
+        android:progress="3" />
+
+</LinearLayout>

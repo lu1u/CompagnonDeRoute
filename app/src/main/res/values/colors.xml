@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1565C0</color>
+    <color name="colorPrimaryLight">#90CAF9</color>
+    <color name="colorAccent">#8BC34A</color>
+    <color name="colorAccentDark">#558B2F</color>
+    <color name="colorAccentLight">#C5E1A5</color>
+    <color name="couleurTexteRadioBoutons">#FFFFFF</color>
+    <color name="colorFondToggleOff">@color/colorPrimary</color>
+    <color name="colorFondToggleOn">@color/colorAccent</color>
+    <color name="colorFondEcran">@android:color/white</color>
+    <color name="colorBorderToggleOff">@android:color/white</color>
+    <color name="colorBorderToggleOn">@color/colorAccent</color>
+</resources>
