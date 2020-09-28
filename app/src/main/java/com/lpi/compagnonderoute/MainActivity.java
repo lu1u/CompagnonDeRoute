@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
 	static final String[] permissions = {Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS,
 			Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CALL_LOG, Manifest.permission.SET_ALARM};
 	//private @Nullable	ToggleButton _tgActif;
-	private Button _bActiver, _bDesactiver;
+	private ImageButton _bActiver, _bDesactiver;
 	private @Nullable
 	RadioGroup rgAnnonceHeure, rgLireSMS, rgRepondreSMS, rgRepondreAppels, rgAnnoncerAppels;
 	private @Nullable
@@ -287,8 +287,8 @@ public class MainActivity extends AppCompatActivity
 	private void initControles()
 	{
 		//_tgActif = findViewById(R.id.toggleButtonActif);
-		_bActiver = findViewById(R.id.buttonActiver);
-		_bDesactiver = findViewById(R.id.buttonDesactiver);
+		_bActiver = findViewById(R.id.imageButtonActiver);
+		_bDesactiver = findViewById(R.id.imageButtonDesactiver);
 		rgLireSMS = findViewById(R.id.radiogroupLireSMS);
 		rgAnnonceHeure = findViewById(R.id.radiogroupAnnonceHeure);
 		rgLireSMS = findViewById(R.id.radiogroupLireSMS);

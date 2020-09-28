@@ -1,18 +1,32 @@
 <resources>
-    <string name="app_name">Compagnon de route</string>
-    <string name="messagerecubody">Message reçu de %1$s.\n%2$s</string>
-    <string name="messagerecu">Message reçu de %1$s.</string>
-    <string name="phone_call_format">Appel téléphonique de %1$s</string>
-    <string name="time_announce">Il est %1$s.</string>
+    <string name="app_name">Road companion></string>
+    <string name="messagerecubody">Message received from %1$s.\n%2$s</string>
+    <string name="messagerecu">Message received from %1$s.</string>
+    <string name="phone_call_format">Incoming phone call from %1$s</string>
+    <string name="time_announce">It is %1$s.</string>
     <string name="ask_for_permissions">L\'application Compagnon de Route ne peut pas fonctionner sans que vous lui
 		accordiez la permission d\'accéder à certaines fonctionnalités de votre téléphone:\n- recevoir les appels
 		téléphoniques\n-accéder à vos contacts\n- envoyer des SMS
 	</string>
-    <string name="missing_permissions">Permissions manquantes</string>
-    <string name="grant_permissions_button">Accorder les permissions</string>
-    <string name="actif">Activé</string>
-    <string name="inactif">Désactivé</string>
+    <string name="missing_permissions">Missing permissions</string>
+    <string name="grant_permissions_button">Grant permissions</string>
+    <string name="actif">Enabled</string>
+    <string name="inactif">Disabled</string>
     <string name="volume">Volume %1$d</string>
-    <string name="prochain_carillon_notification">Prochain carillon %1$s</string>
-    <string name="prochain_carillon_ui">Prochain carillon %1$s</string>
+    <string name="prochain_carillon_notification">Next alarm %1$s</string>
+    <string name="prochain_carillon_ui">Next alarme %1$s</string>
+    <string name="reponse_sms">Merci pour votre message. Je ne peux pas vous répondre actuellement.\nJe vous répondrai dès que possible</string>
+    <string name="reponse_appel">Merci pour votre appel. Je ne suis pas disponible actuellement.\nJe vous répondrai dès que possible</string>
+    <string name="ui_annoncer_l_heure">Say hour:</string>
+    <string name="ui_jamais">Never</string>
+    <string name="ui_heures">Hours</string>
+    <string name="ui_demi">Half</string>
+    <string name="ui_quart">Quarter</string>
+    <string name="ui_lire_les_sms_entrants">Read incoming SMS</string>
+    <string name="ui_lire_aussi_le_contenu_du_message">Read message body</string>
+    <string name="ui_repondre_aux_sms_entrants">Answer incoming SMS:</string>
+    <string name="ui_annoncer_les_appels_entrants">Announce incoming calls:</string>
+     <string name="ui_repondre_aux_appels_entrants">Answer incoming calls:</string>
+    <string name="ui_toujours">Always</string>
+    <string name="ui_contacts_seulement">Contacts only</string>
 </resources>

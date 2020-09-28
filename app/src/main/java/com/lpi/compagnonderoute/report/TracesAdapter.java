@@ -35,8 +35,8 @@ public static String formatDate(Context context, int date)
 	//return android.text.format.DateFormat.getDateFormat(context).format(c.getTime()) + ' '
 	//		+ android.text.format.DateFormat.getTimeFormat(context).format(c.getTime());
 
-	return String.format( "%02d/%02d %02d:%02d:%02d %03d", c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH),
-			c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get( Calendar.SECOND), c.get(Calendar.MILLISECOND));
+	return String.format( "%02d/%02d %02d:%02d:%02d", c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH),
+			c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get( Calendar.SECOND));
 }
 
 /**

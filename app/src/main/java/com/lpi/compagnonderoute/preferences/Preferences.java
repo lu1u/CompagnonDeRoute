@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
+import com.lpi.compagnonderoute.R;
 import com.lpi.compagnonderoute.tts.TTSService;
 
 public class Preferences
@@ -87,8 +88,8 @@ public class Preferences
 		//_canalSortie = settings.getInt(PREF_CANAL_SORTIE, AudioManager.STREAM_SYSTEM);
 		_annoncerAppels = settings.getInt(PREF_ANNONCER_APPELS, CONTACTS_SEULS);
 		_repondreAppels = settings.getInt(PREF_REPONDRE_APPELS, CONTACTS_SEULS);
-		_reponseSms = settings.getString(PREF_REPONSE_SMS, "Merci pour votre message. Je ne peux pas vous répondre actuellement.\nJe vous répondrai dès que possible");
-		_reponseAppels = settings.getString(PREF_REPONSE_APPELS, "Merci pour votre appel. Je ne suis pas disponible actuellement.\nJe vous répondrai dès que possible");
+		_reponseSms = settings.getString(PREF_REPONSE_SMS, context.getString(R.string.reponse_sms));
+		_reponseAppels = settings.getString(PREF_REPONSE_APPELS, context.getString(R.string.reponse_appel));
 	}
 
 

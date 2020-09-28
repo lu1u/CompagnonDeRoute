@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryDark">#1565C0</color>
-    <color name="colorPrimaryLight">#90CAF9</color>
-    <color name="colorAccent">#8BC34A</color>
-    <color name="colorAccentDark">#558B2F</color>
-    <color name="colorAccentLight">#C5E1A5</color>
+    <color name="colorPrimary">#9E9E9E</color>
+    <color name="colorPrimaryDark">#616161</color>
+    <color name="colorPrimaryLight">#E0E0E0</color>
+    <color name="colorAccent">#2196F3</color>
+    <color name="colorAccentDark">#1976D2</color>
+    <color name="colorAccentLight">#64B5F6</color>
     <color name="couleurTexteRadioBoutons">#FFFFFF</color>
     <color name="colorFondToggleOff">@color/colorPrimary</color>
     <color name="colorFondToggleOn">@color/colorAccent</color>

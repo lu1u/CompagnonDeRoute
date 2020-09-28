@@ -6,5 +6,6 @@
     <dimen name="hauteur_bouton_startstop">128dp</dimen>
 	<dimen name="hauteur_bitmap_theme">32dp</dimen>
     <dimen name="padding_toggle">12dp</dimen>
+    <dimen name="taille_bouton">80dp</dimen>
 
 </resources>

@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat;
 
 public class Notification
 {
-	public static final int NOTIFICATION_ID = 124556;
+	public static final int NOTIFICATION_ID = 12455;
 	/**
 	 * The unique identifier for this type of notification.
 	 */
@@ -20,6 +20,38 @@ public class Notification
 	private static final String CHANNEL_ID = "Compagnon01";
 	@NonNull
 	private static final String NOTIFICATION_TAG = "Compagnon";
+	NotificationManager nm;
+	private static Notification _instance;
+	private String _texteTitre;
+	private String _texteResume;
+
+	/***
+	 * Obtenir l'instance (unique) de Preferences
+	 * @param context
+	 * @return
+	 */
+	public static synchronized Notification getInstance(@NonNull final Context context)
+	{
+		if ( _instance == null)
+			_instance = new Notification(context);
+
+		return _instance;
+	}
+
+	/***
+	 * Constructeur privé du singleton Preferences, on doit passer par getInstance pour obtenir une
+	 * instance
+	 * @param context
+	 */
+	private Notification(@NonNull final Context context)
+	{
+		nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+	}
+
+	public @NonNull	android.app.Notification getNotification(@NonNull final Context context)
+	{
+		return getNotification(context, _texteTitre, _texteResume);
+	}
 
 	/**
 	 * Shows the notification, or updates a previously shown notification of
@@ -27,9 +59,10 @@ public class Notification
 	 *
 	 * @see #cancel(Context)
 	 */
-	public static void notify(@NonNull final Context context, @NonNull final String texteTitre, @NonNull final String texteResume)
+	public void notify(@NonNull final Context context, @NonNull final String texteTitre, @NonNull final String texteResume)
 	{
-		NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		_texteTitre = texteTitre;
+		_texteResume = texteResume;
 		if (nm != null)
 			nm.notify(NOTIFICATION_TAG, NOTIFICATION_ID, getNotification(context, texteTitre, texteResume));
 	}
@@ -38,7 +71,7 @@ public class Notification
 	/**
 	 * Cancels any notifications of this type previously shown using
 	 */
-	public static void cancel(final Context context)
+	public void cancel(final Context context)
 	{
 		final NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		if (nm != null)

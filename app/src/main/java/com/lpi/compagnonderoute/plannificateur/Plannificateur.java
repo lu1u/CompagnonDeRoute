@@ -29,6 +29,7 @@ public class Plannificateur
 
     @NonNull
     public static final String EXTRA_MESSAGE_UI = "MessageUI";
+    private static final int REQUEST_CODE = 12;
 
     @Nullable
     private static Plannificateur INSTANCE = null;
@@ -135,12 +136,14 @@ public class Plannificateur
         r.log(Report.DEBUG, "set alarme: " + Carillon.toHourString(context, prochaineNotification));
         try
         {
-            Intent intent = new Intent(context, AlarmReceiver.class);
-            intent.setAction(ACTION_ALARME);
             if (_pendingIntent != null)
                 arrete(context);
             else
-                _pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            {
+                Intent intent = new Intent(context, AlarmReceiver.class);
+                intent.setAction(ACTION_ALARME);
+                _pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            }
 
             _alarmManager.setExact(AlarmManager.RTC_WAKEUP, prochaineNotification.getTimeInMillis(), _pendingIntent);
         } catch (Exception e)
@@ -151,7 +154,6 @@ public class Plannificateur
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
     /***
      * Plannifie la prochaine notification pause ou carillon, celle qui arrive en premier
      * @param context
@@ -164,7 +166,7 @@ public class Plannificateur
             if (!preferences.getActif())
             {
                 // Arreter toute plannification
-                Notification.cancel(context);
+                Notification.getInstance(context).cancel(context);
                 return;
             }
 
@@ -177,7 +179,7 @@ public class Plannificateur
 	            String messageUI = context.getString(R.string.prochain_carillon_ui, Carillon.toHourString(context, prochaineNotification));
 
 	            plannifie(context, prochaineNotification);
-	            Notification.notify(context, message, "Démarré");
+                Notification.getInstance(context).notify(context, message, "Démarré");
 
 	            // Mise a jour de l'interface utilisateur
 	            if (messageUI.length() > 0)
@@ -207,7 +209,7 @@ public class Plannificateur
             if (_pendingIntent != null)
                 _alarmManager.cancel(_pendingIntent);
 
-            Notification.cancel(context);
+            Notification.getInstance(context).cancel(context);
         } catch (Exception e)
         {
             Report r = Report.getInstance(context);

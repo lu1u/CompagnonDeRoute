@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
+import com.lpi.compagnonderoute.Notification;
 import com.lpi.compagnonderoute.R;
 import com.lpi.compagnonderoute.audio.AudioManagerHelper;
 import com.lpi.compagnonderoute.preferences.Preferences;
@@ -109,7 +110,8 @@ public class TTSService extends Service
 	}
 
 	/***
-	 * Prononce un text par synthese vocale
+	 * Prononce un text par synthese vocale, dans un foreground service pour contourner la
+	 * limitation de Android qui interdit d'initialiser TTS a partir d'un broadcast receiver
 	 * @param context
 	 * @param message
 	 * @param listener
@@ -142,17 +144,6 @@ public class TTSService extends Service
 			_eventTTSInitialise = false;
 			_eventSonJoue = false;
 
-			// Emettre un son avant la synthese vocale
-			AudioManagerHelper.play(context, R.raw.beep, new AudioManagerHelper.AudioManagerHelperListener()
-			{
-				//Sonnerie terminee, commencer a parler quand le tts est initialisé
-				@Override public void onFinished()
-				{
-					_eventSonJoue = true;
-					discours(context, message, listener);
-				}
-			});
-
 			// Pendant que le son se joue, initialiser le TTS
 			_textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener()
 			{
@@ -177,6 +168,18 @@ public class TTSService extends Service
 					discours(context, message, listener);
 				}
 			});
+
+			// Emettre un son avant la synthese vocale
+			AudioManagerHelper.play(context, R.raw.beep, new AudioManagerHelper.AudioManagerHelperListener()
+			{
+				//Sonnerie terminee, commencer a parler quand le tts est initialisé
+				@Override public void onFinished()
+				{
+					_eventSonJoue = true;
+					discours(context, message, listener);
+				}
+			});
+
 
 
 		} catch (Exception e)
@@ -279,6 +282,8 @@ public class TTSService extends Service
 		{
 			try
 			{
+				startForeground( 1, Notification.getInstance(this).getNotification(this)) ;
+
 				String message = intent.getStringExtra(MESSAGE_EXTRA);
 				if (message != null)
 					speak(this, message, new TTSServiceListener()
