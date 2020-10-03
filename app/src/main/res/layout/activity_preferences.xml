@@ -32,7 +32,7 @@
         android:id="@+id/checkBoxReactiver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Réactiver si précédemment actif" />
+        android:text="Réactiver compagnon de route s'il était actif lors du redémarrage" />
 
     <TextView
         android:id="@+id/textView4"
@@ -52,6 +52,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:max="15"
-        android:progress="3" />
+        android:paddingVertical="8dp"
+        android:progress="3"
+        android:scaleY="1.5" />
 
 </LinearLayout>

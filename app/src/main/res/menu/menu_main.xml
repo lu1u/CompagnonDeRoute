@@ -5,8 +5,12 @@
         android:id="@+id/menu_parametres"
         android:title="Paramètres" />
     <item
+        android:id="@+id/menu_theme"
+        android:title="Thème de l'application" />
+    <item
         android:id="@+id/menu_synthese_vocale"
-        android:title="Synthèse vocale..." />
+        android:title="Synthèse vocale Android..." />
+    <item android:enabled="false" />
     <item
         android:id="@+id/menu_apropos"
         android:title="A propos..." />

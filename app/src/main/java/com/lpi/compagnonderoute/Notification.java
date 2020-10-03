@@ -48,11 +48,6 @@ public class Notification
 		nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 	}
 
-	public @NonNull	android.app.Notification getNotification(@NonNull final Context context)
-	{
-		return getNotification(context, _texteTitre, _texteResume);
-	}
-
 	/**
 	 * Shows the notification, or updates a previously shown notification of
 	 * this type, with the given parameters.

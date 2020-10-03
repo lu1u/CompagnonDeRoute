@@ -68,8 +68,8 @@ public class PreferencesActivity extends AppCompatActivity
 			});
 
 			sbVolume.setMin(1);
-			sbVolume.setMax(TTSService.getMaxVolume());
-			sbVolume.setProgress(prefs.getVolume());
+			sbVolume.setMax(10);
+			sbVolume.setProgress((int)(prefs.getVolume()*10.0f));
 			sbVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
 			{
 				@Override
@@ -77,7 +77,7 @@ public class PreferencesActivity extends AppCompatActivity
 				{
 					if (fromUser)
 					{
-						prefs.setVolume(progress);
+						prefs.setVolume(((float)progress/10.0f));
 						AudioManagerHelper.play(context, R.raw.beep, null);
 					}
 				}
@@ -93,73 +93,7 @@ public class PreferencesActivity extends AppCompatActivity
 				}
 			});
 		}
-		////////////////////////////////////////////////////////////////////////////////////////////
-		// Canal sortie
-//		{
-//			final RadioGroup rgCanaux = dialogView.findViewById(R.id.radioGroupCanalSortie);
-//
-//
-//			switch (prefs.getCanalSortie())
-//			{
-//				case AudioManager.STREAM_SYSTEM:
-//					rgCanaux.check(R.id.radioButtonSysteme);
-//					break;
-//				case AudioManager.STREAM_RING:
-//					rgCanaux.check(R.id.radioButtonSonnerie);
-//					break;
-//				case AudioManager.STREAM_NOTIFICATION:
-//					rgCanaux.check(R.id.radioButtonNotification);
-//					break;
-//				case AudioManager.STREAM_MUSIC:
-//					rgCanaux.check(R.id.radioButtonMusic);
-//					break;
-//				case AudioManager.STREAM_DTMF:
-//					rgCanaux.check(R.id.radioButtonDTMF);
-//					break;
-//				case AudioManager.STREAM_ALARM:
-//					rgCanaux.check(R.id.radioButtonAlarmes);
-//					break;
-//				case AudioManager.STREAM_ACCESSIBILITY:
-//					rgCanaux.check(R.id.radioButtonAccessibilite);
-//					break;
-//				default:
-//					rgCanaux.check(R.id.radioButtonSysteme);
-//					break;
-//			}
-//
-//			rgCanaux.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-//			{
-//				@Override public void onCheckedChanged(final RadioGroup radioGroup, final int i)
-//				{
-//					switch (i)
-//					{
-//						case R.id.radioButtonSysteme:
-//							prefs.setCanalSortie(AudioManager.STREAM_SYSTEM);
-//							break;
-//						case R.id.radioButtonSonnerie:
-//							prefs.setCanalSortie(AudioManager.STREAM_RING);
-//							break;
-//						case R.id.radioButtonNotification:
-//							prefs.setCanalSortie(AudioManager.STREAM_NOTIFICATION);
-//							break;
-//						case R.id.radioButtonMusic:
-//							prefs.setCanalSortie(AudioManager.STREAM_MUSIC);
-//							break;
-//						case R.id.radioButtonDTMF:
-//							prefs.setCanalSortie(AudioManager.STREAM_DTMF);
-//							break;
-//						case R.id.radioButtonAlarmes:
-//							prefs.setCanalSortie(AudioManager.STREAM_ALARM);
-//							break;
-//						case R.id.radioButtonAccessibilite:
-//							prefs.setCanalSortie(AudioManager.STREAM_ACCESSIBILITY);
-//							break;
-//					}
-//
-//					AudioManagerHelper.play(context, R.raw.beep, null);
-//				}
-//			});
-//		}
+
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Afficher la fenetre

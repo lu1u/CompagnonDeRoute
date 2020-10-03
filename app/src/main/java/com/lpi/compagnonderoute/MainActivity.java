@@ -1,6 +1,7 @@
 package com.lpi.compagnonderoute;
 
 import android.Manifest;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,14 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -30,6 +29,7 @@ import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.preferences.PreferencesActivity;
 import com.lpi.compagnonderoute.report.Report;
 import com.lpi.compagnonderoute.report.ReportActivity;
+import com.lpi.compagnonderoute.themes.ThemesUtils;
 import com.lpi.compagnonderoute.tts.TTSService;
 
 public class MainActivity extends AppCompatActivity
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
 	private @Nullable
 	RadioGroup rgAnnonceHeure, rgLireSMS, rgRepondreSMS, rgRepondreAppels, rgAnnoncerAppels;
 	private @Nullable
-	CheckBox _checkBoxLireContenuSMS;
+	Switch _swLireContenuSMS;
 	private @Nullable
 	ImageButton btnReponseSMS, btnReponseAppels;
 	private TextView tvMessage;
@@ -72,8 +72,18 @@ public class MainActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		ThemesUtils.setTheme(this);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		if (getIntent().getAction() != null && getIntent().getAction().equals("com.google.android.gms.actions.SEARCH_ACTION"))
+		{
+			String query = getIntent().getStringExtra(SearchManager.QUERY);
+			Report.getInstance(this).log(Report.DEBUG, "OK GOOGLE");
+			Report.getInstance(this).log(Report.DEBUG, query);
+		}
+
 		initControles();
 		initListeners();
 	}
@@ -152,6 +162,10 @@ public class MainActivity extends AppCompatActivity
 
 			case R.id.menu_apropos:
 				DialogAPropos.start(this);
+				break;
+
+			case R.id.menu_theme:
+				ThemeActivity.start(this);
 				break;
 
 			case R.id.menu_report:
@@ -268,10 +282,10 @@ public class MainActivity extends AppCompatActivity
 						break;
 				}
 
-			if (_checkBoxLireContenuSMS!=null)
-				_checkBoxLireContenuSMS.setChecked(preferences.getLireContenuSms());
+			if (_swLireContenuSMS !=null)
+				_swLireContenuSMS.setChecked(preferences.getLireContenuSms());
 			if ( tvMessage != null)
-				tvMessage.setText( preferences.getActif()? R.string.actif : R.string.inactif );
+				tvMessage.setText( preferences.getActif()? R.string.enabled : R.string.disabled);
 		} catch (Exception e)
 		{
 			Report r = Report.getInstance(this);
@@ -297,7 +311,7 @@ public class MainActivity extends AppCompatActivity
 		rgRepondreAppels = findViewById(R.id.radiogroupRepondreAppels);
 		btnReponseSMS = findViewById(R.id.imageButtonReponseSMS);
 		btnReponseAppels = findViewById(R.id.imageButtonReponseAppels);
-		_checkBoxLireContenuSMS = findViewById(R.id.checkBoxLireContenuSMS) ;
+		_swLireContenuSMS = findViewById(R.id.switchLireContenuSMS) ;
 
 		tvMessage = findViewById(R.id.textViewStatus);
 	}
@@ -339,8 +353,8 @@ public class MainActivity extends AppCompatActivity
 					_bActiver.setVisibility(View.GONE);
 					_bDesactiver.setAnimation( AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_enter));
 					_bDesactiver.setVisibility(View.VISIBLE);
-					Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.actif), Toast.LENGTH_SHORT).show();
-					TTSService.speakFromAnywhere(MainActivity.this, MainActivity.this.getResources().getString( R.string.actif));
+					Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.enabled), Toast.LENGTH_SHORT).show();
+					TTSService.speakFromAnywhere(MainActivity.this, R.raw.beep, preferences.getVolumeDefaut()? preferences.getVolume():-1, MainActivity.this.getResources().getString( R.string.enabled));
 					Plannificateur.getInstance(MainActivity.this).plannifieProchaineNotification(MainActivity.this);
 				}
 			});
@@ -354,8 +368,8 @@ public class MainActivity extends AppCompatActivity
 					_bActiver.setVisibility(View.VISIBLE);
 					_bDesactiver.setAnimation( AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_exit));
 					_bDesactiver.setVisibility(View.GONE);
-					Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.inactif), Toast.LENGTH_SHORT).show();
-					TTSService.speakFromAnywhere(MainActivity.this, MainActivity.this.getResources().getString( R.string.inactif));
+					Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.disabled), Toast.LENGTH_SHORT).show();
+					TTSService.speakFromAnywhere(MainActivity.this, R.raw.beep, preferences.getVolumeDefaut()? preferences.getVolume():-1, MainActivity.this.getResources().getString( R.string.disabled));
 					Plannificateur.getInstance(MainActivity.this).arrete(MainActivity.this);
 				}
 			});
@@ -517,8 +531,8 @@ public class MainActivity extends AppCompatActivity
 				}
 			});
 
-		if ( _checkBoxLireContenuSMS!=null)
-			_checkBoxLireContenuSMS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+		if ( _swLireContenuSMS !=null)
+			_swLireContenuSMS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 			{
 				@Override
 				public void onCheckedChanged(final CompoundButton compoundButton, final boolean b)

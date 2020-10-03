@@ -21,18 +21,17 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import com.lpi.compagnonderoute.Notification;
-import com.lpi.compagnonderoute.R;
 import com.lpi.compagnonderoute.audio.AudioManagerHelper;
-import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.report.Report;
 
 public class TTSService extends Service
 {
 	public static final String MESSAGE_EXTRA = "TTSService.message";
+	public static final String VOLUME_EXTRA = "TTSService.volume";
+	private static final String SOUNDID_EXTRA = "TTSService.soundId";
 	private TextToSpeech _textToSpeech;
 	private boolean _eventTTSInitialise;
 	private boolean _eventSonJoue;
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/***
@@ -41,10 +40,10 @@ public class TTSService extends Service
 	 * @param resId Id de la resource String
 	 * @param args Liste variable de parametres
 	 */
-	public static void speakFromAnywhere(@NonNull Context ctx, @StringRes int resId, Object... args)
+	public static void speakFromAnywhere(@NonNull Context ctx, int soundID, float volume, @StringRes int resId, Object... args)
 	{
 		String format = ctx.getResources().getString(resId);
-		speakFromAnywhere(ctx, String.format(format, args));
+		speakFromAnywhere(ctx, soundID, volume, String.format(format, args));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,8 +52,10 @@ public class TTSService extends Service
 	 * Prononcer un texte
 	 * @param context
 	 * @param message message à prononcer
+	 * @param soundID id du son a jouer avant de dire le texte
+	 * @param volume: volume de 0.0 à 1.0, valeur negative pour garder le niveau sonore du systeme
 	 */
-	public static void speakFromAnywhere(@NonNull Context context, @NonNull final String message)
+	public static void speakFromAnywhere(@NonNull Context context, int soundID, float volume, @NonNull final String message)
 	{
 		Report r = Report.getInstance(context);
 		try
@@ -62,6 +63,8 @@ public class TTSService extends Service
 			r.log(Report.DEBUG, "TTS: " + message);
 			Intent speechIntent = new Intent(context, TTSService.class);
 			speechIntent.putExtra(MESSAGE_EXTRA, message);
+			speechIntent.putExtra(VOLUME_EXTRA, volume);
+			speechIntent.putExtra(SOUNDID_EXTRA, soundID);
 
 			// Lancer le service qui se chargera de faire la synthese locale, car on ne peut pas le
 			// faire avec le context recu par un BroadcastReceiver (limitation d'Android)
@@ -116,11 +119,11 @@ public class TTSService extends Service
 	 * @param message
 	 * @param listener
 	 */
-	private static void speak(@NonNull final Context context, @NonNull final String message, @Nullable final TTSServiceListener listener)
+	private static void creerTTSEtParler(@NonNull final Context context, int soundId, float volume, @NonNull final String message, @Nullable final TTSServiceListener listener)
 	{
 		try
 		{
-			new TTSService().doSpeak(context, message, listener);
+			new TTSService().emettreBipPuisParler(context, soundId, volume, message, listener);
 		} catch (Exception e)
 		{
 			Report r = Report.getInstance(context);
@@ -135,7 +138,7 @@ public class TTSService extends Service
 	 * @param message
 	 * @param listener
 	 */
-	private void doSpeak(@NonNull final Context context, @NonNull final String message, @Nullable final TTSServiceListener listener)
+	private void emettreBipPuisParler(@NonNull final Context context, int soundId, final float volume, @NonNull final String message, @Nullable final TTSServiceListener listener)
 	{
 		final Report r = Report.getInstance(context);
 
@@ -148,6 +151,7 @@ public class TTSService extends Service
 			_textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener()
 			{
 				////////////////////////////////////////////////////////////////////////////////////
+				// L'initialisation du TTS et du MediaPlayer sont asynchrones
 
 				/**
 				 * Le tts est initialisé
@@ -158,29 +162,26 @@ public class TTSService extends Service
 					if (listener != null)
 						listener.onInit(ttsStatus);
 
-					if (ttsStatus != TextToSpeech.SUCCESS)
+					if (ttsStatus == TextToSpeech.SUCCESS)
 					{
-						r.log(Report.ERROR, "Erreur TTS.init " + ttsStatus);
-						return;
+						_eventTTSInitialise = true;
+						discours(context, volume, message, listener);
 					}
-
-					_eventTTSInitialise = true;
-					discours(context, message, listener);
+					else
+						r.log(Report.ERROR, "Erreur TTS.init " + ttsStatus);
 				}
 			});
 
 			// Emettre un son avant la synthese vocale
-			AudioManagerHelper.play(context, R.raw.beep, new AudioManagerHelper.AudioManagerHelperListener()
+			AudioManagerHelper.play(context, soundId, new AudioManagerHelper.AudioManagerHelperListener()
 			{
 				//Sonnerie terminee, commencer a parler quand le tts est initialisé
 				@Override public void onFinished()
 				{
 					_eventSonJoue = true;
-					discours(context, message, listener);
+					discours(context, volume, message, listener);
 				}
 			});
-
-
 
 		} catch (Exception e)
 		{
@@ -197,7 +198,7 @@ public class TTSService extends Service
 	 * @param message
 	 * @param listener
 	 */
-	private void discours(@NonNull final Context context, @NonNull final String message, @Nullable final TTSServiceListener listener)
+	private void discours(@NonNull final Context context, float volume, @NonNull final String message, @Nullable final TTSServiceListener listener)
 	{
 		final Report r = Report.getInstance(context);
 		if (!_eventTTSInitialise)
@@ -218,12 +219,10 @@ public class TTSService extends Service
 		r.log(Report.DEBUG, "TTSService.discours: Son joué et TTS initialisé");
 		try
 		{
-			final Preferences preferences = Preferences.getInstance(context);
 			final Bundle params = new Bundle();
 			params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "lpi.TTSHelper");
-			if (!preferences.getVolumeDefaut())
+			if (volume > 0.0f)
 			{
-				final float volume = (float) preferences.getVolume() / (float) TTSService.getMaxVolume();
 				params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, volume);
 			}
 
@@ -282,11 +281,14 @@ public class TTSService extends Service
 		{
 			try
 			{
-				startForeground( 1, Notification.getInstance(this).getNotification(this)) ;
-
 				String message = intent.getStringExtra(MESSAGE_EXTRA);
+				float volume = intent.getFloatExtra(VOLUME_EXTRA, -1);
+				int soundId = intent.getIntExtra(SOUNDID_EXTRA, 0);
+
+				startForeground(1, Notification.getNotification(this, "Compagnon", message));
+
 				if (message != null)
-					speak(this, message, new TTSServiceListener()
+					creerTTSEtParler(this, soundId, volume, message, new TTSServiceListener()
 					{
 						@Override public void result(final int ttsStatus)
 						{
@@ -346,6 +348,5 @@ public class TTSService extends Service
 	{
 		return null;
 	}
-
 
 }

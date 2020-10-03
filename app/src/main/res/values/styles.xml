@@ -3,27 +3,141 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="attrColorPrimary">@color/colorPrimary</item>
-        <item name="attrColorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="attrColorPrimaryLight">@color/colorPrimaryLight</item>
-        <item name="attrColorAccent">@color/colorAccent</item>
-        <item name="attrColorAccentDark">@color/colorAccentDark</item>
-        <item name="attrColorAccentLight">@color/colorAccentLight</item>
-        <item name="attrColorGroupBackground">@android:color/white</item>
-        <item name="attrColorGroupBorder">@color/colorPrimaryDark</item>
-        <item name="attrColorFondBouton">@color/colorAccent</item>
-        <item name="attrColorFondBoutonPresse">@color/colorAccentLight</item>
-        <item name="attrColorBordBouton">@android:color/white</item>
-        <item name="attrColorImageBouton">@android:color/white</item>
-        <item name="attrColorFondToggleOff">@color/colorPrimary</item>
-        <item name="attrColorFondToggleOn">@color/colorAccent</item>
-        <item name="attrColorBorderToggleOff">@android:color/transparent</item>
-        <item name="attrColorBorderToggleOn">@android:color/transparent</item>
-        <item name="attrColorTexteRadioBoutons">@color/couleurTexteRadioBoutons</item>
-        <item name="attrColorBackground">@color/colorPrimaryLight</item>
+        <item name="colorPrimary">@color/Primary1</item>
+        <item name="colorPrimaryDark">@color/PrimaryDark1</item>
+        <item name="colorAccent">@color/Accent1</item>
+        <item name="attrColorPrimary">@color/Primary1</item>
+        <item name="attrColorPrimaryDark">@color/PrimaryDark1</item>
+        <item name="attrColorPrimaryLight">@color/PrimaryLight1</item>
+        <item name="attrColorAccent">@color/Accent1</item>
+        <item name="attrColorAccentDark">@color/AccentDark1</item>
+        <item name="attrColorAccentLight">@color/AccentLight1</item>
+        <item name="attrColorFondToggleOff">@color/Primary1</item>
+        <item name="attrColorFondToggleOn">@color/Accent1</item>
+        <item name="attrColorBorderToggleOff">@color/colorTexteBoutons</item>
+        <item name="attrColorBorderToggleOn">@color/colorTexteBoutons</item>
+        <item name="attrColorTexteRadioBoutons">@color/colorTexteBoutons</item>
+        <item name="attrColorIcone">@color/Primary1</item>
     </style>
 
+    <style name="Theme1" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/Primary1</item>
+        <item name="attrColorPrimary">@color/Primary1</item>
+        <item name="attrColorPrimaryLight">@color/PrimaryLight1</item>
+        <item name="attrColorPrimaryDark">@color/PrimaryDark1</item>
+
+        <item name="attrColorAccent">@color/Accent1</item>
+        <item name="attrColorAccentLight">@color/AccentLight1</item>
+        <item name="attrColorAccentDark">@color/AccentDark1</item>
+
+
+        <item name="attrColorFondToggleOff">@color/PrimaryLight1</item>
+        <item name="attrColorFondToggleOn">@color/Accent1</item>
+        <item name="attrColorBorderToggleOff">@color/PrimaryLight1</item>
+        <item name="attrColorBorderToggleOn">@color/PrimaryLight1</item>
+        <item name="attrColorTexteRadioBoutons">@color/colorTexteBoutons</item>
+        <item name="attrColorIcone">@color/Primary1</item>
+    </style>
+
+
+
+    <style name="Theme2" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/Primary2</item>
+        <item name="attrColorPrimary">@color/Primary2</item>
+        <item name="attrColorPrimaryLight">@color/PrimaryLight2</item>
+        <item name="attrColorPrimaryDark">@color/PrimaryDark2</item>
+
+        <item name="attrColorAccent">@color/Accent2</item>
+        <item name="attrColorAccentLight">@color/AccentLight2</item>
+        <item name="attrColorAccentDark">@color/AccentDark2</item>
+
+
+        <item name="attrColorFondToggleOff">@color/PrimaryLight2</item>
+        <item name="attrColorFondToggleOn">@color/Accent2</item>
+        <item name="attrColorBorderToggleOff">@color/PrimaryLight2</item>
+        <item name="attrColorBorderToggleOn">@color/PrimaryLight2</item>
+        <item name="attrColorTexteRadioBoutons">@color/colorTexteBoutons</item>
+        <item name="attrColorIcone">@color/Primary1</item>
+    </style>
+
+
+
+    <style name="Theme3" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/Primary3</item>
+        <item name="attrColorPrimary">@color/Primary3</item>
+        <item name="attrColorPrimaryLight">@color/PrimaryLight3</item>
+        <item name="attrColorPrimaryDark">@color/PrimaryDark3</item>
+
+        <item name="attrColorAccent">@color/Accent3</item>
+        <item name="attrColorAccentLight">@color/AccentLight3</item>
+        <item name="attrColorAccentDark">@color/AccentDark3</item>
+
+
+        <item name="attrColorFondToggleOff">@color/PrimaryLight3</item>
+        <item name="attrColorFondToggleOn">@color/Accent3</item>
+        <item name="attrColorBorderToggleOff">@color/PrimaryLight3</item>
+        <item name="attrColorBorderToggleOn">@color/PrimaryLight3</item>
+        <item name="attrColorTexteRadioBoutons">@color/colorTexteBoutons</item>
+        <item name="attrColorIcone">@color/Primary1</item>
+    </style>
+
+
+    <style name="Theme4" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/Primary4</item>
+        <item name="attrColorPrimary">@color/Primary4</item>
+        <item name="attrColorPrimaryLight">@color/PrimaryLight4</item>
+        <item name="attrColorPrimaryDark">@color/PrimaryDark4</item>
+
+        <item name="attrColorAccent">@color/Accent4</item>
+        <item name="attrColorAccentLight">@color/AccentLight4</item>
+        <item name="attrColorAccentDark">@color/AccentDark4</item>
+
+
+        <item name="attrColorFondToggleOff">@color/PrimaryLight4</item>
+        <item name="attrColorFondToggleOn">@color/Accent4</item>
+        <item name="attrColorBorderToggleOff">@color/PrimaryLight4</item>
+        <item name="attrColorBorderToggleOn">@color/PrimaryLight4</item>
+        <item name="attrColorTexteRadioBoutons">@color/colorTexteBoutons</item>
+        <item name="attrColorIcone">@color/Primary1</item>
+    </style>
+
+    <style name="Theme5" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/Primary5</item>
+        <item name="attrColorPrimary">@color/Primary5</item>
+        <item name="attrColorPrimaryLight">@color/PrimaryLight5</item>
+        <item name="attrColorPrimaryDark">@color/PrimaryDark5</item>
+
+        <item name="attrColorAccent">@color/Accent5</item>
+        <item name="attrColorAccentLight">@color/AccentLight5</item>
+        <item name="attrColorAccentDark">@color/AccentDark5</item>
+
+
+        <item name="attrColorFondToggleOff">@color/PrimaryLight5</item>
+        <item name="attrColorFondToggleOn">@color/Accent5</item>
+        <item name="attrColorBorderToggleOff">@color/PrimaryLight5</item>
+        <item name="attrColorBorderToggleOn">@color/PrimaryLight5</item>
+        <item name="attrColorTexteRadioBoutons">@color/colorTexteBoutons</item>
+        <item name="attrColorIcone">@color/Primary1</item>
+    </style>
+
+    <style name="Theme6" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/Primary6</item>
+        <item name="attrColorPrimary">@color/Primary6</item>
+        <item name="attrColorPrimaryLight">@color/PrimaryLight6</item>
+        <item name="attrColorPrimaryDark">@color/PrimaryDark6</item>
+
+        <item name="attrColorAccent">@color/Accent6</item>
+        <item name="attrColorAccentLight">@color/AccentLight6</item>
+        <item name="attrColorAccentDark">@color/AccentDark6</item>
+
+
+        <item name="attrColorFondToggleOff">@color/PrimaryLight6</item>
+        <item name="attrColorFondToggleOn">@color/Accent6</item>
+        <item name="attrColorBorderToggleOff">@color/PrimaryLight6</item>
+        <item name="attrColorBorderToggleOn">@color/PrimaryLight6</item>
+        <item name="attrColorTexteRadioBoutons">@color/colorTexteBoutons</item>
+        <item name="attrColorIcone">@color/Primary1</item>
+    </style>
 </resources>
+
+

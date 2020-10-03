@@ -126,9 +126,9 @@ public class SmsListener extends BroadcastReceiver
 				contact = TTSService.formatNumeroTelephone( message.getOriginatingAddress());
 
 			if ( preferences.getLireContenuSms())
-				TTSService.speakFromAnywhere(context, R.string.messagerecubody, contact, message.getDisplayMessageBody());
+				TTSService.speakFromAnywhere(context, R.raw.beep, preferences.getVolumeDefaut()? preferences.getVolume():-1, R.string.received_message_with_body, contact, message.getDisplayMessageBody());
 			else
-				TTSService.speakFromAnywhere(context, R.string.messagerecu, contact );
+				TTSService.speakFromAnywhere(context, R.raw.beep, preferences.getVolumeDefaut()? preferences.getVolume():-1, R.string.received_message, contact);
 
 	}
 

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thème"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageViewTheme1"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/taille_choix_theme"
+            android:layout_margin="4dp"
+            android:layout_weight="0.3"
+            android:background="@color/Primary1"
+            android:tint="@color/Accent1"
+            app:srcCompat="@drawable/ic_choix_theme" />
+
+        <ImageView
+            android:id="@+id/imageViewTheme2"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/taille_choix_theme"
+            android:layout_margin="4dp"
+            android:layout_weight="0.3"
+            android:background="@color/Primary2"
+            android:tint="@color/Accent2"
+            app:srcCompat="@drawable/ic_choix_theme" />
+
+        <ImageView
+            android:id="@+id/imageViewTheme3"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/taille_choix_theme"
+            android:layout_margin="4dp"
+            android:layout_weight="0.3"
+            android:background="@color/Primary3"
+            android:tint="@color/Accent3"
+            app:srcCompat="@drawable/ic_choix_theme" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageViewTheme4"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/taille_choix_theme"
+            android:layout_margin="4dp"
+            android:layout_weight="0.3"
+            android:background="@color/Primary4"
+            android:tint="@color/Accent4"
+            app:srcCompat="@drawable/ic_choix_theme" />
+
+        <ImageView
+            android:id="@+id/imageViewTheme5"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/taille_choix_theme"
+            android:layout_margin="4dp"
+            android:layout_weight="0.3"
+            android:background="@color/Primary5"
+            android:tint="@color/Accent5"
+            app:srcCompat="@drawable/ic_choix_theme" />
+
+        <ImageView
+            android:id="@+id/imageViewTheme6"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/taille_choix_theme"
+            android:layout_margin="4dp"
+            android:layout_weight="0.3"
+            android:background="@color/Primary6"
+            android:tint="@color/Accent6"
+            app:srcCompat="@drawable/ic_choix_theme" />
+    </LinearLayout>
+</LinearLayout>

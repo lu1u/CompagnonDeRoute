@@ -22,8 +22,9 @@ public class Preferences
 	private static final String PREF_ACTIF_APRES_REBOOT = "actifApresReboot";
 	private static final String PREF_VOLUME_DEFAUT = "volumeDefaut";
 	//private static final String PREF_CANAL_SORTIE = "canalSortie";
-	private static final String PREF_VOLUME = "volume";
+	private static final String PREF_VOLUME = "volumef";
 	private static final String PREF_LIRE_CONTENU_SMS = "lireContenuSMS";
+	private static final String PREF_THEME = "theme";
 
 	@NonNull	final SharedPreferences settings;
 	@NonNull 	final SharedPreferences.Editor editor;
@@ -37,10 +38,10 @@ public class Preferences
 	private int _repondreSms;
 	private int _annoncerAppels;
 	private int _repondreAppels;
-	private int _volume;
+	private float _volume;
 	private String _reponseSms;
 	private String _reponseAppels;
-	//private int _canalSortie ;
+	private int _theme;
 
 	private static Preferences _instance;
 
@@ -84,12 +85,13 @@ public class Preferences
 		_lireContenuSms = settings.getBoolean(PREF_LIRE_CONTENU_SMS, true) ;
 		_repondreSms = settings.getInt(PREF_REPONDRE_SMS, CONTACTS_SEULS);
 		_volumeDefaut = settings.getBoolean(PREF_VOLUME_DEFAUT, true);
-		_volume = settings.getInt(PREF_VOLUME, TTSService.getMaxVolume());
+		_volume = settings.getFloat(PREF_VOLUME, TTSService.getMaxVolume());
 		//_canalSortie = settings.getInt(PREF_CANAL_SORTIE, AudioManager.STREAM_SYSTEM);
 		_annoncerAppels = settings.getInt(PREF_ANNONCER_APPELS, CONTACTS_SEULS);
 		_repondreAppels = settings.getInt(PREF_REPONDRE_APPELS, CONTACTS_SEULS);
-		_reponseSms = settings.getString(PREF_REPONSE_SMS, context.getString(R.string.reponse_sms));
-		_reponseAppels = settings.getString(PREF_REPONSE_APPELS, context.getString(R.string.reponse_appel));
+		_reponseSms = settings.getString(PREF_REPONSE_SMS, context.getString(R.string.sms_answer));
+		_reponseAppels = settings.getString(PREF_REPONSE_APPELS, context.getString(R.string.call_answer));
+		_theme = settings.getInt(PREF_THEME, 0);
 	}
 
 
@@ -210,11 +212,11 @@ public class Preferences
 //	}
 
 
-	public int getVolume(){ return _volume;}
-	public void setVolume(final int v)
+	public float getVolume(){ return _volume;}
+	public void setVolume(final float v)
 	{
 		_volume = v;
-		editor.putInt(PREF_VOLUME, v);
+		editor.putFloat(PREF_VOLUME, v);
 		editor.apply();
 	}
 
@@ -226,6 +228,14 @@ public class Preferences
 	{
 		_lireContenuSms= v;
 		editor.putBoolean(PREF_LIRE_CONTENU_SMS, v);
+		editor.apply();
+	}
+
+	public int getTheme(){ return _theme;}
+	public void setTheme(final int v)
+	{
+		_theme = v;
+		editor.putInt(PREF_THEME, v);
 		editor.apply();
 	}
 }

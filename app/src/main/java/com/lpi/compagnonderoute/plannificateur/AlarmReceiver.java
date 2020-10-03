@@ -42,7 +42,7 @@ public class AlarmReceiver extends BroadcastReceiver
 					if (preferences.getDelaiAnnonceHeure() != Preferences.DELAI_ANNONCE_HEURE_JAMAIS)
 					{
 						Calendar maintenant = Calendar.getInstance();
-						TTSService.speakFromAnywhere(context, R.string.time_announce, DateUtils.formatDateTime(context, maintenant.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
+						TTSService.speakFromAnywhere(context, R.raw.beep, preferences.getVolumeDefaut()? preferences.getVolume():-1, R.string.time_announce, DateUtils.formatDateTime(context, maintenant.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
 						Plannificateur.getInstance(context).plannifieProchaineNotification(context);
 					}
 			}

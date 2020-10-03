@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient android:type="radial" android:centerX="0.25" android:centerY="0.25" android:startColor="@color/colorAccentLight" android:gradientRadius="200dp" android:endColor="@color/colorAccent"/>
+    <gradient android:type="radial" android:centerX="0.25" android:centerY="0.25" android:startColor="@color/AccentLight1" android:gradientRadius="200dp" android:endColor="@color/Accent1"/>
     <corners android:radius="@dimen/coins_toggle"/>
 </shape>

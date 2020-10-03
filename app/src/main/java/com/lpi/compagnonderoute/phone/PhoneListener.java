@@ -37,7 +37,7 @@ public class PhoneListener extends BroadcastReceiver
 		}
 
 		String message = context.getResources().getString(R.string.phone_call_format, contact);
-		TTSService.speakFromAnywhere(context, message);
+		TTSService.speakFromAnywhere(context, R.raw.beep, preferences.getVolumeDefaut()? preferences.getVolume():-1, message);
 
 		// Repondre a l'appel
 		if (preferences.getRepondreAppels() != Preferences.JAMAIS)

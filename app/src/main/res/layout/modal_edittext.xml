@@ -38,5 +38,5 @@
             android:background="@android:color/transparent"
             android:text="@android:string/ok"
             android:textAllCaps="false"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/Accent1"/>
 </LinearLayout>

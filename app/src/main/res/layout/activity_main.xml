@@ -10,8 +10,11 @@
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/fond_bouton"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/imageButtonActiver"
@@ -62,13 +65,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbarStyle="outsideInset"
         app:layout_constraintBottom_toTopOf="@+id/textViewStatus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -95,7 +98,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/ui_annoncer_l_heure" />
+                    android:drawableStart="@drawable/ic_clock"
+                    android:drawableTint="?attr/attrColorIcone"
+                    android:text="@string/ui_say_hour" />
 
                 <RadioGroup
                     android:id="@+id/radiogroupAnnonceHeure"
@@ -113,7 +118,7 @@
                         android:checked="true"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_jamais"
+                        android:text="@string/ui_never"
                         android:textColor="?attr/attrColorTexteRadioBoutons" />
 
                     <RadioButton
@@ -125,7 +130,7 @@
                         android:button="@android:color/transparent"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_heures"
+                        android:text="@string/ui_hour"
                         android:textColor="?attr/attrColorTexteRadioBoutons" />
 
                     <RadioButton
@@ -137,7 +142,7 @@
                         android:button="@android:color/transparent"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_demi"
+                        android:text="@string/ui_half"
                         android:textColor="?attr/attrColorTexteRadioBoutons" />
 
                     <RadioButton
@@ -150,7 +155,7 @@
                         android:checked="true"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_quart"
+                        android:text="@string/ui_quarter"
                         android:textColor="?attr/attrColorTexteRadioBoutons" />
 
                 </RadioGroup>
@@ -179,7 +184,9 @@
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/ui_lire_les_sms_entrants" />
+                    android:drawableStart="@drawable/ic_message"
+                    android:drawableTint="?attr/attrColorIcone"
+                    android:text="@string/ui_read_incoming_sms" />
 
                 <RadioGroup
                     android:id="@+id/radiogroupLireSMS"
@@ -226,11 +233,14 @@
 
                 </RadioGroup>
 
-                <CheckBox
-                    android:id="@+id/checkBoxLireContenuSMS"
+                <Switch
+                    android:id="@+id/switchLireContenuSMS"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/ui_lire_aussi_le_contenu_du_message" />
+                    android:checked="true"
+                    android:text="@string/ui_read_sms_body"
+                    android:thumbTint="@color/switch_thumb_selector"
+                    app:trackTint="@color/switch_selector" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -244,7 +254,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/marge_categories"
                         android:layout_weight="0.9"
-                        android:text="@string/ui_repondre_aux_sms_entrants" />
+                        android:drawableStart="@drawable/ic_message"
+                        android:drawableTint="?attr/attrColorIcone"
+                        android:text="@string/ui_announce_incoming_sms" />
 
                     <ImageButton
                         android:id="@+id/imageButtonReponseSMS"
@@ -252,7 +264,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.1"
                         android:background="@android:color/transparent"
-                        android:tint="@color/colorPrimaryDark"
+                        android:drawableTint="?attr/attrColorAccent"
                         app:srcCompat="@drawable/ic_cog" />
                 </LinearLayout>
 
@@ -323,7 +335,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/ui_annoncer_les_appels_entrants" />
+                    android:drawableStart="@drawable/ic_phone"
+                    android:drawableTint="?attr/attrColorIcone"
+                    android:text="@string/ui_announce_incoming_calls" />
 
                 <RadioGroup
                     android:id="@+id/radiogroupAnnoncerAppels"
@@ -341,7 +355,7 @@
                         android:button="@android:color/transparent"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_jamais"
+                        android:text="@string/ui_never"
                         android:textColor="?attr/attrColorTexteRadioBoutons" />
 
                     <RadioButton
@@ -353,7 +367,7 @@
                         android:button="@android:color/transparent"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_toujours"
+                        android:text="@string/ui_always"
                         android:textColor="?attr/attrColorTexteRadioBoutons" />
 
                     <RadioButton
@@ -365,7 +379,7 @@
                         android:button="@android:color/transparent"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_contacts_seulement"
+                        android:text="@string/ui_contact_only"
                         android:textColor="?attr/attrColorTexteRadioBoutons" />
 
                 </RadioGroup>
@@ -381,7 +395,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/marge_categories"
                         android:layout_weight="0.9"
-                        android:text="@string/ui_repondre_aux_appels_entrants" />
+                        android:drawableStart="@drawable/ic_phone"
+                        android:drawableTint="?attr/attrColorIcone"
+                        android:text="@string/ui_answer_incoming_call" />
 
                     <ImageButton
                         android:id="@+id/imageButtonReponseAppels"
@@ -389,7 +405,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.1"
                         android:background="@android:color/transparent"
-                        android:tint="@color/colorPrimaryDark"
+                        android:drawableTint="?attr/attrColorAccent"
                         app:srcCompat="@drawable/ic_cog" />
                 </LinearLayout>
 
@@ -409,7 +425,7 @@
                         android:button="@android:color/transparent"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_jamais"
+                        android:text="@string/ui_never"
                         android:textColor="?attr/attrColorTexteRadioBoutons" />
 
                     <RadioButton
@@ -421,7 +437,7 @@
                         android:button="@android:color/transparent"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_toujours"
+                        android:text="@string/ui_always"
                         android:textColor="?attr/attrColorTexteRadioBoutons" />
 
                     <RadioButton
@@ -433,7 +449,7 @@
                         android:button="@android:color/transparent"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_contacts_seulement"
+                        android:text="@string/ui_contact_only"
                         android:textColor="?attr/attrColorTexteRadioBoutons" />
 
                 </RadioGroup>

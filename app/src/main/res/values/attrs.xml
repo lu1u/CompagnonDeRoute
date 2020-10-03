@@ -7,17 +7,11 @@
         <attr name="attrColorAccent" format="reference"/>
         <attr name="attrColorAccentDark" format="reference"/>
         <attr name="attrColorAccentLight" format="reference"/>
-        <attr name="attrColorGroupBackground" format="reference"/>
-        <attr name="attrColorGroupBorder" format="reference"/>
-        <attr name="attrColorFondBouton" format="reference"/>
-        <attr name="attrColorFondBoutonPresse" format="reference"/>
-        <attr name="attrColorBordBouton" format="reference"/>
-        <attr name="attrColorImageBouton" format="reference"/>
         <attr name="attrColorFondToggleOff" format="reference"/>
         <attr name="attrColorFondToggleOn" format="reference"/>
         <attr name="attrColorBorderToggleOff" format="reference"/>
         <attr name="attrColorBorderToggleOn" format="reference"/>
         <attr name="attrColorTexteRadioBoutons" format="reference"/>
-	    <attr name="attrColorBackground" format="reference"/>
+        <attr name="attrColorIcone" format="reference"/>
     </declare-styleable>
 </resources>

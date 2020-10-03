@@ -39,8 +39,7 @@ public class AudioManagerHelper
 			// Volume, si pas volume par defaut
 			if (!preferences.getVolumeDefaut())
 			{
-				final float volume = (float) preferences.getVolume() / (float) TTSService.getMaxVolume();
-				mediaPlayer.setVolume(volume, volume);
+				mediaPlayer.setVolume(preferences.getVolume(), preferences.getVolume());
 			}
 
 
