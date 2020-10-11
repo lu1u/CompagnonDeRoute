@@ -8,16 +8,11 @@ import android.content.DialogInterface;
 import androidx.annotation.NonNull;
 
 /**
- * Helper pour afficher une fenetre de confirmation
+ * Helper pour afficher une fenetre de confirmation, fournir un listener pour etre prevenu du
+ * resultat
  */
 public class ConfirmBox
 {
-	public interface ConfirmBoxListener
-	{
-		void onPositive();
-		void onNegative();
-	}
-
 	/***
 	 *  Afficher la fenetre de confirmation
 	 * @param context
@@ -48,7 +43,28 @@ public class ConfirmBox
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setMessage(message)
 				.setPositiveButton(context.getResources().getString(android.R.string.ok), dialogClickListener)
-				.setNegativeButton(context.getResources().getString(android.R.string.no), dialogClickListener)
+				.setNegativeButton(context.getResources().getString(android.R.string.cancel), dialogClickListener)
+				.setOnCancelListener(new DialogInterface.OnCancelListener()
+				{
+					@Override public void onCancel(final DialogInterface dialogInterface)
+					{
+						listener.onNegative();
+					}
+				})
+				.setOnDismissListener(new DialogInterface.OnDismissListener()
+				{
+					@Override public void onDismiss(final DialogInterface dialogInterface)
+					{
+						listener.onNegative();
+					}
+				})
 				.show();
+	}
+
+	// Le listener a fournir par l'appelant, lui permettra de savoir quelle option a ete choisie
+	public interface ConfirmBoxListener
+	{
+		void onPositive();
+		void onNegative();
 	}
 }

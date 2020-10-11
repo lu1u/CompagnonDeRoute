@@ -1,4 +1,4 @@
-package com.lpi.compagnonderoute;
+package com.lpi.compagnonderoute.phone;
 
 import android.content.Context;
 import android.database.Cursor;

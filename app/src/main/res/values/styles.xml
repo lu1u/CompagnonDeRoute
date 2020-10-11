@@ -20,7 +20,7 @@
         <item name="attrColorIcone">@color/Primary1</item>
     </style>
 
-    <style name="Theme1" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme1" parent="AppTheme">
         <item name="colorPrimary">@color/Primary1</item>
         <item name="attrColorPrimary">@color/Primary1</item>
         <item name="attrColorPrimaryLight">@color/PrimaryLight1</item>
@@ -30,18 +30,17 @@
         <item name="attrColorAccentLight">@color/AccentLight1</item>
         <item name="attrColorAccentDark">@color/AccentDark1</item>
 
-
         <item name="attrColorFondToggleOff">@color/PrimaryLight1</item>
         <item name="attrColorFondToggleOn">@color/Accent1</item>
         <item name="attrColorBorderToggleOff">@color/PrimaryLight1</item>
         <item name="attrColorBorderToggleOn">@color/PrimaryLight1</item>
         <item name="attrColorTexteRadioBoutons">@color/colorTexteBoutons</item>
-        <item name="attrColorIcone">@color/Primary1</item>
+
+        <item name="attrColorIcone">@color/PrimaryLight1</item>
     </style>
 
 
-
-    <style name="Theme2" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme2" parent="AppTheme">
         <item name="colorPrimary">@color/Primary2</item>
         <item name="attrColorPrimary">@color/Primary2</item>
         <item name="attrColorPrimaryLight">@color/PrimaryLight2</item>
@@ -51,18 +50,17 @@
         <item name="attrColorAccentLight">@color/AccentLight2</item>
         <item name="attrColorAccentDark">@color/AccentDark2</item>
 
-
         <item name="attrColorFondToggleOff">@color/PrimaryLight2</item>
         <item name="attrColorFondToggleOn">@color/Accent2</item>
-        <item name="attrColorBorderToggleOff">@color/PrimaryLight2</item>
-        <item name="attrColorBorderToggleOn">@color/PrimaryLight2</item>
+        <item name="attrColorBorderToggleOff">@color/Primary2</item>
+        <item name="attrColorBorderToggleOn">@color/Primary2</item>
         <item name="attrColorTexteRadioBoutons">@color/colorTexteBoutons</item>
-        <item name="attrColorIcone">@color/Primary1</item>
+
+        <item name="attrColorIcone">@color/PrimaryLight1</item>
     </style>
 
 
-
-    <style name="Theme3" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme3" parent="AppTheme">
         <item name="colorPrimary">@color/Primary3</item>
         <item name="attrColorPrimary">@color/Primary3</item>
         <item name="attrColorPrimaryLight">@color/PrimaryLight3</item>
@@ -82,7 +80,7 @@
     </style>
 
 
-    <style name="Theme4" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme4" parent="AppTheme">
         <item name="colorPrimary">@color/Primary4</item>
         <item name="attrColorPrimary">@color/Primary4</item>
         <item name="attrColorPrimaryLight">@color/PrimaryLight4</item>
@@ -101,7 +99,7 @@
         <item name="attrColorIcone">@color/Primary1</item>
     </style>
 
-    <style name="Theme5" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme5" parent="AppTheme">
         <item name="colorPrimary">@color/Primary5</item>
         <item name="attrColorPrimary">@color/Primary5</item>
         <item name="attrColorPrimaryLight">@color/PrimaryLight5</item>
@@ -111,7 +109,6 @@
         <item name="attrColorAccentLight">@color/AccentLight5</item>
         <item name="attrColorAccentDark">@color/AccentDark5</item>
 
-
         <item name="attrColorFondToggleOff">@color/PrimaryLight5</item>
         <item name="attrColorFondToggleOn">@color/Accent5</item>
         <item name="attrColorBorderToggleOff">@color/PrimaryLight5</item>
@@ -120,7 +117,7 @@
         <item name="attrColorIcone">@color/Primary1</item>
     </style>
 
-    <style name="Theme6" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme6" parent="AppTheme">
         <item name="colorPrimary">@color/Primary6</item>
         <item name="attrColorPrimary">@color/Primary6</item>
         <item name="attrColorPrimaryLight">@color/PrimaryLight6</item>

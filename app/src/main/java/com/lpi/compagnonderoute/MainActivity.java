@@ -12,10 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,16 +35,18 @@ import com.lpi.compagnonderoute.tts.TTSService;
 public class MainActivity extends AppCompatActivity
 {
 	static final String[] permissions = {Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS,
-			Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CALL_LOG, Manifest.permission.SET_ALARM};
+			Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CALL_LOG,
+			Manifest.permission.SET_ALARM, Manifest.permission.MODIFY_AUDIO_SETTINGS};
 	//private @Nullable	ToggleButton _tgActif;
 	private ImageButton _bActiver, _bDesactiver;
 	private @Nullable
-	RadioGroup rgAnnonceHeure, rgLireSMS, rgRepondreSMS, rgRepondreAppels, rgAnnoncerAppels;
+	RadioGroup _rgAnnonceHeure, _rgLireSMS, _rgRepondreSMS, _rgRepondreAppels, _rgAnnoncerAppels;
 	private @Nullable
-	Switch _swLireContenuSMS;
+	CheckBox _cbLireContenuSMS;
+
 	private @Nullable
-	ImageButton btnReponseSMS, btnReponseAppels;
-	private TextView tvMessage;
+	ImageButton _btnReponseSMS, _btnReponseAppels;
+	private TextView _tvMessage;
 
 	// Intercepte les messages du plannificateur pour maj l'interface utilisateur
 	@NonNull
@@ -59,15 +61,14 @@ public class MainActivity extends AppCompatActivity
 			String action = intent.getAction();
 			if (Plannificateur.ACTION_MESSAGE_UI.equals(action))
 			{
-				if (tvMessage != null)
+				if (_tvMessage != null)
 				{
 					String message = intent.getStringExtra(Plannificateur.EXTRA_MESSAGE_UI);
-					tvMessage.setText(message);
+					_tvMessage.setText(message);
 				}
 			}
 		}
 	};
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -94,7 +95,6 @@ public class MainActivity extends AppCompatActivity
 		unregisterReceiver(_receiverMajUI);
 	}
 
-
 	@Override
 	protected void onResume()
 	{
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity
 			getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
 			if (Preferences.getInstance(this).getActif())
-				Plannificateur.getInstance(this).plannifieProchaineNotification(this );
+				Plannificateur.getInstance(this).plannifieProchaineNotification(this);
 			majUI();
 		} catch (Exception e)
 		{
@@ -114,16 +114,124 @@ public class MainActivity extends AppCompatActivity
 		}
 	}
 
-	//@Override
-	//protected void onDestroy()
-	//{
-	//	if ( _receiverMajUI !=null)
-	//	{
-	//		unregisterReceiver(_receiverMajUI);
-	//		_receiverMajUI = null;
-	//	}
-	//	super.onDestroy();
-	//}
+	/***
+	 * Mise a jour de l'interface en fonction de l'etat de l'application
+	 */
+	private void majUI()
+	{
+		try
+		{
+			final Preferences preferences = Preferences.getInstance(this);
+
+			if (preferences.getActif())
+			{
+				if (_bActiver != null)
+					_bActiver.setVisibility(View.GONE);
+				if (_bDesactiver != null)
+					_bDesactiver.setVisibility(View.VISIBLE);
+			}
+			else
+			{
+				if (_bActiver != null)
+					_bActiver.setVisibility(View.VISIBLE);
+				if (_bDesactiver != null)
+					_bDesactiver.setVisibility(View.GONE);
+
+			}
+
+			if (_rgAnnonceHeure != null)
+				switch (preferences.getDelaiAnnonceHeure())
+				{
+					case Preferences.DELAI_ANNONCE_HEURE_HEURES:
+						_rgAnnonceHeure.check(R.id.radioButtonAnnonceHeure);
+						break;
+					case Preferences.DELAI_ANNONCE_HEURE_DEMI:
+						_rgAnnonceHeure.check(R.id.radioButtonAnnonceDemi);
+						break;
+					case Preferences.DELAI_ANNONCE_HEURE_QUART:
+						_rgAnnonceHeure.check(R.id.radioButtonAnnonceQuart);
+						break;
+					default:
+						_rgAnnonceHeure.check(R.id.radioButtonAnnonceJamais);
+						break;
+				}
+
+			if (_rgLireSMS != null)
+				switch (preferences.getLireMessages())
+				{
+					case Preferences.JAMAIS:
+						_rgLireSMS.check(R.id.radioButtonSMSJamais);
+						break;
+					case Preferences.TOUJOURS:
+						_rgLireSMS.check(R.id.radioButtonSMSToujours);
+						break;
+					case Preferences.CONTACTS_SEULS:
+						_rgLireSMS.check(R.id.radioButtonSMSContacts);
+						break;
+				}
+
+			if (_rgRepondreSMS != null)
+				switch (preferences.getRepondreSms())
+				{
+					case Preferences.JAMAIS:
+						_rgRepondreSMS.check(R.id.radioButtonSMSRepondreJamais);
+						_btnReponseSMS.setVisibility(View.GONE);
+						break;
+					case Preferences.TOUJOURS:
+						_rgRepondreSMS.check(R.id.radioButtonSMSRepondreToujours);
+						_btnReponseSMS.setVisibility(View.VISIBLE);
+						break;
+					case Preferences.CONTACTS_SEULS:
+						_rgRepondreSMS.check(R.id.radioButtonSMSRepondreContacts);
+						_btnReponseSMS.setVisibility(View.VISIBLE);
+						break;
+				}
+
+			if (_rgRepondreAppels != null)
+				switch (preferences.getRepondreAppels())
+				{
+					case Preferences.JAMAIS:
+						_rgRepondreAppels.check(R.id.radioButtonAppelsJamais);
+						_btnReponseAppels.setVisibility(View.GONE);
+						break;
+					case Preferences.TOUJOURS:
+						_rgRepondreAppels.check(R.id.radioButtonAppelsToujours);
+						_btnReponseAppels.setVisibility(View.VISIBLE);
+						break;
+					case Preferences.CONTACTS_SEULS:
+						_rgRepondreAppels.check(R.id.radioButtonAppelsContacts);
+						_btnReponseAppels.setVisibility(View.VISIBLE);
+						break;
+				}
+
+			if (_rgAnnoncerAppels != null)
+				switch (preferences.getAnnoncerAppels())
+				{
+					case Preferences.JAMAIS:
+						_rgAnnoncerAppels.check(R.id.radioAnnoncerAppelsJamais);
+						break;
+					case Preferences.TOUJOURS:
+						_rgAnnoncerAppels.check(R.id.radioAnnoncerAppelsToujours);
+						break;
+					case Preferences.CONTACTS_SEULS:
+						_rgAnnoncerAppels.check(R.id.radioAnnoncerAppelsContacts);
+						break;
+				}
+
+			if (_cbLireContenuSMS != null)
+				_cbLireContenuSMS.setChecked(preferences.getLireContenuSms());
+
+			if (_tvMessage != null)
+				_tvMessage.setText(preferences.getActif() ? R.string.enabled : R.string.disabled);
+		} catch (Exception e)
+		{
+			Report r = Report.getInstance(this);
+			r.log(Report.ERROR, "Erreur dans majUI");
+			r.log(Report.ERROR, e);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	@Override
@@ -131,15 +239,15 @@ public class MainActivity extends AppCompatActivity
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu_main, menu);
-		if (!Report.isGenererTraces())
+		if (Report.isGenererTraces())
 		{
 			MenuItem item = menu.findItem(R.id.menu_report);
-			item.setVisible(false);
+			if (item != null)
+				item.setVisible(true);
 		}
 		return true;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	/***
 	 * Menu principal
 	 * @param item
@@ -149,15 +257,13 @@ public class MainActivity extends AppCompatActivity
 	@Override
 	public boolean onOptionsItemSelected(@NonNull MenuItem item)
 	{
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 
 		switch (id)
 		{
 			case R.id.menu_synthese_vocale:
-				startActivityForResult(new Intent("com.android.settings.TTS_SETTINGS"), 0); // to come back to your activity.
+				// Ouvre la fenetre de proprietes Text To Speech d'Android
+				startActivityForResult(new Intent("com.android.settings.TTS_SETTINGS"), 0);
 				break;
 
 			case R.id.menu_apropos:
@@ -173,188 +279,58 @@ public class MainActivity extends AppCompatActivity
 				break;
 
 			case R.id.menu_parametres:
-				PreferencesActivity.start(this);
+				if (Report.isGenererTraces())
+					PreferencesActivity.start(this);
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 		return true;
 	}
 
-	private void majUI()
-	{
-		try
-		{
-			final Preferences preferences = Preferences.getInstance(this);
-			//if (_tgActif != null)
-			//	_tgActif.setChecked(preferences.getActif());
-			if ( preferences.getActif())
-			{
-				if ( _bActiver !=null)
-					_bActiver.setVisibility(View.GONE);
-				if ( _bDesactiver != null)
-					_bDesactiver.setVisibility(View.VISIBLE);
-			}
-			else
-			{
-				if ( _bActiver !=null)
-					_bActiver.setVisibility(View.VISIBLE);
-				if ( _bDesactiver != null)
-					_bDesactiver.setVisibility(View.GONE);
-
-			}
-
-			if (rgAnnonceHeure != null)
-				switch (preferences.getDelaiAnnonceHeure())
-				{
-					case Preferences.DELAI_ANNONCE_HEURE_HEURES:
-						rgAnnonceHeure.check(R.id.radioButtonAnnonceHeure);
-						break;
-					case Preferences.DELAI_ANNONCE_HEURE_DEMI:
-						rgAnnonceHeure.check(R.id.radioButtonAnnonceDemi);
-						break;
-					case Preferences.DELAI_ANNONCE_HEURE_QUART:
-						rgAnnonceHeure.check(R.id.radioButtonAnnonceQuart);
-						break;
-					default:
-						rgAnnonceHeure.check(R.id.radioButtonAnnonceJamais);
-						break;
-				}
-
-			if (rgLireSMS != null)
-				switch (preferences.getLireSms())
-				{
-					case Preferences.JAMAIS:
-						rgLireSMS.check(R.id.radioButtonSMSJamais);
-						break;
-					case Preferences.TOUJOURS:
-						rgLireSMS.check(R.id.radioButtonSMSToujours);
-						break;
-					case Preferences.CONTACTS_SEULS:
-						rgLireSMS.check(R.id.radioButtonSMSContacts);
-						break;
-				}
-
-			if (rgRepondreSMS != null)
-				switch (preferences.getRepondreSms())
-				{
-					case Preferences.JAMAIS:
-						rgRepondreSMS.check(R.id.radioButtonSMSRepondreJamais);
-						btnReponseSMS.setVisibility(View.GONE);
-						break;
-					case Preferences.TOUJOURS:
-						rgRepondreSMS.check(R.id.radioButtonSMSRepondreToujours);
-						btnReponseSMS.setVisibility(View.VISIBLE);
-						break;
-					case Preferences.CONTACTS_SEULS:
-						rgRepondreSMS.check(R.id.radioButtonSMSRepondreContacts);
-						btnReponseSMS.setVisibility(View.VISIBLE);
-						break;
-				}
-
-			if (rgRepondreAppels != null)
-				switch (preferences.getRepondreAppels())
-				{
-					case Preferences.JAMAIS:
-						rgRepondreAppels.check(R.id.radioButtonAppelsJamais);
-						btnReponseAppels.setVisibility(View.GONE);
-						break;
-					case Preferences.TOUJOURS:
-						rgRepondreAppels.check(R.id.radioButtonAppelsToujours);
-						btnReponseAppels.setVisibility(View.VISIBLE);
-						break;
-					case Preferences.CONTACTS_SEULS:
-						rgRepondreAppels.check(R.id.radioButtonAppelsContacts);
-						btnReponseAppels.setVisibility(View.VISIBLE);
-						break;
-				}
-
-			if (rgAnnoncerAppels != null)
-				switch (preferences.getAnnoncerAppels())
-				{
-					case Preferences.JAMAIS:
-						rgAnnoncerAppels.check(R.id.radioAnnoncerAppelsJamais);
-						break;
-					case Preferences.TOUJOURS:
-						rgAnnoncerAppels.check(R.id.radioAnnoncerAppelsToujours);
-						break;
-					case Preferences.CONTACTS_SEULS:
-						rgAnnoncerAppels.check(R.id.radioAnnoncerAppelsContacts);
-						break;
-				}
-
-			if (_swLireContenuSMS !=null)
-				_swLireContenuSMS.setChecked(preferences.getLireContenuSms());
-			if ( tvMessage != null)
-				tvMessage.setText( preferences.getActif()? R.string.enabled : R.string.disabled);
-		} catch (Exception e)
-		{
-			Report r = Report.getInstance(this);
-			r.log(Report.ERROR, "Erreur dans majUI");
-			r.log(Report.ERROR, e);
-		}
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Obtient les elements de l'interface
 	 */
 	private void initControles()
 	{
-		//_tgActif = findViewById(R.id.toggleButtonActif);
 		_bActiver = findViewById(R.id.imageButtonActiver);
 		_bDesactiver = findViewById(R.id.imageButtonDesactiver);
-		rgLireSMS = findViewById(R.id.radiogroupLireSMS);
-		rgAnnonceHeure = findViewById(R.id.radiogroupAnnonceHeure);
-		rgLireSMS = findViewById(R.id.radiogroupLireSMS);
-		rgRepondreSMS = findViewById(R.id.radiogroupRepondreSMS);
-		rgAnnoncerAppels = findViewById(R.id.radiogroupAnnoncerAppels);
-		rgRepondreAppels = findViewById(R.id.radiogroupRepondreAppels);
-		btnReponseSMS = findViewById(R.id.imageButtonReponseSMS);
-		btnReponseAppels = findViewById(R.id.imageButtonReponseAppels);
-		_swLireContenuSMS = findViewById(R.id.switchLireContenuSMS) ;
-
-		tvMessage = findViewById(R.id.textViewStatus);
+		_rgLireSMS = findViewById(R.id.radiogroupLireSMS);
+		_rgAnnonceHeure = findViewById(R.id.radiogroupAnnonceHeure);
+		_rgRepondreSMS = findViewById(R.id.radiogroupRepondreSMS);
+		_rgAnnoncerAppels = findViewById(R.id.radiogroupAnnoncerAppels);
+		_rgRepondreAppels = findViewById(R.id.radiogroupRepondreAppels);
+		_btnReponseSMS = findViewById(R.id.imageButtonReponseSMS);
+		_btnReponseAppels = findViewById(R.id.imageButtonReponseAppels);
+		_cbLireContenuSMS = findViewById(R.id.checkBoxLireContenuSMS);
+		_tvMessage = findViewById(R.id.textViewStatus);
 	}
 
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/***
 	 * Met en place les listeners pour l'interaction avec les controles
 	 */
 	private void initListeners()
 	{
 		final Preferences preferences = Preferences.getInstance(this);
-		//if (_tgActif != null)
-		//{
-		//	_tgActif.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-		//	{
-		//		@Override
-		//		public void onCheckedChanged(final CompoundButton compoundButton, final boolean checked)
-		//		{
-		//			preferences.setActif(checked);
-		//			Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(checked? R.string.actif: R.string.inactif), Toast.LENGTH_SHORT).show();
-		//			TTSService.speakFromAnywhere(MainActivity.this, MainActivity.this.getResources().getString(checked? R.string.actif: R.string.inactif));
-		//			if ( checked )
-		//				Plannificateur.getInstance(MainActivity.this).plannifieProchaineNotification(MainActivity.this);
-		//			else
-		//				Plannificateur.getInstance(MainActivity.this).arrete(MainActivity.this);
-		//		}
-		//	});
-		//}
 
-		if ( _bActiver!=null && _bDesactiver!=null)
+		if (_bActiver != null && _bDesactiver != null)
 		{
 			_bActiver.setOnClickListener(new View.OnClickListener()
 			{
 				@Override public void onClick(final View view)
 				{
 					preferences.setActif(true);
-					_bActiver.setAnimation( AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_exit));
+					_bActiver.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_exit));
 					_bActiver.setVisibility(View.GONE);
-					_bDesactiver.setAnimation( AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_enter));
+					_bDesactiver.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_enter));
 					_bDesactiver.setVisibility(View.VISIBLE);
 					Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.enabled), Toast.LENGTH_SHORT).show();
-					TTSService.speakFromAnywhere(MainActivity.this, R.raw.beep, preferences.getVolumeDefaut()? preferences.getVolume():-1, MainActivity.this.getResources().getString( R.string.enabled));
+					TTSService.speakFromAnywhere(MainActivity.this, R.raw.beep,
+							preferences.getVolumeDefaut() ? preferences.getVolume() : -1,
+							MainActivity.this.getResources().getString(R.string.enabled));
 					Plannificateur.getInstance(MainActivity.this).plannifieProchaineNotification(MainActivity.this);
 				}
 			});
@@ -364,19 +340,19 @@ public class MainActivity extends AppCompatActivity
 				@Override public void onClick(final View view)
 				{
 					preferences.setActif(false);
-					_bActiver.setAnimation( AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_enter));
+					_bActiver.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_enter));
 					_bActiver.setVisibility(View.VISIBLE);
-					_bDesactiver.setAnimation( AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_exit));
+					_bDesactiver.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_exit));
 					_bDesactiver.setVisibility(View.GONE);
 					Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.disabled), Toast.LENGTH_SHORT).show();
-					TTSService.speakFromAnywhere(MainActivity.this, R.raw.beep, preferences.getVolumeDefaut()? preferences.getVolume():-1, MainActivity.this.getResources().getString( R.string.disabled));
+					TTSService.speakFromAnywhere(MainActivity.this, R.raw.beep, preferences.getVolumeDefaut() ? preferences.getVolume() : -1, MainActivity.this.getResources().getString(R.string.disabled));
 					Plannificateur.getInstance(MainActivity.this).arrete(MainActivity.this);
 				}
 			});
 		}
 
-		if (rgAnnonceHeure != null)
-			rgAnnonceHeure.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+		if (_rgAnnonceHeure != null)
+			_rgAnnonceHeure.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
 			{
 				@Override
 				public void onCheckedChanged(final RadioGroup group, @IdRes final int checkedId)
@@ -401,9 +377,9 @@ public class MainActivity extends AppCompatActivity
 				}
 			});
 
-		if (rgLireSMS != null)
+		if (_rgLireSMS != null)
 		{
-			rgLireSMS.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+			_rgLireSMS.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
 			{
 				@Override
 				public void onCheckedChanged(final RadioGroup group, @IdRes final int checkedId)
@@ -411,22 +387,22 @@ public class MainActivity extends AppCompatActivity
 					switch (checkedId)
 					{
 						case R.id.radioButtonSMSJamais:
-							preferences.setLireSms(Preferences.JAMAIS);
+							preferences.setLireMessages(Preferences.JAMAIS);
 							break;
 						case R.id.radioButtonSMSToujours:
-							preferences.setLireSms(Preferences.TOUJOURS);
+							preferences.setLireMessages(Preferences.TOUJOURS);
 							break;
 						case R.id.radioButtonSMSContacts:
-							preferences.setLireSms(Preferences.CONTACTS_SEULS);
+							preferences.setLireMessages(Preferences.CONTACTS_SEULS);
 							break;
 					}
 				}
 			});
 		}
 
-		if (rgRepondreSMS != null)
+		if (_rgRepondreSMS != null)
 		{
-			rgRepondreSMS.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+			_rgRepondreSMS.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
 			{
 				@Override
 				public void onCheckedChanged(final RadioGroup radioGroup, final int checkedId)
@@ -435,23 +411,23 @@ public class MainActivity extends AppCompatActivity
 					{
 						case R.id.radioButtonSMSRepondreJamais:
 							preferences.setRepondreSms(Preferences.JAMAIS);
-							cacheBouton(btnReponseSMS);
+							cacheBouton(_btnReponseSMS);
 							break;
 						case R.id.radioButtonSMSRepondreToujours:
 							preferences.setRepondreSms(Preferences.TOUJOURS);
-							montreBouton(btnReponseSMS);
+							montreBouton(_btnReponseSMS);
 							break;
 						case R.id.radioButtonSMSRepondreContacts:
 							preferences.setRepondreSms(Preferences.CONTACTS_SEULS);
-							montreBouton(btnReponseSMS);
+							montreBouton(_btnReponseSMS);
 							break;
 					}
 				}
 			});
 		}
 
-		if (rgAnnoncerAppels != null)
-			rgAnnoncerAppels.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+		if (_rgAnnoncerAppels != null)
+			_rgAnnoncerAppels.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
 			{
 				@Override
 				public void onCheckedChanged(final RadioGroup group, @IdRes final int checkedId)
@@ -471,8 +447,8 @@ public class MainActivity extends AppCompatActivity
 				}
 			});
 
-		if (rgRepondreAppels != null)
-			rgRepondreAppels.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+		if (_rgRepondreAppels != null)
+			_rgRepondreAppels.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
 			{
 				@Override
 				public void onCheckedChanged(final RadioGroup group, @IdRes final int checkedId)
@@ -481,22 +457,22 @@ public class MainActivity extends AppCompatActivity
 					{
 						case R.id.radioButtonAppelsJamais:
 							preferences.setRepondreAppels(Preferences.JAMAIS);
-							cacheBouton(btnReponseAppels);
+							cacheBouton(_btnReponseAppels);
 							break;
 						case R.id.radioButtonAppelsToujours:
 							preferences.setRepondreAppels(Preferences.TOUJOURS);
-							montreBouton(btnReponseAppels);
+							montreBouton(_btnReponseAppels);
 							break;
 						case R.id.radioButtonAppelsContacts:
 							preferences.setRepondreAppels(Preferences.CONTACTS_SEULS);
-							montreBouton(btnReponseAppels);
+							montreBouton(_btnReponseAppels);
 							break;
 					}
 				}
 			});
 
-		if (btnReponseSMS != null)
-			btnReponseSMS.setOnClickListener(new View.OnClickListener()
+		if (_btnReponseSMS != null)
+			_btnReponseSMS.setOnClickListener(new View.OnClickListener()
 			{
 				@Override
 				public void onClick(final View v)
@@ -513,8 +489,8 @@ public class MainActivity extends AppCompatActivity
 				}
 			});
 
-		if (btnReponseAppels != null)
-			btnReponseAppels.setOnClickListener(new View.OnClickListener()
+		if (_btnReponseAppels != null)
+			_btnReponseAppels.setOnClickListener(new View.OnClickListener()
 			{
 				@Override
 				public void onClick(final View v)
@@ -531,8 +507,8 @@ public class MainActivity extends AppCompatActivity
 				}
 			});
 
-		if ( _swLireContenuSMS !=null)
-			_swLireContenuSMS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+		if (_cbLireContenuSMS != null)
+			_cbLireContenuSMS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 			{
 				@Override
 				public void onCheckedChanged(final CompoundButton compoundButton, final boolean b)
@@ -540,6 +516,7 @@ public class MainActivity extends AppCompatActivity
 					preferences.setLireContenuSms(b);
 				}
 			});
+
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

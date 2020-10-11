@@ -23,12 +23,14 @@
     <string name="ui_hour">Heures</string>
     <string name="ui_half">Demi</string>
     <string name="ui_quarter">Quart</string>
-    <string name="ui_read_incoming_sms">Lire les SMS entrants</string>
+    <string name="ui_read_incoming_messages">Lire les messages entrants</string>
     <string name="ui_read_sms_body">Lire aussi le contenu du message</string>
-    <string name="ui_announce_incoming_sms">Répondre aux SMS entrants:</string>
+    <string name="ui_announce_incoming_messages">Répondre aux messages entrants:</string>
     <string name="ui_announce_incoming_calls">Annoncer les appels entrants:</string>
     <string name="ui_answer_incoming_call">Répondre aux appels entrants:</string>
     <string name="ui_always">Toujours</string>
     <string name="ui_contact_only">Contacts seulement</string>
     <string name="deactivated">Désactivé</string>
+    <string name="received_whatsapp">Message Whatsapp reçu de %1$s: %2$s</string>
+    <string name="ui_read_whatsapp_messages">Lire les messages Whatsapp</string>
 </resources>

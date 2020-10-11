@@ -19,12 +19,14 @@
     <string name="ui_hour">Hours</string>
     <string name="ui_half">Half</string>
     <string name="ui_quarter">Quarter</string>
-    <string name="ui_read_incoming_sms">Read incoming SMS</string>
+    <string name="ui_read_incoming_messages">Read incoming messages</string>
     <string name="ui_read_sms_body">Read message body</string>
-    <string name="ui_announce_incoming_sms">Answer incoming SMS:</string>
+    <string name="ui_announce_incoming_messages">Answer incoming messages:</string>
     <string name="ui_announce_incoming_calls">Announce incoming calls:</string>
      <string name="ui_answer_incoming_call">Answer incoming calls:</string>
     <string name="ui_always">Always</string>
     <string name="ui_contact_only">Contacts only</string>
     <string name="deactivated">Disabled</string>
+    <string name="received_whatsapp">Whatsapp message received from %1$s: %2$s</string>
+    <string name="ui_read_whatsapp_messages">Read Whatsapp messages</string>
 </resources>

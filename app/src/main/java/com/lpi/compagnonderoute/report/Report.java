@@ -1,20 +1,28 @@
 /**
  * Enregistre les traces du programme dans une base de donnees, consultable avec ReportActivity
- * Deux modes:
- *      - LOG
- *      - HISTORIQUE
- * Les traces ne sont enregistrees qu'en mode DEBUG
+ * Les traces ne sont enregistrees que si le fichier build.gradle contient la definition suivante:
+ *   buildConfigField "boolean", "REPORT", "true"
+ *
+ *   exemple:
+ *       defaultConfig {
+ *         applicationId "com.lpi.compagnonderoute"
+ *         minSdkVersion 27
+ *         targetSdkVersion 28
+ *         versionCode 1
+ *         versionName "1.0"
+ *         buildConfigField "boolean", "REPORT", "true"
+ *         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+ *     }
  */
 package com.lpi.compagnonderoute.report;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-
+import com.lpi.compagnonderoute.BuildConfig;
 
 /**
  * @author lucien
@@ -22,11 +30,6 @@ import androidx.annotation.Nullable;
 @SuppressWarnings("nls")
 public class Report
 {
-	@NonNull
-	public static final String PREFERENCES = "lpi.com.reportlibrary.preferences";
-	@NonNull
-	public static final String PREF_TRACES = "lpi.com.reportlibrary.preferences.traces";
-
 	@NonNull
 	final private static String TAG = "Report";
 	private static boolean GENERER_TRACES = true;
@@ -44,27 +47,16 @@ public class Report
 
 	private Report(Context context)
 	{
-		SharedPreferences settings = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-		GENERER_TRACES = settings.getBoolean(PREF_TRACES, GENERER_TRACES);
 
-		if (GENERER_TRACES) _tracesDatabase = TracesDatabase.getInstance(context);
+		if (BuildConfig.REPORT)
+			_tracesDatabase = TracesDatabase.getInstance(context);
+		else
+			_tracesDatabase = null;
 	}
 
 	public static boolean isGenererTraces()
 	{
-		return GENERER_TRACES;
-	}
-
-	public static void setGenererTraces(Context context, boolean valeur)
-	{
-		if (GENERER_TRACES != valeur)
-		{
-			GENERER_TRACES = valeur;
-			SharedPreferences settings = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-			SharedPreferences.Editor editor = settings.edit();
-			editor.putBoolean(PREF_TRACES, GENERER_TRACES);
-			editor.apply();
-		}
+		return BuildConfig.REPORT;
 	}
 
 
@@ -83,22 +75,9 @@ public class Report
 		return INSTANCE;
 	}
 
-
-
-
-
-	public void log(@NonNull int niv, @NonNull String message)
-	{
-		if (GENERER_TRACES)
-		{
-			Log.d(TAG, message);
-			_tracesDatabase.Ajoute(DatabaseHelper.CalendarToSQLiteDate(null), niv, message);
-		}
-	}
-
 	public void log(@NonNull int niv, @NonNull Exception e)
 	{
-		if (GENERER_TRACES)
+		if (_tracesDatabase != null)
 		{
 			log(niv, e.getLocalizedMessage());
 			for (int i = 0; i < e.getStackTrace().length && i < MAX_BACKTRACE; i++)
@@ -106,5 +85,12 @@ public class Report
 		}
 	}
 
-
+	public void log(@NonNull int niv, @NonNull String message)
+	{
+		if (_tracesDatabase != null)
+		{
+			Log.d(TAG, message);
+			_tracesDatabase.Ajoute(DatabaseHelper.CalendarToSQLiteDate(null), niv, message);
+		}
+	}
 }

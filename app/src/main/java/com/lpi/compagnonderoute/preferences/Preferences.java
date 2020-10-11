@@ -12,7 +12,7 @@ public class Preferences
 {
 	private static final String PREFERENCES = Preferences.class.getName();
 	private static final String PREF_ACTIF = "actif";
-	private static final String PREF_LIRE_SMS = "lireSms";
+	private static final String PREF_LIRE_MESSAGES = "lireMessages";
 	private static final String PREF_REPONDRE_SMS = "repondreSms";
 	private static final String PREF_DELAI_ANNONCE_HEURE = "delaiAnnonceHeure";
 	private static final String PREF_ANNONCER_APPELS = "annoncerAppels";
@@ -25,6 +25,11 @@ public class Preferences
 	private static final String PREF_VOLUME = "volumef";
 	private static final String PREF_LIRE_CONTENU_SMS = "lireContenuSMS";
 	private static final String PREF_THEME = "theme";
+	private static final String PREF_FORCE_SORTIE = "forceSortie";
+	private static final String PREF_LIRE_MESSAGES_WHATSAPP = "lireMessagesWhatsapp";
+	private static final String PREF_GERER_SMS = "gererSMS";
+	private static final String PREF_GERER_MAILS = "gererMails";
+	private static final String PREF_GERER_WHATSAPP = "gererWhatsapp";
 
 	@NonNull	final SharedPreferences settings;
 	@NonNull 	final SharedPreferences.Editor editor;
@@ -32,7 +37,7 @@ public class Preferences
 	private boolean _actif;
 	private boolean _actifApresReboot;
 	private boolean _volumeDefaut;
-	private int _lireSms;
+	private int _lireMessages;
 	private boolean _lireContenuSms;
 	private int _delaiAnnonceHeure;
 	private int _repondreSms;
@@ -42,6 +47,9 @@ public class Preferences
 	private String _reponseSms;
 	private String _reponseAppels;
 	private int _theme;
+	private int _forceSortie;
+	private boolean _lireMessagesWhatsapp;
+	private boolean _gererSMS, _gererMails, _gererWhatsApp;
 
 	private static Preferences _instance;
 
@@ -81,28 +89,33 @@ public class Preferences
 		_actif = settings.getBoolean(PREF_ACTIF, false);
 		_actifApresReboot = settings.getBoolean(PREF_ACTIF_APRES_REBOOT, false);
 		_delaiAnnonceHeure = settings.getInt(PREF_DELAI_ANNONCE_HEURE, DELAI_ANNONCE_HEURE_QUART );
-		_lireSms = settings.getInt(PREF_LIRE_SMS, CONTACTS_SEULS);
+		_lireMessages = settings.getInt(PREF_LIRE_MESSAGES, CONTACTS_SEULS);
+		_lireMessagesWhatsapp = settings.getBoolean(PREF_LIRE_MESSAGES_WHATSAPP, false);
 		_lireContenuSms = settings.getBoolean(PREF_LIRE_CONTENU_SMS, true) ;
 		_repondreSms = settings.getInt(PREF_REPONDRE_SMS, CONTACTS_SEULS);
 		_volumeDefaut = settings.getBoolean(PREF_VOLUME_DEFAUT, true);
 		_volume = settings.getFloat(PREF_VOLUME, TTSService.getMaxVolume());
-		//_canalSortie = settings.getInt(PREF_CANAL_SORTIE, AudioManager.STREAM_SYSTEM);
 		_annoncerAppels = settings.getInt(PREF_ANNONCER_APPELS, CONTACTS_SEULS);
 		_repondreAppels = settings.getInt(PREF_REPONDRE_APPELS, CONTACTS_SEULS);
 		_reponseSms = settings.getString(PREF_REPONSE_SMS, context.getString(R.string.sms_answer));
 		_reponseAppels = settings.getString(PREF_REPONSE_APPELS, context.getString(R.string.call_answer));
 		_theme = settings.getInt(PREF_THEME, 0);
+		_forceSortie = settings.getInt(PREF_FORCE_SORTIE, TTSService.SORTIE_DEFAUT);
+
+		_gererSMS = settings.getBoolean(PREF_GERER_SMS, true);
+		_gererMails = settings.getBoolean(PREF_GERER_MAILS, false);
+		_gererWhatsApp = settings.getBoolean(PREF_GERER_WHATSAPP, false);
 	}
 
-
-	public int getLireSms()
+	public int getLireMessages()
 	{
-		return _lireSms;
+		return _lireMessages;
 	}
-	public synchronized void setLireSms(int v)
+
+	public synchronized void setLireMessages(int v)
 	{
-		_lireSms = v;
-		editor.putInt(PREF_LIRE_SMS, v);
+		_lireMessages = v;
+		editor.putInt(PREF_LIRE_MESSAGES, v);
 		editor.apply();
 	}
 	public int getRepondreSms()
@@ -236,6 +249,52 @@ public class Preferences
 	{
 		_theme = v;
 		editor.putInt(PREF_THEME, v);
+		editor.apply();
+	}
+
+	public int getForceSortie() { return _forceSortie; }
+
+	public void setForceSortie(int v)
+	{
+		_forceSortie = v;
+		editor.putInt(PREF_FORCE_SORTIE, v);
+		editor.apply();
+	}
+
+	public boolean getGererSMS()
+	{
+		return _gererSMS;
+	}
+
+	public synchronized void setGererSMS(boolean v)
+	{
+		_gererSMS = v;
+		editor.putBoolean(PREF_GERER_SMS, v);
+		editor.apply();
+	}
+
+	public boolean getGererMails()
+	{
+		return _gererMails;
+	}
+
+	public synchronized void setGererMails(boolean v)
+	{
+		_gererMails = v;
+		editor.putBoolean(PREF_GERER_MAILS, v);
+		editor.apply();
+	}
+
+	public boolean getGererWhatsApp()
+	{
+		return _gererWhatsApp;
+
+	}
+
+	public synchronized void setGererWhatsApp(boolean v)
+	{
+		_gererWhatsApp = v;
+		editor.putBoolean(PREF_GERER_WHATSAPP, v);
 		editor.apply();
 	}
 }

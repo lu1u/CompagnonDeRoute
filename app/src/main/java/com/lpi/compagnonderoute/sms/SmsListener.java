@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.provider.Telephony;
 import android.telephony.SmsMessage;
 
-import com.lpi.compagnonderoute.ContactUtils;
-import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.R;
+import com.lpi.compagnonderoute.phone.ContactUtils;
+import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.report.Report;
 import com.lpi.compagnonderoute.tts.TTSService;
 
@@ -41,8 +41,12 @@ public class SmsListener extends BroadcastReceiver
 				// Pas actif
 				return;
 
-			if (preferences.getLireSms() == Preferences.JAMAIS)
-				// Ne pas lire les sms
+			if (preferences.getLireMessages() == Preferences.JAMAIS)
+				// Ne pas lire les messages
+				return;
+
+			if (!preferences.getGererSMS())
+				// Ne pas lire les SMS
 				return;
 
 			// Parcourir les SMS recus
@@ -117,7 +121,7 @@ public class SmsListener extends BroadcastReceiver
 		String contact = ContactUtils.getContactFromNumber(context, message.getOriginatingAddress());
 
 		if (contact == null)
-			if (preferences.getLireSms() == Preferences.CONTACTS_SEULS)
+			if (preferences.getLireMessages() == Preferences.CONTACTS_SEULS)
 			{
 				// N'afficher que les sms provenant d'un contact enregistré
 				return;
@@ -126,9 +130,9 @@ public class SmsListener extends BroadcastReceiver
 				contact = TTSService.formatNumeroTelephone( message.getOriginatingAddress());
 
 			if ( preferences.getLireContenuSms())
-				TTSService.speakFromAnywhere(context, R.raw.beep, preferences.getVolumeDefaut()? preferences.getVolume():-1, R.string.received_message_with_body, contact, message.getDisplayMessageBody());
+				TTSService.speakFromAnywhere(context, R.raw.beep, preferences.getVolumeDefaut() ? preferences.getVolume() : -1, R.string.received_message_with_body, contact, message.getDisplayMessageBody());
 			else
-				TTSService.speakFromAnywhere(context, R.raw.beep, preferences.getVolumeDefaut()? preferences.getVolume():-1, R.string.received_message, contact);
+				TTSService.speakFromAnywhere(context, R.raw.beep, preferences.getVolumeDefaut() ? preferences.getVolume() : -1, R.string.received_message, contact);
 
 	}
 

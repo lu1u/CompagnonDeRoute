@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.lpi.compagnonderoute.Carillon;
-import com.lpi.compagnonderoute.Notification;
 import com.lpi.compagnonderoute.R;
 import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.report.Report;
@@ -30,6 +29,7 @@ public class Plannificateur
 	@NonNull
 	public static final String EXTRA_MESSAGE_UI = "MessageUI";
 	private static final int REQUEST_CODE = 12;
+	private static final long ALARM_WINDOW = 30L * 1000L;       // Fenetre de temps au cours de laquelle l'alarme doit être déclenchée à partir de l'heure donnée, en millisecondes
 
 	@Nullable
 	private static Plannificateur INSTANCE = null;
@@ -135,16 +135,17 @@ public class Plannificateur
 		r.log(Report.DEBUG, "set alarme: " + Carillon.toHourString(context, prochaineNotification));
 		try
 		{
-			if (_pendingIntent != null)
+			//if (_pendingIntent != null)
 				arrete(context);
-			else
+			//else
 			{
 				Intent intent = new Intent(context, AlarmReceiver.class);
 				intent.setAction(ACTION_ALARME);
 				_pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 			}
 
-			_alarmManager.setExact(AlarmManager.RTC_WAKEUP, prochaineNotification.getTimeInMillis(), _pendingIntent);
+			//_alarmManager.setExact(AlarmManager.RTC_WAKEUP, prochaineNotification.getTimeInMillis(), _pendingIntent);
+			_alarmManager.setWindow(AlarmManager.RTC_WAKEUP, prochaineNotification.getTimeInMillis(), ALARM_WINDOW, _pendingIntent);
 		} catch (Exception e)
 		{
 			r.log(Report.ERROR, "Plannificateur.plannifie");

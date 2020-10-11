@@ -2,16 +2,11 @@ package com.lpi.compagnonderoute.preferences;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
@@ -33,6 +28,77 @@ public class PreferencesActivity extends AppCompatActivity
 
 		LayoutInflater inflater = context.getLayoutInflater();
 		View dialogView = inflater.inflate(R.layout.activity_preferences, null);
+
+		////////////////////////////////////////////////////////////////////////////////////////////
+		// Gerer SMS
+		{
+			final CheckBox cbSMS = dialogView.findViewById(R.id.checkBoxSMS);
+			cbSMS.setChecked(prefs.getGererSMS());
+			cbSMS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+			{
+				@Override
+				public void onCheckedChanged(final CompoundButton compoundButton, final boolean b)
+				{
+					prefs.setGererSMS(b);
+				}
+			});
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////////////
+		// Gerer Mails
+		{
+			final CheckBox cbMails = dialogView.findViewById(R.id.checkBoxMails);
+			cbMails.setChecked(prefs.getGererMails());
+			cbMails.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+			{
+				@Override
+				public void onCheckedChanged(final CompoundButton compoundButton, final boolean b)
+				{
+					prefs.setGererMails(b);
+				}
+			});
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////////////
+		// Gerer WhatsApp
+		{
+			final CheckBox cbMails = dialogView.findViewById(R.id.checkBoxWhatsApp);
+			cbMails.setChecked(prefs.getGererWhatsApp());
+			cbMails.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+			{
+				@Override
+				public void onCheckedChanged(final CompoundButton compoundButton, final boolean b)
+				{
+					if (compoundButton.isPressed())
+						if (b)
+						{
+							NotificationListenerManager.checkNotificationServiceEnabled(context, new NotificationListenerManager.checkNotificationServiceEnabledListener()
+							{
+								// Deja autorisé, on peut cocher l'option
+								@Override public void onEnabled()
+								{
+									cbMails.setChecked(true);
+									prefs.setGererWhatsApp(true);
+								}
+
+								// Pas autorisé et l'utilisateur ne veut pas modifier les paramètres, interdire l'option
+								@Override public void onCancel()
+								{
+									cbMails.setChecked(false);
+									prefs.setGererWhatsApp(false);
+								}
+
+								// Pas autorisé, l'utilisateur a été redirigé vers l'écran de parametrage
+								@Override public void onSettings()
+								{
+									cbMails.setChecked(false);
+									prefs.setGererWhatsApp(false);
+								}
+							});
+						}
+				}
+			});
+		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////
 		// Reactiver apres reboot
@@ -94,6 +160,21 @@ public class PreferencesActivity extends AppCompatActivity
 			});
 		}
 
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Forcer la sortie vers le haut parleur
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		{
+			CheckBox cbForcerSortie = dialogView.findViewById(R.id.checkBoxForceSortie);
+			cbForcerSortie.setChecked(prefs.getForceSortie() == TTSService.SORTIE_FORCE_HP);
+			cbForcerSortie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+			{
+				@Override
+				public void onCheckedChanged(final CompoundButton compoundButton, final boolean checked)
+				{
+					prefs.setForceSortie(checked ? TTSService.SORTIE_FORCE_HP : TTSService.SORTIE_DEFAUT);
+				}
+			});
+		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Afficher la fenetre
@@ -108,4 +189,5 @@ public class PreferencesActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_preferences);
 	}
+
 }

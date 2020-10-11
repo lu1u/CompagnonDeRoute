@@ -8,9 +8,8 @@ import android.telephony.TelephonyManager;
 
 import androidx.annotation.NonNull;
 
-import com.lpi.compagnonderoute.ContactUtils;
-import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.R;
+import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.report.Report;
 import com.lpi.compagnonderoute.sms.SMSUtils;
 import com.lpi.compagnonderoute.tts.TTSService;
@@ -27,7 +26,7 @@ public class PhoneListener extends BroadcastReceiver
 
 		if (contact == null)
 		{
-			if (preferences.getLireSms() == Preferences.CONTACTS_SEULS)
+			if (preferences.getLireMessages() == Preferences.CONTACTS_SEULS)
 			{
 				// N'afficher que les sms provenant d'un contact enregistré
 				return;

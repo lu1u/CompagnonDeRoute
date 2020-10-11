@@ -6,9 +6,14 @@ package com.lpi.compagnonderoute.tts;
  * Appel par speakFromAnywhere
  */
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -19,16 +24,28 @@ import android.telephony.PhoneNumberUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.app.NotificationCompat;
 
-import com.lpi.compagnonderoute.Notification;
+import com.lpi.compagnonderoute.MainActivity;
+import com.lpi.compagnonderoute.R;
 import com.lpi.compagnonderoute.audio.AudioManagerHelper;
+import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.report.Report;
 
 public class TTSService extends Service
 {
+	public static final int SORTIE_DEFAUT = 0;
+	public static final int SORTIE_FORCE_HP = 1;
+
 	public static final String MESSAGE_EXTRA = "TTSService.message";
 	public static final String VOLUME_EXTRA = "TTSService.volume";
 	private static final String SOUNDID_EXTRA = "TTSService.soundId";
+
+	/**
+	 * The unique identifier for this type of notification.
+	 */
+	@NonNull
+	private static final String CHANNEL_ID = "lpi.Compagnon01";
 	private TextToSpeech _textToSpeech;
 	private boolean _eventTTSInitialise;
 	private boolean _eventSonJoue;
@@ -37,6 +54,8 @@ public class TTSService extends Service
 	/***
 	 * Prononcer un texte parametré, avec un format provenant directement des resources
 	 * @param ctx
+	 * @param soundID id du son a jouer
+	 * @param volume volume sonore entre 0 et 1.0
 	 * @param resId Id de la resource String
 	 * @param args Liste variable de parametres
 	 */
@@ -51,9 +70,9 @@ public class TTSService extends Service
 	/***
 	 * Prononcer un texte
 	 * @param context
-	 * @param message message à prononcer
 	 * @param soundID id du son a jouer avant de dire le texte
 	 * @param volume: volume de 0.0 à 1.0, valeur negative pour garder le niveau sonore du systeme
+	 * @param message message à prononcer
 	 */
 	public static void speakFromAnywhere(@NonNull Context context, int soundID, float volume, @NonNull final String message)
 	{
@@ -65,7 +84,6 @@ public class TTSService extends Service
 			speechIntent.putExtra(MESSAGE_EXTRA, message);
 			speechIntent.putExtra(VOLUME_EXTRA, volume);
 			speechIntent.putExtra(SOUNDID_EXTRA, soundID);
-
 			// Lancer le service qui se chargera de faire la synthese locale, car on ne peut pas le
 			// faire avec le context recu par un BroadcastReceiver (limitation d'Android)
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -133,6 +151,98 @@ public class TTSService extends Service
 	}
 
 	/***
+	 * Methode appellée à la fin de l'initialisation du TTS ET à la fin du son joué avant l'annonce,
+	 * dans un ordre quelconque
+	 * Quand les deux evenements sont arrivés, prononcer le message
+	 * @param context
+	 * @param message
+	 * @param listener
+	 */
+	private void discours(@NonNull final Context context, float volume, @NonNull final String message, @Nullable final TTSServiceListener listener)
+	{
+		final Report r = Report.getInstance(context);
+		if (!_eventTTSInitialise)
+		{
+			r.log(Report.DEBUG, "TTSService.discours: TTS pas encore initialisé");
+			return;
+		}
+
+		if (!_eventSonJoue)
+		{
+			r.log(Report.DEBUG, "TTSService.discours: Son pas encore joué");
+			return;
+		}
+
+		//final AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
+		//final boolean isSpeakerOn = audioManager.isSpeakerphoneOn();
+
+		////////////////////////////////////////////////////////////////////////////////////////////
+		// Le son est joué ET le TTS est initialisé
+		////////////////////////////////////////////////////////////////////////////////////////////
+		r.log(Report.DEBUG, "TTSService.discours: Son joué et TTS initialisé");
+		try
+		{
+			final Bundle params = new Bundle();
+			params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "lpi.TTSHelper");
+			if (volume > 0.0f)
+			{
+				params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, volume);
+			}
+
+			_textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener()
+			{
+				@Override public void onStart(final String s)
+				{
+				}
+
+				@Override public void onDone(final String s)
+				{
+					try
+					{
+						//if (forceSortie == SORTIE_FORCE_SPEAKER )
+						//{
+						//	audioManager.setMode(AudioManager.MODE_NORMAL);
+						//	audioManager.setSpeakerphoneOn(isSpeakerOn);
+						//}
+
+						_textToSpeech.shutdown();
+						_textToSpeech = null;
+						if (listener != null)
+							listener.result(TextToSpeech.SUCCESS);
+					} catch (Exception e)
+					{
+						r.log(Report.ERROR, "Erreur dans TTSService.discours.onDone");
+						r.log(Report.ERROR, e);
+					}
+				}
+
+				@Override public void onError(final String s)
+				{
+					r.log(Report.ERROR, "TTS error " + s);
+					if (listener != null)
+						listener.result(TextToSpeech.ERROR);
+				}
+			});
+
+			//if (forceSortie == SORTIE_FORCE_SPEAKER )
+			//	{
+			//		audioManager.setMode(AudioManager.MODE_NORMAL);
+			//		audioManager.setSpeakerphoneOn(true);
+			//		audioManager.setBluetoothScoOn(false);
+			//	}
+
+			_textToSpeech.speak(message, TextToSpeech.QUEUE_ADD, params, "lpi.TTSService");
+		} catch (Exception e)
+		{
+			r.log(Report.ERROR, "Erreur dans TTSService.speak");
+			r.log(Report.ERROR, e);
+		}
+
+		// Attention! quand on sort de cette fonction, le message n'est pas encore prononcé
+		// (d'ou le UtteranceProgressListener)
+	}
+
+	/***
 	 * Prononce un texte par synthese vocale, précédé d'une sonnerie
 	 * @param context
 	 * @param message
@@ -155,7 +265,6 @@ public class TTSService extends Service
 
 				/**
 				 * Le tts est initialisé
-				 * @param ttsStatus
 				 */
 				@Override public void onInit(final int ttsStatus)
 				{
@@ -191,82 +300,6 @@ public class TTSService extends Service
 	}
 
 	/***
-	 * Methode appellée à la fin de l'initialisation du TTS ET à la fin du son joué avant l'annonce,
-	 * dans un ordre quelconque
-	 * Quand les deux evenements sont arrivés, prononcer le message
-	 * @param context
-	 * @param message
-	 * @param listener
-	 */
-	private void discours(@NonNull final Context context, float volume, @NonNull final String message, @Nullable final TTSServiceListener listener)
-	{
-		final Report r = Report.getInstance(context);
-		if (!_eventTTSInitialise)
-		{
-			r.log(Report.DEBUG, "TTSService.discours: TTS pas encore initialisé");
-			return;
-		}
-
-		if (!_eventSonJoue)
-		{
-			r.log(Report.DEBUG, "TTSService.discours: Son pas encore joué");
-			return;
-		}
-
-		////////////////////////////////////////////////////////////////////////////////////////////
-		// Le son est joué ET le TTS est initialisé
-		////////////////////////////////////////////////////////////////////////////////////////////
-		r.log(Report.DEBUG, "TTSService.discours: Son joué et TTS initialisé");
-		try
-		{
-			final Bundle params = new Bundle();
-			params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "lpi.TTSHelper");
-			if (volume > 0.0f)
-			{
-				params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, volume);
-			}
-
-			_textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener()
-			{
-				@Override public void onStart(final String s)
-				{
-				}
-
-				@Override public void onDone(final String s)
-				{
-					try
-					{
-						_textToSpeech.shutdown();
-						_textToSpeech = null;
-						if (listener != null)
-							listener.result(TextToSpeech.SUCCESS);
-					} catch (Exception e)
-					{
-						r.log(Report.ERROR, "Erreur dans TTSService.discours.onDone");
-						r.log(Report.ERROR, e);
-					}
-				}
-
-				@Override public void onError(final String s)
-				{
-					r.log(Report.ERROR, "TTS error " + s);
-					if (listener != null)
-						listener.result(TextToSpeech.ERROR);
-				}
-			});
-
-			_textToSpeech.speak(message, TextToSpeech.QUEUE_ADD, params, "lpi.TTSService");
-		} catch (Exception e)
-		{
-			r.log(Report.ERROR, "Erreur dans TTSService.speak");
-			r.log(Report.ERROR, e);
-		}
-
-		// Attention! quand on sort de cette fonction, le message n'est pas encore prononcé
-		// (d'ou le UtteranceProgressListener)
-	}
-
-	/***
 	 * Demarrage du service
 	 * @param intent
 	 * @param flags
@@ -285,14 +318,34 @@ public class TTSService extends Service
 				float volume = intent.getFloatExtra(VOLUME_EXTRA, -1);
 				int soundId = intent.getIntExtra(SOUNDID_EXTRA, 0);
 
-				startForeground(1, Notification.getNotification(this, "Compagnon", message));
+				startForeground(1, getNotification(this, message, message));
 
 				if (message != null)
+				{
+					// Gerer options volume, forcer speaker...
+					final Preferences prefs = Preferences.getInstance(this);
+					final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+					final boolean bSpeakerOn = audioManager.isSpeakerphoneOn();
+
+					if (prefs.getForceSortie() == TTSService.SORTIE_DEFAUT)
+					{
+						audioManager.setMode(AudioManager.MODE_RINGTONE | AudioManager.MODE_IN_CALL);
+						audioManager.setSpeakerphoneOn(true);
+					}
+
 					creerTTSEtParler(this, soundId, volume, message, new TTSServiceListener()
 					{
 						@Override public void result(final int ttsStatus)
 						{
 							r.log(Report.DEBUG, "speak status: " + ttsStatus);
+
+							// Gerer options volume, forcer speaker...
+							if (prefs.getForceSortie() == TTSService.SORTIE_DEFAUT)
+							{
+								audioManager.setMode(AudioManager.MODE_RINGTONE | AudioManager.MODE_IN_CALL);
+								audioManager.setSpeakerphoneOn(bSpeakerOn);
+							}
+
 							fermerService();
 						}
 
@@ -304,6 +357,7 @@ public class TTSService extends Service
 								fermerService();
 						}
 					});
+				}
 			} catch (Exception e)
 			{
 				r.log(Report.ERROR, "Erreur dans TTSService.onStartCommand");
@@ -311,6 +365,47 @@ public class TTSService extends Service
 			}
 		}
 		return super.onStartCommand(intent, flags, startId);
+	}
+
+	/***
+	 * Obtient une Notification (obligatoire sous Android pour un foregroundService)
+	 * @param context
+	 * @param texte
+	 * @param texteResume
+	 * @return
+	 */
+	public static @NonNull
+	android.app.Notification getNotification(@NonNull Context context, @NonNull final String texte, @NonNull final String texteResume)
+	{
+		Intent ii = new Intent(context.getApplicationContext(), MainActivity.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, ii, 0);
+
+		NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+		bigText.bigText(texte);
+		bigText.setBigContentTitle(context.getString(R.string.app_name));
+		bigText.setSummaryText(texteResume);
+
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(context.getApplicationContext(), "CHANNEL_ID");
+		builder.setDefaults(Notification.FLAG_FOREGROUND_SERVICE)
+				.setContentIntent(pendingIntent)
+				.setSmallIcon(R.drawable.ic_launcher)
+				.setContentTitle("Compagnon")
+				.setContentText(texteResume)
+				.setStyle(bigText)
+				.setPriority(NotificationCompat.PRIORITY_MIN)
+				.setAutoCancel(true)
+				.setSound(null);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+		{
+			final NotificationManager nm = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+			NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "Compagnon", NotificationManager.IMPORTANCE_DEFAULT);
+			notificationChannel.setSound(null, null);
+			notificationChannel.setShowBadge(false);
+			nm.createNotificationChannel(notificationChannel);
+			builder.setChannelId(CHANNEL_ID);
+		}
+		return builder.build();
 	}
 
 	private void fermerService()
@@ -328,6 +423,7 @@ public class TTSService extends Service
 			r.log(Report.ERROR, e);
 		}
 	}
+
 
 	/***
 	 * Permet de fournir un listener pour etre mis au courant de l'evolution du TTS
