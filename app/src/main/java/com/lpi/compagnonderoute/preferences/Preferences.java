@@ -10,71 +10,71 @@ import com.lpi.compagnonderoute.tts.TTSService;
 
 public class Preferences
 {
-	private static final String PREFERENCES = Preferences.class.getName();
-	private static final String PREF_ACTIF = "actif";
-	private static final String PREF_LIRE_MESSAGES = "lireMessages";
-	private static final String PREF_REPONDRE_SMS = "repondreSms";
-	private static final String PREF_DELAI_ANNONCE_HEURE = "delaiAnnonceHeure";
-	private static final String PREF_ANNONCER_APPELS = "annoncerAppels";
-	private static final String PREF_REPONDRE_APPELS = "repondreAppels";
-	private static final String PREF_REPONSE_SMS = "reponseSms";
-	private static final String PREF_REPONSE_APPELS = "reponseAppels";
-	private static final String PREF_ACTIF_APRES_REBOOT = "actifApresReboot";
-	private static final String PREF_VOLUME_DEFAUT = "volumeDefaut";
-	//private static final String PREF_CANAL_SORTIE = "canalSortie";
-	private static final String PREF_VOLUME = "volumef";
-	private static final String PREF_LIRE_CONTENU_SMS = "lireContenuSMS";
-	private static final String PREF_THEME = "theme";
-	private static final String PREF_FORCE_SORTIE = "forceSortie";
-	private static final String PREF_LIRE_MESSAGES_WHATSAPP = "lireMessagesWhatsapp";
-	private static final String PREF_GERER_SMS = "gererSMS";
-	private static final String PREF_GERER_MAILS = "gererMails";
-	private static final String PREF_GERER_WHATSAPP = "gererWhatsapp";
-
-	@NonNull	final SharedPreferences settings;
-	@NonNull 	final SharedPreferences.Editor editor;
-
-	private boolean _actif;
-	private boolean _actifApresReboot;
-	private boolean _volumeDefaut;
-	private int _lireMessages;
-	private boolean _lireContenuSms;
-	private int _delaiAnnonceHeure;
-	private int _repondreSms;
-	private int _annoncerAppels;
-	private int _repondreAppels;
-	private float _volume;
-	private String _reponseSms;
-	private String _reponseAppels;
-	private int _theme;
-	private int _forceSortie;
-	private boolean _lireMessagesWhatsapp;
-	private boolean _gererSMS, _gererMails, _gererWhatsApp;
-
+	public static final int JAMAIS = 0;
+	public static final int TOUJOURS = 1;
+	public static final int CONTACTS_SEULS = 2;
+	public static final int DELAI_ANNONCE_HEURE_QUART = 3;
+	@NonNull private static final String PREFERENCES = Preferences.class.getName();
+	@NonNull private static final String PREF_ACTIF = "actif";
+	// Horloge
+	@NonNull private static final String PREF_ANNONCE_HEURE = "annonceHeure";
+	@NonNull private static final String PREF_DELAI_ANNONCE_HEURE = "delaiAnnonceHeure";
+	// SMS
+	@NonNull private static final String PREF_GERER_SMS = "gererSMS";
+	@NonNull private static final String PREF_LIRE_SMS = "lireMessages";
+	@NonNull private static final String PREF_REPONDRE_SMS = "repondreSms";
+	@NonNull private static final String PREF_REPONSE_SMS = "reponseSms";
+	@NonNull private static final String PREF_LIRE_CONTENU_SMS = "lireContenuSMS";
+	@NonNull private static final String PREF_LIRE_EXPEDITEUR_SMS = "lireExpediteurSMS";
+	// Appels telephoniques
+	@NonNull private static final String PREF_ANNONCER_APPELS = "annoncerAppels";
+	@NonNull private static final String PREF_REPONDRE_APPELS = "repondreAppels";
+	@NonNull private static final String PREF_REPONSE_APPELS = "reponseAppels";
+	// EMails
+	@NonNull private static final String PREF_GERER_MAILS = "gererMails";
+	@NonNull private static final String PREF_EMAIL_ANNONCE_EXPEDITEUR = "eMailsAnnonceExpediteur";
+	@NonNull private static final String PREF_EMAIL_ANNONCE_SUJET = "eMailsAnnonceSujet";
+	// Messages WhatsApp
+	@NonNull private static final String PREF_GERER_TELEPHONE = "gererTelephone";
+	@NonNull private static final String PREF_GERER_WHATSAPP = "gererWhatsapp";
+	@NonNull private static final String PREF_GERER_APPELWHATSAPP = "gererAppelWhatsapp";
+	@NonNull private static final String PREF_WHATSAPP_LIRE_EXPEDITEUR = "whatsAppLireExpediteur";
+	@NonNull private static final String PREF_ACTIF_APRES_REBOOT = "actifApresReboot";
+	@NonNull private static final String PREF_VOLUME_DEFAUT = "volumeDefaut";
+	@NonNull private static final String PREF_VOLUME = "volumef";
+	@NonNull private static final String PREF_FORCE_SORTIE = "forceSortie";
 	private static Preferences _instance;
+	@NonNull final SharedPreferences.Editor editor;
+	public PreferenceBoolean actif;
+	public PreferenceBoolean actifApresReboot;
+	public PreferenceBoolean volumeDefaut;
+	public PreferenceInt delaiAnnonceHeure;
+	public PreferenceInt telephoneRepondre;
+	public PreferenceFloat volume;
+	public PreferenceString telephoneReponse;
+	public PreferenceInt forceSortie;
+	public PreferenceBoolean annonceHeure;
+	public PreferenceBoolean gererAppelsWhatsApp;
+	// SMS
+	public PreferenceInt lireSMS;
+	public PreferenceInt lireContenuSms;
+	public PreferenceInt repondreSms;
+	public PreferenceString reponseSms;
+	public PreferenceBoolean gererSMS;
+	public PreferenceBoolean lireExpediteurSMS;
+	// Appels telephoniques
+	public PreferenceBoolean telephoneGerer;
+	public PreferenceInt telephoneAnnoncer;
+	// EMails
+	public PreferenceBoolean gererMails;
+	public PreferenceBoolean eMailsAnnonceExpediteur;
+	public PreferenceBoolean eMailsAnnonceSujet;
+	// Messages WhatsApp
+	public PreferenceBoolean messageWhatsAppActif;
 
-	public static final int JAMAIS =   0;
-	public static final int TOUJOURS =   1;
-	public static final int CONTACTS_SEULS =   2;
-
-	public static final int DELAI_ANNONCE_HEURE_JAMAIS = 0;
 	public static final int DELAI_ANNONCE_HEURE_HEURES = 1;
 	public static final int DELAI_ANNONCE_HEURE_DEMI = 2;
-	public static final int DELAI_ANNONCE_HEURE_QUART = 3 ;
-
-	/***
-	 * Obtenir l'instance (unique) de Preferences
-	 * @param context
-	 * @return
-	 */
-	public static synchronized Preferences getInstance(@NonNull final Context context)
-	{
-		if ( _instance == null)
-			_instance = new Preferences(context);
-
-		return _instance;
-
-	}
+	public PreferenceBoolean MessageWhatsAppLireExpediteur;
 
 	/***
 	 * Constructeur privé du singleton Preferences, on doit passer par getInstance pour obtenir une
@@ -83,218 +83,53 @@ public class Preferences
 	 */
 	private Preferences(@NonNull final Context context)
 	{
-		settings = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+		final SharedPreferences settings = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
 		editor = settings.edit();
 
-		_actif = settings.getBoolean(PREF_ACTIF, false);
-		_actifApresReboot = settings.getBoolean(PREF_ACTIF_APRES_REBOOT, false);
-		_delaiAnnonceHeure = settings.getInt(PREF_DELAI_ANNONCE_HEURE, DELAI_ANNONCE_HEURE_QUART );
-		_lireMessages = settings.getInt(PREF_LIRE_MESSAGES, CONTACTS_SEULS);
-		_lireMessagesWhatsapp = settings.getBoolean(PREF_LIRE_MESSAGES_WHATSAPP, false);
-		_lireContenuSms = settings.getBoolean(PREF_LIRE_CONTENU_SMS, true) ;
-		_repondreSms = settings.getInt(PREF_REPONDRE_SMS, CONTACTS_SEULS);
-		_volumeDefaut = settings.getBoolean(PREF_VOLUME_DEFAUT, true);
-		_volume = settings.getFloat(PREF_VOLUME, TTSService.getMaxVolume());
-		_annoncerAppels = settings.getInt(PREF_ANNONCER_APPELS, CONTACTS_SEULS);
-		_repondreAppels = settings.getInt(PREF_REPONDRE_APPELS, CONTACTS_SEULS);
-		_reponseSms = settings.getString(PREF_REPONSE_SMS, context.getString(R.string.sms_answer));
-		_reponseAppels = settings.getString(PREF_REPONSE_APPELS, context.getString(R.string.call_answer));
-		_theme = settings.getInt(PREF_THEME, 0);
-		_forceSortie = settings.getInt(PREF_FORCE_SORTIE, TTSService.SORTIE_DEFAUT);
+		actif = new PreferenceBoolean(settings, PREF_ACTIF, false);
+		actifApresReboot = new PreferenceBoolean(settings, PREF_ACTIF_APRES_REBOOT, false);
+		annonceHeure = new PreferenceBoolean(settings, PREF_ANNONCE_HEURE, false);
+		delaiAnnonceHeure = new PreferenceInt(settings, PREF_DELAI_ANNONCE_HEURE, DELAI_ANNONCE_HEURE_QUART);
+		volumeDefaut = new PreferenceBoolean(settings, PREF_VOLUME_DEFAUT, true);
+		volume = new PreferenceFloat(settings, PREF_VOLUME, TTSService.VOLUME_MAX);
+		reponseSms = new PreferenceString(settings, PREF_REPONSE_SMS, context.getString(R.string.sms_answer));
+		forceSortie = delaiAnnonceHeure = new PreferenceInt(settings, PREF_FORCE_SORTIE, TTSService.SORTIE_DEFAUT);
 
-		_gererSMS = settings.getBoolean(PREF_GERER_SMS, true);
-		_gererMails = settings.getBoolean(PREF_GERER_MAILS, false);
-		_gererWhatsApp = settings.getBoolean(PREF_GERER_WHATSAPP, false);
+		// SMS
+		gererSMS = new PreferenceBoolean(settings, PREF_GERER_SMS, false);
+		lireSMS = new PreferenceInt(settings, PREF_LIRE_SMS, TOUJOURS);
+		lireContenuSms = new PreferenceInt(settings, PREF_LIRE_CONTENU_SMS, CONTACTS_SEULS);
+		repondreSms = new PreferenceInt(settings, PREF_REPONDRE_SMS, JAMAIS);
+		lireExpediteurSMS = new PreferenceBoolean(settings, PREF_LIRE_EXPEDITEUR_SMS, false);
+
+		// Telephone
+		telephoneGerer = new PreferenceBoolean(settings, PREF_GERER_TELEPHONE, false);
+		telephoneAnnoncer = new PreferenceInt(settings, PREF_ANNONCER_APPELS, JAMAIS);
+		telephoneRepondre = new PreferenceInt(settings, PREF_REPONDRE_APPELS, JAMAIS);
+		telephoneReponse = new PreferenceString(settings, PREF_REPONSE_APPELS, context.getString(R.string.call_answer));
+
+		//Emails
+		gererMails = new PreferenceBoolean(settings, PREF_GERER_MAILS, false);
+		eMailsAnnonceExpediteur = new PreferenceBoolean(settings, PREF_EMAIL_ANNONCE_EXPEDITEUR, true);
+		eMailsAnnonceSujet = new PreferenceBoolean(settings, PREF_EMAIL_ANNONCE_SUJET, true);
+
+		// Messages WhatsApp
+		messageWhatsAppActif = new PreferenceBoolean(settings, PREF_GERER_WHATSAPP, false);
+		MessageWhatsAppLireExpediteur = new PreferenceBoolean(settings, PREF_WHATSAPP_LIRE_EXPEDITEUR, false);
+
+		gererAppelsWhatsApp = new PreferenceBoolean(settings, PREF_GERER_APPELWHATSAPP, false);
 	}
 
-	public int getLireMessages()
+	/***
+	 * Obtenir l'instance (unique) de Preferences
+	 * @param context
+	 * @return
+	 */
+	public static synchronized Preferences getInstance(@NonNull final Context context)
 	{
-		return _lireMessages;
-	}
+		if (_instance == null)
+			_instance = new Preferences(context);
 
-	public synchronized void setLireMessages(int v)
-	{
-		_lireMessages = v;
-		editor.putInt(PREF_LIRE_MESSAGES, v);
-		editor.apply();
-	}
-	public int getRepondreSms()
-	{
-		return _repondreSms;
-	}
-	public synchronized void setRepondreSms(int v)
-	{
-		_repondreSms = v;
-		editor.putInt(PREF_REPONDRE_SMS, v);
-		editor.apply();
-	}
-
-	public int getAnnoncerAppels()
-	{
-		return _annoncerAppels;
-	}
-	public synchronized void setAnnoncerAppels(int v)
-	{
-		_annoncerAppels = v;
-		editor.putInt(PREF_ANNONCER_APPELS, v);
-		editor.apply();
-	}
-
-	public int getRepondreAppels()
-	{
-		return _repondreAppels;
-	}
-	public synchronized void setRepondreAppels(int v)
-	{
-		_repondreAppels = v;
-		editor.putInt(PREF_REPONDRE_APPELS, v);
-		editor.apply();
-	}
-
-	public int getDelaiAnnonceHeure()
-	{
-		return _delaiAnnonceHeure;
-	}
-	public synchronized void setDelaiAnnonceHeure(int v)
-	{
-		_delaiAnnonceHeure = v;
-		editor.putInt(PREF_DELAI_ANNONCE_HEURE, v);
-		editor.apply();
-	}
-
-
-	public boolean getActif()
-	{
-		return _actif;
-	}
-	public synchronized void setActif(boolean v)
-	{
-		_actif = v;
-		editor.putBoolean(PREF_ACTIF, v);
-		editor.apply();
-	}
-
-
-	public boolean getActifApresReboot()
-	{
-		return _actifApresReboot;
-	}
-	public synchronized void setActifApresReboot(boolean v)
-	{
-		_actifApresReboot = v;
-		editor.putBoolean(PREF_ACTIF_APRES_REBOOT, v);
-		editor.apply();
-	}
-
-
-
-	public boolean getVolumeDefaut()
-	{
-		return _volumeDefaut;
-	}
-	public synchronized void setVolumeDefaut(boolean v)
-	{
-		_volumeDefaut= v;
-		editor.putBoolean(PREF_VOLUME_DEFAUT, v);
-		editor.apply();
-	}
-
-	public @NonNull String getReponseSms() { return _reponseSms; }
-	public void setReponseSMS(final String s)
-	{
-		_reponseSms = s;
-		editor.putString( PREF_REPONSE_SMS, s);
-		editor.apply();
-	}
-
-	public @NonNull String getReponseAppels() { return _reponseAppels; }
-	public void setReponseAppels(final String s)
-	{
-		_reponseAppels = s;
-		editor.putString( PREF_REPONSE_APPELS, s);
-		editor.apply();
-	}
-
-
-//	public int getCanalSortie(){ return _canalSortie;}
-//	public void setCanalSortie(final int v)
-//	{
-//		_canalSortie = v;
-//		editor.putInt(PREF_CANAL_SORTIE, v);
-//		editor.apply();
-//	}
-
-
-	public float getVolume(){ return _volume;}
-	public void setVolume(final float v)
-	{
-		_volume = v;
-		editor.putFloat(PREF_VOLUME, v);
-		editor.apply();
-	}
-
-	public boolean getLireContenuSms()
-	{
-		return _lireContenuSms ;
-	}
-	public synchronized void setLireContenuSms(boolean v)
-	{
-		_lireContenuSms= v;
-		editor.putBoolean(PREF_LIRE_CONTENU_SMS, v);
-		editor.apply();
-	}
-
-	public int getTheme(){ return _theme;}
-	public void setTheme(final int v)
-	{
-		_theme = v;
-		editor.putInt(PREF_THEME, v);
-		editor.apply();
-	}
-
-	public int getForceSortie() { return _forceSortie; }
-
-	public void setForceSortie(int v)
-	{
-		_forceSortie = v;
-		editor.putInt(PREF_FORCE_SORTIE, v);
-		editor.apply();
-	}
-
-	public boolean getGererSMS()
-	{
-		return _gererSMS;
-	}
-
-	public synchronized void setGererSMS(boolean v)
-	{
-		_gererSMS = v;
-		editor.putBoolean(PREF_GERER_SMS, v);
-		editor.apply();
-	}
-
-	public boolean getGererMails()
-	{
-		return _gererMails;
-	}
-
-	public synchronized void setGererMails(boolean v)
-	{
-		_gererMails = v;
-		editor.putBoolean(PREF_GERER_MAILS, v);
-		editor.apply();
-	}
-
-	public boolean getGererWhatsApp()
-	{
-		return _gererWhatsApp;
-
-	}
-
-	public synchronized void setGererWhatsApp(boolean v)
-	{
-		_gererWhatsApp = v;
-		editor.putBoolean(PREF_GERER_WHATSAPP, v);
-		editor.apply();
+		return _instance;
 	}
 }

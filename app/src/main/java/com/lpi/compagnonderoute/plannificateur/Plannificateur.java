@@ -125,37 +125,6 @@ public class Plannificateur
 	}
 
 	/***
-	 * Programme une alarme Android
-	 * @param context
-	 * @param prochaineNotification heure de la prochaine notification
-	 */
-	public void plannifie(final @NonNull Context context, @NonNull final Calendar prochaineNotification)
-	{
-		Report r = Report.getInstance(context);
-		r.log(Report.DEBUG, "set alarme: " + Carillon.toHourString(context, prochaineNotification));
-		try
-		{
-			//if (_pendingIntent != null)
-				arrete(context);
-			//else
-			{
-				Intent intent = new Intent(context, AlarmReceiver.class);
-				intent.setAction(ACTION_ALARME);
-				_pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-			}
-
-			//_alarmManager.setExact(AlarmManager.RTC_WAKEUP, prochaineNotification.getTimeInMillis(), _pendingIntent);
-			_alarmManager.setWindow(AlarmManager.RTC_WAKEUP, prochaineNotification.getTimeInMillis(), ALARM_WINDOW, _pendingIntent);
-		} catch (Exception e)
-		{
-			r.log(Report.ERROR, "Plannificateur.plannifie");
-			r.log(Report.ERROR, e);
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/***
 	 * Plannifie la prochaine notification pause ou carillon, celle qui arrive en premier
 	 * @param context
 	 */
@@ -163,13 +132,13 @@ public class Plannificateur
 	{
 		try
 		{
-            String messageUI = "";
-            Preferences preferences = Preferences.getInstance(context);
-			if (!preferences.getActif())
+			String messageUI = "";
+			Preferences preferences = Preferences.getInstance(context);
+			if (!preferences.actif.get() || !preferences.annonceHeure.get())
 			{
 				// Arreter toute plannification
 				//Notification.getInstance(context).cancel(context);
-				messageUI = context.getString(R.string.deactivated) ;
+				messageUI = context.getString(R.string.deactivated);
 			}
 			else
 			{
@@ -185,17 +154,47 @@ public class Plannificateur
 					//Notification.getInstance(context).notify(context, message, "Démarré");
 				}
 			}
+
 			// Mise a jour de l'interface utilisateur
-			if (messageUI != null)
-			{
-				Intent intent = new Intent(ACTION_MESSAGE_UI);
-				intent.putExtra(EXTRA_MESSAGE_UI, messageUI);
-				context.sendBroadcast(intent);
-			}
+			Intent intent = new Intent(ACTION_MESSAGE_UI);
+			intent.putExtra(EXTRA_MESSAGE_UI, messageUI);
+			context.sendBroadcast(intent);
+
 		} catch (Exception e)
 		{
 			Report r = Report.getInstance(context);
 			r.log(Report.ERROR, "Erreur dans Plannificateur.plannifieProchaineNotification");
+			r.log(Report.ERROR, e);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/***
+	 * Programme une alarme Android
+	 * @param context
+	 * @param prochaineNotification heure de la prochaine notification
+	 */
+	public void plannifie(final @NonNull Context context, @NonNull final Calendar prochaineNotification)
+	{
+		Report r = Report.getInstance(context);
+		r.log(Report.DEBUG, "set alarme: " + Carillon.toHourString(context, prochaineNotification));
+		try
+		{
+			//if (_pendingIntent != null)
+			arrete(context);
+			//else
+			{
+				Intent intent = new Intent(context, AlarmReceiver.class);
+				intent.setAction(ACTION_ALARME);
+				_pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+			}
+
+			//_alarmManager.setExact(AlarmManager.RTC_WAKEUP, prochaineNotification.getTimeInMillis(), _pendingIntent);
+			_alarmManager.setWindow(AlarmManager.RTC_WAKEUP, prochaineNotification.getTimeInMillis(), ALARM_WINDOW, _pendingIntent);
+		} catch (Exception e)
+		{
+			r.log(Report.ERROR, "Plannificateur.plannifie");
 			r.log(Report.ERROR, e);
 		}
 	}

@@ -5,7 +5,6 @@ package com.lpi.compagnonderoute.report;
  */
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -81,62 +80,62 @@ public class DatabaseHelper extends SQLiteOpenHelper
 	//		return "Impossible de lire la colonne " + cursor.getColumnName(colonne);
 	//}
 
-	@Nullable
-	public static Object getObjectFromAnyColumn(@NonNull Cursor cursor, int colonne)
+//	@Nullable
+//	public static Object getObjectFromAnyColumn(@NonNull Cursor cursor, int colonne)
+//	{
+//		try
+//		{
+//			return cursor.getInt(colonne);
+//		} catch (Exception e)
+//		{
+//			try
+//			{
+//				return cursor.getShort(colonne);
+//			} catch (Exception e1)
+//			{
+//				try
+//				{
+//					return cursor.getLong(colonne);
+//				} catch (Exception e2)
+//				{
+//					try
+//					{
+//						return cursor.getDouble(colonne);
+//					} catch (Exception e3)
+//					{
+//						try
+//						{
+//							return cursor.getFloat(colonne);
+//						} catch (Exception e4)
+//						{
+//							try
+//							{
+//								return cursor.getString(colonne);
+//							} catch (Exception e5)
+//							{
+//								Log.e("Dabase", "impossible de lire la colonne " + colonne);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//
+//		return null;
+//	}
+//
+@Override
+public void onCreate(SQLiteDatabase database)
+{
+	try
 	{
-		try
-		{
-			return cursor.getInt(colonne);
-		} catch (Exception e)
-		{
-			try
-			{
-				return cursor.getShort(colonne);
-			} catch (Exception e1)
-			{
-				try
-				{
-					return cursor.getLong(colonne);
-				} catch (Exception e2)
-				{
-					try
-					{
-						return cursor.getDouble(colonne);
-					} catch (Exception e3)
-					{
-						try
-						{
-							return cursor.getFloat(colonne);
-						} catch (Exception e4)
-						{
-							try
-							{
-								return cursor.getString(colonne);
-							} catch (Exception e5)
-							{
-								Log.e("Dabase", "impossible de lire la colonne " + colonne);
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return null;
-	}
-
-	@Override
-	public void onCreate(SQLiteDatabase database)
+		database.execSQL(DATABASE_HISTORIQUE_CREATE);
+		database.execSQL(DATABASE_TRACES_CREATE);
+	} catch (SQLException e)
 	{
-		try
-		{
-			database.execSQL(DATABASE_HISTORIQUE_CREATE);
-			database.execSQL(DATABASE_TRACES_CREATE);
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
+		e.printStackTrace();
 	}
+}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)

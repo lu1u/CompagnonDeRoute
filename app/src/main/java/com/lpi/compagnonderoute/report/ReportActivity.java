@@ -19,7 +19,6 @@ import com.lpi.compagnonderoute.R;
 
 public class ReportActivity extends AppCompatActivity
 {
-	@NonNull
 	int _niveau = Report.DEBUG;
 	TracesAdapter _adapter;
 

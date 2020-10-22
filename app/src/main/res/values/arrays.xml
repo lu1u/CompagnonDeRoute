@@ -6,6 +6,7 @@
         <item>DEBUG</item>
         <item>WARNING</item>
         <item>ERROR</item>
+        <item>HISTORIQUE</item>
     </string-array>
 
 

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Compagnon de route</string>
-    <string name="received_message_with_body">Message reçu de %1$s.\n%2$s</string>
-    <string name="received_message">Message reçu de %1$s.</string>
+    <string name="received_sms_sender_and_body">SMS reçu de %1$s.\n%2$s</string>
+    <string name="received_sms_sender">SMS reçu de %1$s.</string>
+    <string name="received_sms_body">SMS reçu: %2$s</string>
+    <string name="received_sms">SMS reçu:</string>
     <string name="phone_call_format">Appel téléphonique de %1$s</string>
     <string name="time_announce">Il est %1$s.</string>
     <string name="ask_for_permissions">L\'application Compagnon de Route ne peut pas fonctionner sans que vous lui
@@ -13,8 +15,6 @@
     <string name="grant_permissions_button">Accorder les permissions</string>
     <string name="enabled">Activé</string>
     <string name="disabled">Désactivé</string>
-    <string name="volume">Volume %1$d</string>
-    <string name="next_alarm_notification">Prochain carillon %1$s</string>
     <string name="next_alarm_ui">Prochain carillon %1$s</string>
     <string name="sms_answer">Merci pour votre message. Je ne peux pas vous répondre actuellement.\nJe vous répondrai dès que possible</string>
     <string name="call_answer">Merci pour votre appel. Je ne suis pas disponible actuellement.\nJe vous répondrai dès que possible</string>
@@ -32,5 +32,18 @@
     <string name="ui_contact_only">Contacts seulement</string>
     <string name="deactivated">Désactivé</string>
     <string name="received_whatsapp">Message Whatsapp reçu de %1$s: %2$s</string>
-    <string name="ui_read_whatsapp_messages">Lire les messages Whatsapp</string>
+    <string name="received_whatsapp_null">Message WhatsApp reçu</string>
+    <string name="received_gmail">Nouveau mail reçu de %1$s, %2$s</string>
+    <string name="received_gmail_null">Nouveau mail reçu</string>
+    <string name="besoin_accord_notification_listener">Vous devez donner votre autorisation pour intercepter les messages de cette application. L\'écran de confirmation du système va être affiché, veuillez cocher l\'option correspondant à Compagnon de route. Pressez \'Annuler\' si vous ne voulez pas accorder l\'aurorisation à l\'application.</string>
+    <string name="permissions_sms">Vous devez accorder à cette application l\'autorisation d\'accéder à vos SMS et vos contacts.</string>
+    <string name="permissions_telephone">Vous devez accorder à cette application l\'autorisation d\'accéder à vos appels et vos contacts.</string>
+    <string name="ui_sms_reponse_auto">SMS: réponse automatique</string>
+    <string name="ui_parametres_telephone">Paramètres téléphone</string>
+    <string name="ui_annoncer_les_appels">Annoncer appels téléphoniques:</string>
+    <string name="ui_toujours">Toujours</string>
+    <string name="ui_contacts_seulement">Contacts seulement</string>
+    <string name="ui_parametres_horloge">Paramètres horloge:</string>
+    <string name="ui_annoncer_l_heure">Annoncer l\'heure:</string>
+
 </resources>

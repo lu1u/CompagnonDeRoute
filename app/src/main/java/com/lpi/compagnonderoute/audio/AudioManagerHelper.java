@@ -2,17 +2,13 @@ package com.lpi.compagnonderoute.audio;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.report.Report;
-import com.lpi.compagnonderoute.tts.TTSService;
 
 public class AudioManagerHelper
 {
@@ -37,11 +33,10 @@ public class AudioManagerHelper
 			MediaPlayer mediaPlayer = MediaPlayer.create(context, idSon);
 
 			// Volume, si pas volume par defaut
-			if (!preferences.getVolumeDefaut())
+			if (!preferences.volumeDefaut.get())
 			{
-				mediaPlayer.setVolume(preferences.getVolume(), preferences.getVolume());
+				mediaPlayer.setVolume(preferences.volume.get(), preferences.volume.get());
 			}
-
 
 			if (listener != null)
 				// Listener pour notification de la fin du son

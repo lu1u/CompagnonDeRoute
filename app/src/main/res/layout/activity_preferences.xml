@@ -12,50 +12,15 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_cog"
+        android:drawableTint="@color/Primary"
         android:text="Paramètres"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <Space
-        android:id="@+id/space"
         android:layout_width="match_parent"
         android:layout_height="16dp" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Messages:" />
-
-    <CheckBox
-        android:id="@+id/checkBoxSMS"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SMS" />
-
-    <CheckBox
-        android:id="@+id/checkBoxMails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Mails" />
-
-    <CheckBox
-        android:id="@+id/checkBoxWhatsApp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="WhatsApp" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Après rédémarrage:" />
-
-    <CheckBox
-        android:id="@+id/checkBoxReactiver"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Réactiver compagnon de route s'il était actif lors du redémarrage" />
 
     <TextView
         android:id="@+id/textView4"
@@ -79,10 +44,38 @@
         android:progress="3"
         android:scaleY="1.5" />
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sortie audio:" />
+
     <CheckBox
         android:id="@+id/checkBoxForceSortie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Forcer la sortie sonore vers le haut parleur de l'appareil si un périphérique Bluetooth est connecté" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Après rédémarrage:" />
+
+    <CheckBox
+        android:id="@+id/checkBoxReactiver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Réactiver compagnon de route s'il était actif lors du redémarrage" />
+
+    <Button
+        android:id="@+id/buttonNotificationSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:drawableStart="@drawable/ic_cog"
+        android:drawableTint="@color/Primary"
+        android:text="Autorisations système d'interception des notifications"
+        android:textAllCaps="false" />
 
 </LinearLayout>

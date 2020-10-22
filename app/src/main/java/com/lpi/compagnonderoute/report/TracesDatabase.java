@@ -13,7 +13,6 @@ public class TracesDatabase extends ReportDatabase
 {
 	private static final int NB_MAX_TRACES = 500;
 
-
 	private TracesDatabase(Context context)
 	{
 		super(ReportDatabaseHelper.TABLE_TRACES, context);
@@ -52,7 +51,7 @@ public class TracesDatabase extends ReportDatabase
 			database.insert(ReportDatabaseHelper.TABLE_TRACES, null, initialValues);
 		} catch (Exception e)
 		{
-			//MainActivity.SignaleErreur("ajout d'une ligne de trace", e);
+			// Surtout ne pas faire une TRACE, on vient d'échouer a en faire une!
 			e.printStackTrace();
 		}
 	}

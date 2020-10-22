@@ -15,7 +15,6 @@ public class DialogAPropos
 		View dialogView = inflater.inflate(R.layout.activity_apropos, null);
 		String message = "Application Id:" + BuildConfig.APPLICATION_ID
 				+ "\nBuild type:" + BuildConfig.BUILD_TYPE
-				+ "\nFlavor:" + BuildConfig.FLAVOR
 				+ "\nVersion name:" + BuildConfig.VERSION_NAME
 				+ "\nVersion code:" + BuildConfig.VERSION_CODE
 				+ "\nDebug:" + BuildConfig.DEBUG;

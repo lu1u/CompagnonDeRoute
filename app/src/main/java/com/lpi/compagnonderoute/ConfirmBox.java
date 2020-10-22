@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 /**
  * Helper pour afficher une fenetre de confirmation, fournir un listener pour etre prevenu du
@@ -13,6 +14,11 @@ import androidx.annotation.NonNull;
  */
 public class ConfirmBox
 {
+	public static void show(@NonNull final Context context, @StringRes int idRes, @NonNull final ConfirmBoxListener listener)
+	{
+		show(context, context.getString(idRes), listener);
+	}
+
 	/***
 	 *  Afficher la fenetre de confirmation
 	 * @param context
@@ -21,7 +27,8 @@ public class ConfirmBox
 	 */
 	public static void show(@NonNull final Context context, @NonNull final String message, @NonNull final ConfirmBoxListener listener)
 	{
-		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+		{
 			@Override
 			public void onClick(DialogInterface dialog, int which)
 			{

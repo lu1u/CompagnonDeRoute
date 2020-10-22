@@ -1,4 +1,4 @@
-package com.lpi.compagnonderoute.preferences;
+package com.lpi.compagnonderoute.notificationListener;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 import com.lpi.compagnonderoute.ConfirmBox;
 
@@ -15,24 +16,30 @@ import com.lpi.compagnonderoute.ConfirmBox;
  * C'est l'utilisateur qui doit autoriser manuellement une application
  */
 
-class NotificationListenerManager
+public class NotificationListenerManager
 {
 	/***
 	 * Verifie que l'application est bien autorisée à intercepter les notifications,
 	 * si ce n'est pas le cas, on propose à l'utilisateur d'ouvrir la fenetre de configuration
 	 * pour qu'il puisse accorder la permission
+	 *
+	 * Appels du listener:
+	 * - onEnabled: les droits sont deja accordes
+	 * - onSettings: droits pas encore accordes, l'utilisateur est redirigé vers l'écran de configuration du systeme
+	 * - onCancel: les droits ne sont pas accordes, l'utilisateur ne veut pas changer sa configuration
 	 */
-	public static void checkNotificationServiceEnabled(@NonNull final Context context, @NonNull final checkNotificationServiceEnabledListener listener)
+	public static void checkNotificationServiceEnabled(@NonNull final Context context, @StringRes int idMessage, @NonNull final checkNotificationServiceEnabledListener listener)
 	{
 		if (isNotificationServiceEnabled(context))
 			listener.onEnabled();
 		else
 		{
-			ConfirmBox.show(context, "Pour annoncer les messages Whatsapp, vous devez donner votre autorisation. L'écran de confirmation du système va être affiché, veuillez cocher l'option correspondant à Compagnon de route. Pressez 'Annuler' si vous ne voulez pas accorder l'aurorisation à l'application.",
+			ConfirmBox.show(context, context.getString(idMessage),
 					new ConfirmBox.ConfirmBoxListener()
 					{
 						@Override public void onPositive()
 						{
+							// Afficher l'ecran de configuration pour intercepter les notifications
 							context.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
 							listener.onSettings();
 						}
@@ -51,26 +58,31 @@ class NotificationListenerManager
 	 */
 	public static boolean isNotificationServiceEnabled(@NonNull final Context context)
 	{
-		String pkgName = context.getPackageName();
+		String packageName = context.getPackageName();
 		final String flat = Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners");
 		if (!TextUtils.isEmpty(flat))
 		{
 			final String[] names = flat.split(":");
 			for (String name : names)
 			{
-				final ComponentName cn = ComponentName.unflattenFromString(name);
-				if (cn != null)
-					if (TextUtils.equals(pkgName, cn.getPackageName()))
+				final ComponentName componentName = ComponentName.unflattenFromString(name);
+				if (componentName != null)
+					if (TextUtils.equals(packageName, componentName.getPackageName()))
 						return true;
 			}
 		}
 		return false;
 	}
 
+	public static void displayNotificationSettings(@NonNull final Context context)
+	{
+		context.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+	}
+
 	public interface checkNotificationServiceEnabledListener
 	{
-		public void onEnabled();
-		public void onCancel();
-		public void onSettings();
+		void onEnabled();
+		void onCancel();
+		void onSettings();
 	}
 }

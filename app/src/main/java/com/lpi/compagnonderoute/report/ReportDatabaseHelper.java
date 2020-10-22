@@ -14,20 +14,9 @@ import androidx.annotation.NonNull;
 
 public class ReportDatabaseHelper extends SQLiteOpenHelper
 {
-	public static final int DATABASE_VERSION = 1;
+	public static final int DATABASE_VERSION = 2;
 	public static final String DATABASE_NAME = "debug.db";
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Table historique
-	public static final String TABLE_HISTORIQUE = "HISTORIQUE";
-	public static final String COLONNE_HISTORIQUE_DATE = "DATE";
-	public static final String COLONNE_HISTORIQUE_LIGNE = "LIGNE";
-	public static final String DATABASE_HISTORIQUE_CREATE = "create table "
-			+ TABLE_HISTORIQUE + "("
-			+ ReportDatabaseHelper.COLONNE_HISTORIQUE_ID + " integer primary key autoincrement, "
-			+ COLONNE_HISTORIQUE_DATE + " integer,"
-			+ COLONNE_HISTORIQUE_LIGNE + " text not null"
-			+ ");";
-	public static final String COLONNE_HISTORIQUE_ID = "_id";
+
 	public static final String TABLE_TRACES = "TRACES";
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Table traces
@@ -53,7 +42,6 @@ public class ReportDatabaseHelper extends SQLiteOpenHelper
 	{
 		try
 		{
-			database.execSQL(DATABASE_HISTORIQUE_CREATE);
 			database.execSQL(DATABASE_TRACES_CREATE);
 		} catch (SQLException e)
 		{
@@ -68,7 +56,6 @@ public class ReportDatabaseHelper extends SQLiteOpenHelper
 		{
 			Log.w(this.getClass().getName(), "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data");
 
-			db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORIQUE);
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_TRACES);
 
 			onCreate(db);

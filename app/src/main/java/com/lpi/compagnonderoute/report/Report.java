@@ -30,20 +30,18 @@ import com.lpi.compagnonderoute.BuildConfig;
 @SuppressWarnings("nls")
 public class Report
 {
-	@NonNull
-	final private static String TAG = "Report";
-	private static boolean GENERER_TRACES = true;
-
+	public static final int HISTORIQUE = 3;
 	// Niveaux de trace
-	public static final int DEBUG=0;
-	public static final int WARNING=1;
-	public static final int ERROR=2;
-
+	public static final int DEBUG = 0;
+	public static final int WARNING = 1;
+	public static final int ERROR = 2;
+	@NonNull final private static String TAG = "Report";
+	public static boolean GENERER_TRACES = BuildConfig.REPORT;
 
 	private static final int MAX_BACKTRACE = 10;
 	@Nullable
 	private static Report INSTANCE = null;
-	TracesDatabase _tracesDatabase;
+	final TracesDatabase _tracesDatabase;
 
 	private Report(Context context)
 	{
@@ -54,19 +52,12 @@ public class Report
 			_tracesDatabase = null;
 	}
 
-	public static boolean isGenererTraces()
-	{
-		return BuildConfig.REPORT;
-	}
-
-
 	/**
 	 * Point d'accès pour l'instance unique du singleton
-	 *
 	 * @param context: le context habituel d'ANdroid, peut être null si l'objet a deja ete utilise
 	 */
 	@NonNull
-	public static synchronized Report getInstance(@NonNull Context context)
+	public static synchronized Report getInstance(@Nullable Context context)
 	{
 		if (INSTANCE == null)
 		{
@@ -75,7 +66,7 @@ public class Report
 		return INSTANCE;
 	}
 
-	public void log(@NonNull int niv, @NonNull Exception e)
+	public void log(int niv, @NonNull Exception e)
 	{
 		if (_tracesDatabase != null)
 		{
@@ -85,7 +76,7 @@ public class Report
 		}
 	}
 
-	public void log(@NonNull int niv, @NonNull String message)
+	public void log(int niv, @NonNull String message)
 	{
 		if (_tracesDatabase != null)
 		{

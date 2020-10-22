@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/marge_ecran_parametre">
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_phone"
+        android:drawableTint="@color/Primary"
+        android:text="@string/ui_parametres_telephone"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ui_annoncer_les_appels" />
+
+    <RadioGroup
+        android:id="@+id/radiogroupAnnoncerAppels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/marge_categories"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioButtonAppelsToujours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:padding="@dimen/padding_toggle"
+            android:text="@string/ui_toujours" />
+
+        <RadioButton
+            android:id="@+id/radioButtonAppelsContacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:padding="@dimen/padding_toggle"
+            android:text="@string/ui_contacts_seulement" />
+
+    </RadioGroup>
+
+</LinearLayout>

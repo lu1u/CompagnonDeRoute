@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">Road companion></string>
-    <string name="received_message_with_body">Message received from %1$s.\n%2$s</string>
-    <string name="received_message">Message received from %1$s.</string>
+    <string name="app_name">Road companion</string>
+    <string name="received_sms_sender_and_body">SMS received from %1$s.\n%2$s</string>
+    <string name="received_sms_sender">SMS received from %1$s.</string>
+    <string name="received_sms_body">SMS received: %1$s.</string>
+    <string name="received_sms">SMS received</string>
     <string name="phone_call_format">Incoming phone call from %1$s</string>
     <string name="time_announce">It is %1$s.</string>
     <string name="ask_for_permissions">Road companion needs permission to access your phone:\n-receive sms and phone calls\n-access to your contacts\n-send sms</string>
@@ -9,8 +11,6 @@
     <string name="grant_permissions_button">Grant permissions</string>
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
-    <string name="volume">Volume %1$d</string>
-    <string name="next_alarm_notification">Next alarm %1$s</string>
     <string name="next_alarm_ui">Next alarme %1$s</string>
     <string name="sms_answer">Thank you for your message. I cannot answer now. I will answer your message as soon as possible</string>
     <string name="call_answer">Thank you for your call. I cannot answer now. I will answer your call as soon as possible</string>
@@ -23,10 +23,24 @@
     <string name="ui_read_sms_body">Read message body</string>
     <string name="ui_announce_incoming_messages">Answer incoming messages:</string>
     <string name="ui_announce_incoming_calls">Announce incoming calls:</string>
-     <string name="ui_answer_incoming_call">Answer incoming calls:</string>
+    <string name="ui_answer_incoming_call">Answer incoming calls:</string>
     <string name="ui_always">Always</string>
     <string name="ui_contact_only">Contacts only</string>
     <string name="deactivated">Disabled</string>
     <string name="received_whatsapp">Whatsapp message received from %1$s: %2$s</string>
-    <string name="ui_read_whatsapp_messages">Read Whatsapp messages</string>
+    <string name="received_whatsapp_null">New WhatsApp message</string>
+    <string name="received_gmail">New mail received from %1$s, %2$s</string>
+    <string name="received_gmail_null">New mail received</string>
+    <string name="besoin_accord_notification_listener">You need to grant permission to intercept messages from this application. The system settings screen will be displayed. Please check the option corresponding to Road Companion. Press Cancel if you do no want to grant permissions.</string>
+
+
+    <string name="permissions_sms">You must grant this application the rights to access you SMS and contacts</string>
+    <string name="permissions_telephone">You must grant this application the rights to access you phone and contacts</string>
+    <string name="ui_sms_reponse_auto">SMS: réponse automatique</string>
+    <string name="ui_parametres_telephone">Phone Parameters</string>
+    <string name="ui_annoncer_les_appels">Announce phone calls</string>
+    <string name="ui_toujours">Always</string>
+    <string name="ui_contacts_seulement">Contacts only</string>
+    <string name="ui_parametres_horloge">Clock parameters</string>
+    <string name="ui_annoncer_l_heure">Hour announce:</string>
 </resources>

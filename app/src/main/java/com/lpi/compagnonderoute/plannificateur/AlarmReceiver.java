@@ -20,8 +20,6 @@ import java.util.Calendar;
 
 public class AlarmReceiver extends BroadcastReceiver
 {
-	public static final String TAG = "AlarmReceiver";
-
 	/***
 	 * Reception d'une alarme TYPE_NOTIFICATION_CARILLON
 	 */
@@ -38,11 +36,11 @@ public class AlarmReceiver extends BroadcastReceiver
 			if (Plannificateur.ACTION_ALARME.equals(action))
 			{
 				Preferences preferences = Preferences.getInstance(context);
-				if (preferences.getActif())
-					if (preferences.getDelaiAnnonceHeure() != Preferences.DELAI_ANNONCE_HEURE_JAMAIS)
+				if (preferences.actif.get())
+					if (preferences.annonceHeure.get())
 					{
 						Calendar maintenant = Calendar.getInstance();
-						TTSService.speakFromAnywhere(context, R.raw.beep, preferences.getVolumeDefaut()? preferences.getVolume():-1, R.string.time_announce, DateUtils.formatDateTime(context, maintenant.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
+						TTSService.speakFromAnywhere(context, R.raw.beep, preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.time_announce, DateUtils.formatDateTime(context, maintenant.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
 						Plannificateur.getInstance(context).plannifieProchaineNotification(context);
 					}
 			}

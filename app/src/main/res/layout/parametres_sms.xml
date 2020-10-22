@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/marge_ecran_parametre"
+    android:orientation="vertical"
+    android:padding="@dimen/marge_ecran_parametre">
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_message"
+        android:drawableTint="@color/Primary"
+        android:text="Paramètres SMS"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Annoncer les SMS" />
+
+    <RadioGroup
+        android:id="@+id/radiogroupLireSMS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/marge_categories"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioButtonSMSToujours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:padding="@dimen/padding_toggle"
+            android:text="Toujours" />
+
+        <RadioButton
+            android:id="@+id/radioButtonSMSContacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/padding_toggle"
+            android:text="Contacts seulement" />
+
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/checkBoxExpediteur"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Annoncer l'expéditeur" />
+
+    <CheckBox
+        android:id="@+id/checkBoxContenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Annoncer le contenu" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Réponse automatique:" />
+
+    <RadioGroup
+        android:id="@+id/radiogroupReponseAutoSMS"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RadioButton
+            android:id="@+id/radioButtonJamais"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Jamais" />
+
+        <RadioButton
+            android:id="@+id/radioButtonToujours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Toujours" />
+
+        <RadioButton
+            android:id="@+id/radioButtonContacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contacts seulement" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textViewReponse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/AccentLight"
+        android:singleLine="false"
+        android:text="TextView" />
+
+</LinearLayout>

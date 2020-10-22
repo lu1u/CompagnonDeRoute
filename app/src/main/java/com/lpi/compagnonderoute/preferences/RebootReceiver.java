@@ -24,16 +24,15 @@ public class RebootReceiver extends BroadcastReceiver
 		if ( Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()))
 		{
 			Preferences preferences = Preferences.getInstance(context);
-			r.log(Report.DEBUG, "Actif apres reboot: " + preferences.getActifApresReboot());
+			r.log(Report.DEBUG, "Actif apres reboot: " + preferences.actifApresReboot.get());
 
-			if (! preferences.getActifApresReboot())
+			if (!preferences.actifApresReboot.get())
 			{
 				r.log(Report.DEBUG, "Inactiver");
-				preferences.setActif(false);
+				preferences.actif.set(false);
 			}
-			else
-				if ( preferences.getActif())
-					Plannificateur.getInstance(context).plannifieProchaineNotification(context);
+			else if (preferences.actif.get())
+				Plannificateur.getInstance(context).plannifieProchaineNotification(context);
 		}
 		else
 			r.log(Report.WARNING, "Action inconnue dans RebootReceiver.onReceive " + intent.getAction());

@@ -32,11 +32,11 @@
             android:minLines="3"/>
 
     <Button
-            android:id="@+id/buttonOK"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:text="@android:string/ok"
-            android:textAllCaps="false"
-            android:textColor="@color/Accent1"/>
+        android:id="@+id/buttonOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="@android:string/ok"
+        android:textAllCaps="false"
+        android:textColor="@color/Accent" />
 </LinearLayout>

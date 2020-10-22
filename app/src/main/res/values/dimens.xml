@@ -5,5 +5,10 @@
     <dimen name="taille_bouton">80dp</dimen>
     <dimen name="taille_choix_theme">64dp</dimen>
     <dimen name="taille_degrade">4dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="espace_premier_item">20dp</dimen>
+    <dimen name="espace_itemes">12dp</dimen>
+    <dimen name="marge_ecran_parametre">8dp</dimen>
+    <dimen name="ecart_bouton_droite">8dp</dimen>
 
 </resources>
