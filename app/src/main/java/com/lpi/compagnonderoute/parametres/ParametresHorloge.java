@@ -27,7 +27,7 @@ public class ParametresHorloge
 
 		final Preferences preferences = Preferences.getInstance(context);
 		RadioGroup rgAnnonceHeure = dialogView.findViewById(R.id.radiogroupAnnonceHeure);
-		switch (preferences.delaiAnnonceHeure.get())
+		switch (preferences.horlogeDelai.get())
 		{
 			case Preferences.DELAI_ANNONCE_HEURE_HEURES:
 				rgAnnonceHeure.check(R.id.radioButtonAnnonceHeure);
@@ -51,15 +51,15 @@ public class ParametresHorloge
 				{
 					case R.id.radioButtonAnnonceHeure:
 						r.log(Report.HISTORIQUE, "Carillon: heures");
-						preferences.delaiAnnonceHeure.set(Preferences.DELAI_ANNONCE_HEURE_HEURES);
+						preferences.horlogeDelai.set(Preferences.DELAI_ANNONCE_HEURE_HEURES);
 						break;
 					case R.id.radioButtonAnnonceDemi:
 						r.log(Report.HISTORIQUE, "Carillon: demi");
-						preferences.delaiAnnonceHeure.set(Preferences.DELAI_ANNONCE_HEURE_DEMI);
+						preferences.horlogeDelai.set(Preferences.DELAI_ANNONCE_HEURE_DEMI);
 						break;
 					case R.id.radioButtonAnnonceQuart:
 						r.log(Report.HISTORIQUE, "Carillon: quart");
-						preferences.delaiAnnonceHeure.set(Preferences.DELAI_ANNONCE_HEURE_QUART);
+						preferences.horlogeDelai.set(Preferences.DELAI_ANNONCE_HEURE_QUART);
 						break;
 				}
 

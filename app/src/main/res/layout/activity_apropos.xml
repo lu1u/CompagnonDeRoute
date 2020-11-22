@@ -27,13 +27,25 @@
     </LinearLayout>
 
     <TextView
-            android:id="@+id/textViewDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:singleLine="false"/>
+        android:id="@+id/textViewDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:singleLine="false" />
+
     <TextView
-		    android:text="Copyright (c) Lucien Pilloni 2019"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"/>
+        android:text="Copyright (c) Lucien Pilloni 2019"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ui_a_propos_icones" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ui_a_propos_code" />
 </LinearLayout>

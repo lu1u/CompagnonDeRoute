@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string-array name="sons_notification">
+        <item>Beep</item>
+        <item>Batterie</item>
+        <item>Tibet</item>
+        <item>Eglise</item>
+        <item>Ding</item>
+        <item>Métallophone</item>
+        <item>Pouët</item>
+        <item>Sonar</item>
+    </string-array>
+
+</resources>

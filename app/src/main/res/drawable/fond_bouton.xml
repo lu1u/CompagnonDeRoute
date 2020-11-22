@@ -2,16 +2,19 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:bottom="1dp">
         <shape>
+            <corners android:radius="4dp" />
             <solid android:color="#ABBB" />
         </shape>
     </item>
     <item android:bottom="@dimen/taille_degrade">
         <shape>
+            <corners android:radius="4dp" />
             <solid android:color="#FAAA" />
         </shape>
     </item>
     <item android:bottom="4dp">
         <shape>
+            <corners android:radius="4dp" />
             <solid android:color="@color/Primary" />
             <!--<gradient android:type="linear" android:startColor="?attr/attrColorAccentDark" android:endColor="?attr/attrColorAccentLight" android:angle="180"/>-->
         </shape>

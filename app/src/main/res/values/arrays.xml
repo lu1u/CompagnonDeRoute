@@ -10,5 +10,26 @@
     </string-array>
 
 
+    <string-array name="sons_notification">
+        <item>Beep</item>
+        <item>Battery</item>
+        <item>Tibet</item>
+        <item>Church</item>
+        <item>Ding</item>
+        <item>Métallophone</item>
+        <item>Pouët</item>
+        <item>Sonar</item>
+    </string-array>
+
+    <integer-array name="id_sons_notification">
+        <item>@raw/beep</item>
+        <item>@raw/batterie</item>
+        <item>@raw/bol_tibetain</item>
+        <item>@raw/cloche_eglise</item>
+        <item>@raw/ding</item>
+        <item>@raw/metallophone</item>
+        <item>@raw/pouet_pouet</item>
+        <item>@raw/sonar</item>
+    </integer-array>
 
 </resources>

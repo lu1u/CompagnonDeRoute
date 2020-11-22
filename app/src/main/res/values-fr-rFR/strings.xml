@@ -18,18 +18,9 @@
     <string name="next_alarm_ui">Prochain carillon %1$s</string>
     <string name="sms_answer">Merci pour votre message. Je ne peux pas vous répondre actuellement.\nJe vous répondrai dès que possible</string>
     <string name="call_answer">Merci pour votre appel. Je ne suis pas disponible actuellement.\nJe vous répondrai dès que possible</string>
-    <string name="ui_say_hour">Annoncer l\'heure:</string>
-    <string name="ui_never">Jamais</string>
     <string name="ui_hour">Heures</string>
     <string name="ui_half">Demi</string>
     <string name="ui_quarter">Quart</string>
-    <string name="ui_read_incoming_messages">Lire les messages entrants</string>
-    <string name="ui_read_sms_body">Lire aussi le contenu du message</string>
-    <string name="ui_announce_incoming_messages">Répondre aux messages entrants:</string>
-    <string name="ui_announce_incoming_calls">Annoncer les appels entrants:</string>
-    <string name="ui_answer_incoming_call">Répondre aux appels entrants:</string>
-    <string name="ui_always">Toujours</string>
-    <string name="ui_contact_only">Contacts seulement</string>
     <string name="deactivated">Désactivé</string>
     <string name="received_whatsapp">Message Whatsapp reçu de %1$s: %2$s</string>
     <string name="received_whatsapp_null">Message WhatsApp reçu</string>
@@ -45,5 +36,32 @@
     <string name="ui_contacts_seulement">Contacts seulement</string>
     <string name="ui_parametres_horloge">Paramètres horloge:</string>
     <string name="ui_annoncer_l_heure">Annoncer l\'heure:</string>
+    <string name="sms_copyright_reponse_automatique">\n(Message envoyé automatiquement par l\'application Compagnon de Route (c)2019 Lucien Pilloni)</string>
+    <string name="ui_a_propos_icones">Source des icônes https://materialdesignicons.com/</string>
+    <string name="ui_a_propos_code">Quelques morceaux de code: https://stackoverflow.com/</string>
+    <string name="ui_horloge">Horloge:</string>
+    <string name="ui_messages">Messages:</string>
+    <string name="ui_appels">Appels:</string>
+    <string name="ui_horl">Horloge</string>
+    <string name="ui_sms">Sms</string>
+    <string name="ui_phone">Téléphone</string>
+    <string name="ui_whatsapp_calls">WhatsApp</string>
+    <string name="ui_volume">Volume</string>
+    <string name="ui_parametres">Paramètres</string>
+    <string name="ui_emails">Mails</string>
+    <string name="ui_whatsapp">WhatsApp</string>
+
+    <string name="ui_volume_defaut">Volume par défaut du système</string>
+    <string name="ui_sortie_audio">Sortie audio:</string>
+    <string name="ui_forcer_haut_parleur">Forcer la sortie audio vers le haut-parleur du téléphone quand un périphérique Bluetooth est connecté</string>
+    <string name="ui_apres_demarrage">Après un redémarrage</string>
+    <string name="ui_reactivate_after_restart">Réactiver si le Compagnon était actif avant le redémarrage</string>
+    <string name="ui_notifications">Notifications:</string>
+    <string name="ui_permissions_system">Changer les permissions système d\'interception des notifications</string>
+    <string name="menu_parametres">Parameters</string>
+    <string name="menu_tts">Text to speech synthesis</string>
+    <string name="menu_apropos">About...</string>
+    <string name="menu_report">Report</string>
+    <string name="ui_notidication_sound">Notification sound:</string>
 
 </resources>

@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 public class DialogAPropos
 {
-	public static void start(Activity activity)
+	public static void start(@NonNull final Activity activity)
 	{
 		final AlertDialog dialogBuilder = new AlertDialog.Builder(activity).create();
 		LayoutInflater inflater = activity.getLayoutInflater();

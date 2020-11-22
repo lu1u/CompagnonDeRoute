@@ -6,7 +6,6 @@
     android:padding="@dimen/marge_ecran_parametre">
 
     <TextView
-        android:id="@+id/textView11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_phone"
@@ -16,12 +15,10 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <Space
-        android:id="@+id/space"
         android:layout_width="match_parent"
         android:layout_height="16dp" />
 
     <TextView
-        android:id="@+id/textView12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ui_annoncer_les_appels" />

@@ -48,7 +48,7 @@ public class SmsListener extends BroadcastReceiver
 				// Pas actif
 				return;
 
-			if (!preferences.gererSMS.get())
+			if (!preferences.smsGerer.get())
 				// Ne pas lire les SMS
 				return;
 
@@ -92,13 +92,13 @@ public class SmsListener extends BroadcastReceiver
 	private void annonceSms(final Context context, final SmsMessage message)
 	{
 		Preferences preferences = Preferences.getInstance(context);
-		final boolean expediteur = preferences.lireExpediteurSMS.get();
-		final int contenu = preferences.lireContenuSms.get();
+		final boolean expediteur = preferences.smsLireExpediteur.get();
+		final boolean contenu = preferences.smsLireContenu.get();
 
 		String contact = ContactUtils.getContactFromNumber(context, message.getOriginatingAddress());
 		if (contact == null)
 		{
-			if (preferences.lireSMS.get() == Preferences.CONTACTS_SEULS)
+			if (preferences.smsAnnoncer.get() == Preferences.CONTACTS_SEULS)
 			{
 				// N'afficher que les sms provenant d'un contact enregistré
 				return;
@@ -109,17 +109,17 @@ public class SmsListener extends BroadcastReceiver
 
 		int messageId = R.string.received_sms;
 
-		if (expediteur && contenu != Preferences.JAMAIS)
+		if (expediteur && contenu)
 			messageId = R.string.received_sms_sender_and_body;
 		else
 		{
 			if (expediteur)
 				messageId = R.string.received_sms_sender;
-			else if (contenu != Preferences.JAMAIS)
+			else if (contenu)
 				messageId = R.string.received_sms_body;
 		}
 
-		TTSService.speakFromAnywhere(context, R.raw.beep, preferences.volumeDefaut.get() ? preferences.volume.get() : -1, messageId, contact, message.getDisplayMessageBody());
+		TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, messageId, contact, message.getDisplayMessageBody());
 	}
 
 	/***
@@ -131,13 +131,13 @@ public class SmsListener extends BroadcastReceiver
 	private void repondreSms(final Context context, final SmsMessage message, int subscriptionId)
 	{
 		Preferences preferences = Preferences.getInstance(context);
-		if (preferences.repondreSms.get() == Preferences.JAMAIS)
+		if (preferences.smsRepondre.get() == Preferences.JAMAIS)
 			return;
 
 		String contact = ContactUtils.getContactFromNumber(context, message.getOriginatingAddress());
 		if (contact == null)
 		{
-			if (preferences.repondreSms.get() == Preferences.CONTACTS_SEULS)
+			if (preferences.smsRepondre.get() == Preferences.CONTACTS_SEULS)
 			{
 				// N'afficher que les sms provenant d'un contact enregistré
 				return;
@@ -147,7 +147,7 @@ public class SmsListener extends BroadcastReceiver
 		}
 		// Renvoyer un SMS
 		send(context, contact,
-				Preferences.getInstance(context).reponseSms.get() + "\n(Message envoyé automatiquement par l'application Compagnon de Route (c)2019 Lucien Pilloni)",
+				Preferences.getInstance(context).smsReponse.get() + context.getString(R.string.sms_copyright_reponse_automatique),
 				subscriptionId);
 	}
 

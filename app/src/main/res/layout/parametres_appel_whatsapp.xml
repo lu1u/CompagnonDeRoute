@@ -6,7 +6,6 @@
     android:padding="@dimen/marge_ecran_parametre">
 
     <TextView
-        android:id="@+id/textView11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_message"
@@ -16,12 +15,10 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <Space
-        android:id="@+id/space"
         android:layout_width="match_parent"
         android:layout_height="16dp" />
 
     <CheckBox
-        android:id="@+id/checkBoxAnnoncerExpediteur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Annoncer l'appelant si disponible" />

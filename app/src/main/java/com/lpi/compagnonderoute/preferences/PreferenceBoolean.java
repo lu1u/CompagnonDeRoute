@@ -1,28 +1,49 @@
 package com.lpi.compagnonderoute.preferences;
 
-import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.NonNull;
 
-public class PreferenceBoolean
+public class PreferenceBoolean extends PreferenceValue
 {
-	private String _name;
-	private boolean _value;
-	private SharedPreferences.Editor _editor;
 
-	public PreferenceBoolean(@NonNull SharedPreferences settings, @NonNull final String name, boolean defaut)
+	public PreferenceBoolean(@NonNull final SQLiteDatabase database, @NonNull final String nom, final boolean defaut)
 	{
-		_editor = settings.edit();
-		_name = name;
-		_value = settings.getBoolean(name, defaut);
+		super(database, nom, Boolean.toString(defaut));
 	}
 
-	public boolean get() { return _value; }
+	public boolean get()
+	{
+		try
+		{
+			return isBoolean(_valeur);
+		} catch (Exception e)
+		{
+			return false;
+		}
+	}
+
+	private static boolean isBoolean(@NonNull final String valeur)
+	{
+		switch (valeur.toLowerCase())
+		{
+			case "true":
+			case "vrai":
+			case "1":
+				return true;
+
+			default:
+				return false;
+		}
+	}
 
 	public void set(boolean v)
 	{
-		_value = v;
-		_editor.putBoolean(_name, v);
-		_editor.apply();
+		setValue(booleanString(v));
+	}
+
+	private @NonNull String booleanString(final boolean v)
+	{
+		return v ? "1" : "0";
 	}
 }

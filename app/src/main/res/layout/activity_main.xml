@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/marge_ecran_parametre"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,21 +12,19 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/fond_bouton"
-        android:padding="8dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/imageButtonActiver"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/taille_bouton"
             android:layout_height="@dimen/taille_bouton"
-            android:layout_marginStart="8dp"
-            android:layout_weight="0.7"
             android:background="#0000"
             android:scaleType="fitCenter"
             android:tintMode="add"
-            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,423 +32,300 @@
 
         <ImageButton
             android:id="@+id/imageButtonDesactiver"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/taille_bouton"
             android:layout_height="@dimen/taille_bouton"
-            android:layout_marginStart="8dp"
-            android:layout_weight="0.7"
             android:background="#0000"
             android:scaleType="fitCenter"
             android:tintMode="add"
-            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icstopcircle" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/textViewStatus"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="marquee"
-        android:focusable="auto"
-        android:focusableInTouchMode="true"
-        android:gravity="center_horizontal|center_vertical"
-        android:marqueeRepeatLimit="1"
-        android:text=""
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ScrollView
-        android:layout_width="match_parent"
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:overScrollMode="ifContentScrolls"
-        android:scrollbarStyle="outsideInset"
-        app:layout_constraintBottom_toTopOf="@+id/textViewStatus"
+        app:layout_constraintBottom_toTopOf="@+id/textViewMessage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-        <LinearLayout
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_margin="@dimen/marge_categories">
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:orientation="vertical"
-                android:paddingLeft="8dp"
-                android:paddingTop="16dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toggleButtonActif">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_clock"
-                    android:drawableTint="@color/Primary"
-                    android:text="@string/ui_say_hour" />
-
-                <RadioGroup
-                    android:id="@+id/radiogroupAnnonceHeure"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radioButtonAnnonceJamais"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector_gauche"
-                        android:button="@android:color/transparent"
-                        android:checked="true"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_never"
-                        android:textColor="@color/colorTexteBoutons" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonAnnonceHeure"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_hour"
-                        android:textColor="@color/colorTexteBoutons" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonAnnonceDemi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_half"
-                        android:textColor="@color/colorTexteBoutons" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonAnnonceQuart"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector_droite"
-                        android:button="@android:color/transparent"
-                        android:checked="true"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_quarter"
-                        android:textColor="@color/colorTexteBoutons" />
-
-                </RadioGroup>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingLeft="8dp"
-                android:paddingTop="16dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="16dp"
+                android:text="@string/ui_horloge"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_message"
-                    android:drawableTint="@color/Primary"
-                    android:text="@string/ui_read_incoming_messages" />
-
-                <RadioGroup
-                    android:id="@+id/radiogroupLireSMS"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radioButtonSMSJamais"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector_gauche"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="Jamais"
-                        android:textColor="@color/colorTexteBoutons" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonSMSToujours"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector"
-                        android:button="@android:color/transparent"
-                        android:checked="true"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="Toujours"
-                        android:textColor="@color/colorTexteBoutons" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonSMSContacts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector_droite"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="Contacts seulement"
-                        android:textColor="@color/colorTexteBoutons" />
-
-                </RadioGroup>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:gravity="top"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/marge_categories"
-                        android:layout_weight="0.9"
-                        android:drawableStart="@drawable/ic_message"
-                        android:drawableTint="@color/Primary"
-                        android:text="@string/ui_announce_incoming_messages" />
-
-                    <ImageButton
-                        android:id="@+id/imageButtonReponseSMS"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.1"
-                        android:background="@android:color/transparent"
-                        android:drawableTint="@color/AccentLight"
-                        android:foregroundTint="@color/PrimaryDark"
-                        android:foregroundTintMode="multiply"
-                        android:tint="@color/PrimaryDark"
-                        app:srcCompat="@drawable/ic_cog" />
-                </LinearLayout>
-
-                <RadioGroup
-                    android:id="@+id/radiogroupRepondreSms"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radioButtonSMSRepondreJamais"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector_gauche"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="Jamais"
-                        android:textColor="@color/colorTexteBoutons" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonSMSRepondreToujours"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="Toujours"
-                        android:textColor="@color/colorTexteBoutons" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonSMSRepondreContacts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector_droite"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="Contacts seulement"
-                        android:textColor="@color/colorTexteBoutons" />
-
-                </RadioGroup>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/padding_toggle"
+                android:text="@string/ui_horl"
+                app:layout_constraintBottom_toBottomOf="@+id/switchHorloge"
+                app:layout_constraintStart_toEndOf="@+id/switchSMS"
+                app:layout_constraintTop_toTopOf="@+id/switchHorloge" />
+
+            <Switch
+                android:id="@+id/switchHorloge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_clock"
+                android:drawableTint="@color/Primary"
+                android:paddingVertical="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettingsHorloge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonSettingsHorloge" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:orientation="vertical"
-                android:paddingLeft="8dp"
-                android:paddingTop="16dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="16dp"
+                android:text="@string/ui_messages"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+                app:layout_constraintTop_toBottomOf="@+id/switchHorloge" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_phone"
-                    android:drawableTint="@color/Primary"
-                    android:text="@string/ui_announce_incoming_calls" />
+            <Switch
+                android:id="@+id/switchSMS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_message"
+                android:drawableTint="@color/Primary"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettingsSMS"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonSettingsSMS" />
 
-                <RadioGroup
-                    android:id="@+id/radiogroupAnnoncerAppels"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ui_sms"
+                app:layout_constraintBottom_toBottomOf="@+id/switchSMS"
+                app:layout_constraintStart_toStartOf="@+id/textView10"
+                app:layout_constraintTop_toTopOf="@+id/switchSMS" />
 
-                    <RadioButton
-                        android:id="@+id/radioAnnoncerAppelsJamais"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector_gauche"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_never"
-                        android:textColor="@color/colorTexteBoutons" />
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                android:padding="@dimen/marge_ecran_parametre"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switchSMS" />
 
-                    <RadioButton
-                        android:id="@+id/radioAnnoncerAppelsToujours"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_always"
-                        android:textColor="@color/colorTexteBoutons" />
+            <Switch
+                android:id="@+id/switchEMails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:drawableLeft="@drawable/ic_email"
+                android:drawableTint="@color/Primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-                    <RadioButton
-                        android:id="@+id/radioAnnoncerAppelsContacts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector_droite"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_contact_only"
-                        android:textColor="@color/colorTexteBoutons" />
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ui_emails"
+                app:layout_constraintBottom_toBottomOf="@+id/switchEMails"
+                app:layout_constraintStart_toStartOf="@+id/textView10"
+                app:layout_constraintTop_toTopOf="@+id/switchEMails" />
 
-                </RadioGroup>
+            <Switch
+                android:id="@+id/switchWhatsApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:drawableLeft="@drawable/ic_whatsapp"
+                android:drawableTint="@color/Primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:gravity="top"
-                    android:orientation="horizontal">
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                android:padding="@dimen/marge_ecran_parametre"
+                app:layout_constraintTop_toBottomOf="@+id/switchEMails" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/marge_categories"
-                        android:layout_weight="0.9"
-                        android:drawableStart="@drawable/ic_phone"
-                        android:drawableTint="@color/Primary"
-                        android:text="@string/ui_answer_incoming_call" />
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ui_whatsapp"
+                app:layout_constraintBottom_toBottomOf="@+id/switchWhatsApp"
+                app:layout_constraintStart_toStartOf="@+id/textView10"
+                app:layout_constraintTop_toTopOf="@+id/switchWhatsApp" />
 
-                    <ImageButton
-                        android:id="@+id/imageButtonReponseAppels"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.1"
-                        android:background="@android:color/transparent"
-                        android:tint="@color/PrimaryDark"
-                        app:srcCompat="@drawable/ic_cog" />
-                </LinearLayout>
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/ui_appels"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switchWhatsApp" />
 
-                <RadioGroup
-                    android:id="@+id/radiogroupRepondreAppels"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+            <Switch
+                android:id="@+id/switchTelephone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_phone"
+                android:drawableTint="@color/Primary"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettingsTelephone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonSettingsTelephone" />
 
-                    <RadioButton
-                        android:id="@+id/radioButtonAppelsJamais"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector_gauche"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_never"
-                        android:textColor="@color/colorTexteBoutons" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ui_phone"
+                app:layout_constraintBottom_toBottomOf="@+id/switchTelephone"
+                app:layout_constraintStart_toStartOf="@+id/textView10"
+                app:layout_constraintTop_toTopOf="@+id/switchTelephone" />
 
-                    <RadioButton
-                        android:id="@+id/radioButtonAppelsToujours"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_always"
-                        android:textColor="@color/colorTexteBoutons" />
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider"
+                android:padding="@dimen/marge_ecran_parametre"
+                app:layout_constraintTop_toBottomOf="@+id/switchTelephone" />
 
-                    <RadioButton
-                        android:id="@+id/radioButtonAppelsContacts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/toggle_selector_droite"
-                        android:button="@android:color/transparent"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:padding="@dimen/padding_toggle"
-                        android:text="@string/ui_contact_only"
-                        android:textColor="@color/colorTexteBoutons" />
+            <Switch
+                android:id="@+id/switchAppelWhatsApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:drawableLeft="@drawable/ic_whatsapp"
+                android:drawableTint="@color/Primary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
-                </RadioGroup>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ui_whatsapp_calls"
+                app:layout_constraintBottom_toBottomOf="@+id/switchAppelWhatsApp"
+                app:layout_constraintStart_toStartOf="@+id/textView10"
+                app:layout_constraintTop_toTopOf="@+id/switchAppelWhatsApp" />
 
-            </LinearLayout>
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/imageButtonSettingsHorloge"
+                android:layout_width="@dimen/taille_bouton_settings"
+                android:layout_height="@dimen/taille_bouton_settings"
+                android:layout_marginTop="@dimen/espace_premier_item"
+                android:layout_marginEnd="@dimen/ecart_bouton_droite"
+                android:background="@drawable/ripple_effect"
+                android:scaleType="fitCenter"
+                android:tint="@color/Accent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                app:srcCompat="@drawable/ic_cog" />
+
+            <ImageButton
+                android:id="@+id/imageButtonSettingsSMS"
+                android:layout_width="@dimen/taille_bouton_settings"
+                android:layout_height="@dimen/taille_bouton_settings"
+                android:layout_marginTop="@dimen/espace_premier_item"
+                android:background="@drawable/ripple_effect"
+                android:scaleType="fitCenter"
+                android:tint="@color/Accent"
+                app:layout_constraintEnd_toEndOf="@+id/imageButtonSettingsHorloge"
+                app:layout_constraintStart_toStartOf="@+id/imageButtonSettingsHorloge"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                app:srcCompat="@drawable/ic_cog" />
+
+            <ImageButton
+                android:id="@+id/imageButtonSettingsEMails"
+                android:layout_width="@dimen/taille_bouton_settings"
+                android:layout_height="@dimen/taille_bouton_settings"
+                android:background="@drawable/ripple_effect"
+                android:scaleType="fitCenter"
+                android:tint="@color/Accent"
+                app:layout_constraintBottom_toBottomOf="@+id/switchEMails"
+                app:layout_constraintEnd_toEndOf="@+id/imageButtonSettingsHorloge"
+                app:layout_constraintStart_toStartOf="@+id/imageButtonSettingsHorloge"
+                app:layout_constraintTop_toTopOf="@+id/switchEMails"
+                app:srcCompat="@drawable/ic_cog" />
+
+            <ImageButton
+                android:id="@+id/imageButtonSettingsWhatsAppMessages"
+                android:layout_width="@dimen/taille_bouton_settings"
+                android:layout_height="@dimen/taille_bouton_settings"
+                android:background="@drawable/ripple_effect"
+                android:scaleType="fitCenter"
+                android:tint="@color/Accent"
+                app:layout_constraintBottom_toBottomOf="@+id/switchWhatsApp"
+                app:layout_constraintEnd_toEndOf="@+id/imageButtonSettingsHorloge"
+                app:layout_constraintStart_toStartOf="@+id/imageButtonSettingsHorloge"
+                app:layout_constraintTop_toTopOf="@+id/switchWhatsApp"
+                app:srcCompat="@drawable/ic_cog" />
+
+            <ImageButton
+                android:id="@+id/imageButtonSettingsTelephone"
+                android:layout_width="@dimen/taille_bouton_settings"
+                android:layout_height="@dimen/taille_bouton_settings"
+                android:layout_marginTop="@dimen/espace_premier_item"
+                android:background="@drawable/ripple_effect"
+                android:scaleType="fitCenter"
+                android:tint="@color/Accent"
+                app:layout_constraintEnd_toEndOf="@+id/imageButtonSettingsHorloge"
+                app:layout_constraintStart_toStartOf="@+id/imageButtonSettingsHorloge"
+                app:layout_constraintTop_toBottomOf="@+id/textView18"
+                app:srcCompat="@drawable/ic_cog" />
+
+            <ImageButton
+                android:id="@+id/imageButtonSettingsWhatsAppAppel"
+                android:layout_width="@dimen/taille_bouton_settings"
+                android:layout_height="@dimen/taille_bouton_settings"
+                android:background="@drawable/ripple_effect"
+                android:scaleType="fitCenter"
+                android:tint="@color/Accent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imageButtonSettingsHorloge"
+                app:layout_constraintStart_toStartOf="@+id/imageButtonSettingsHorloge"
+                app:layout_constraintTop_toTopOf="@+id/switchAppelWhatsApp"
+                app:srcCompat="@drawable/ic_cog" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <TextView
+        android:id="@+id/textViewMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,7 @@ public class NotificationGMail
 	 * Notification de GMail
 	 * @param sbn
 	 */
-	public static void reception(@NonNull final Context context, final StatusBarNotification sbn)
+	public static void reception(@NonNull final Context context, @NonNull final StatusBarNotification sbn)
 	{
 		Report r = Report.getInstance(context);
 		Preferences preferences = Preferences.getInstance(context);
@@ -30,7 +30,7 @@ public class NotificationGMail
 			r.log(Report.DEBUG, "Notification groupee de GMail, ignorer");
 			return;
 		}
-		if (!preferences.gererMails.get())
+		if (!preferences.eMailsGerer.get())
 		{
 			// Ne pas s'occuper de WhatsApp
 			r.log(Report.DEBUG, "Messages Gmail désactivés");
@@ -71,9 +71,9 @@ public class NotificationGMail
 			}
 
 			if (expediteur != null && sujet != null)
-				TTSService.speakFromAnywhere(context, R.raw.beep, preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.received_gmail, expediteur, sujet);
+				TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.received_gmail, expediteur, sujet);
 			else
-				TTSService.speakFromAnywhere(context, R.raw.beep, preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.received_gmail_null);
+				TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.received_gmail_null);
 
 		} catch (Exception e)
 		{

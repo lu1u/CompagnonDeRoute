@@ -1,28 +1,24 @@
 package com.lpi.compagnonderoute.preferences;
 
-import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.NonNull;
 
-public class PreferenceString
+public class PreferenceString extends PreferenceValue
 {
-	private String _name;
-	private String _value;
-	private SharedPreferences.Editor _editor;
 
-	public PreferenceString(@NonNull SharedPreferences settings, @NonNull final String name, String defaut)
+	public PreferenceString(@NonNull final SQLiteDatabase database, @NonNull final String nom, final String defaut)
 	{
-		_editor = settings.edit();
-		_name = name;
-		_value = settings.getString(name, defaut);
+		super(database, nom, defaut);
 	}
 
-	public String get() { return _value; }
+	public String get()
+	{
+		return _valeur;
+	}
 
 	public void set(String v)
 	{
-		_value = v;
-		_editor.putString(_name, v);
-		_editor.apply();
+		setValue(v);
 	}
 }

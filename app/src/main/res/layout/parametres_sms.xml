@@ -7,7 +7,6 @@
     android:padding="@dimen/marge_ecran_parametre">
 
     <TextView
-        android:id="@+id/textView11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_message"
@@ -17,12 +16,10 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <Space
-        android:id="@+id/space"
         android:layout_width="match_parent"
         android:layout_height="16dp" />
 
     <TextView
-        android:id="@+id/textView12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Annoncer les SMS" />
@@ -66,7 +63,6 @@
         android:text="Annoncer le contenu" />
 
     <TextView
-        android:id="@+id/textView15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Réponse automatique:" />
@@ -100,7 +96,8 @@
         android:id="@+id/textViewReponse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/AccentLight"
+        android:background="@drawable/modal_background"
+        android:padding="4dp"
         android:singleLine="false"
         android:text="TextView" />
 

@@ -6,7 +6,5 @@
     <color name="PrimaryDark">#37474F</color>
     <color name="PrimaryLight">#90A4AE</color>
     <color name="Accent">#2196F3</color>
-    <color name="AccentDark">#1976D2</color>
     <color name="AccentLight">#64B5F6</color>
-    <color name="colorTexteBoutons">#fff</color>
 </resources>

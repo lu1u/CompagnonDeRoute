@@ -138,8 +138,10 @@ public class TTSService extends Service
 			try
 			{
 				String message = intent.getStringExtra(MESSAGE_EXTRA);
+				int idSon = intent.getIntExtra(SOUNDID_EXTRA, 0);
+
 				// Android: un foreground service doit obligatoirement afficher une notification
-				startForeground((int) System.currentTimeMillis(), getNotification(this, message, message));
+				startForeground((int) System.currentTimeMillis(), getNotification(this, message, message, idSon));
 
 				if (message != null)
 				{
@@ -181,7 +183,7 @@ public class TTSService extends Service
 	 * @return
 	 */
 	public static @NonNull
-	android.app.Notification getNotification(@NonNull Context context, @NonNull final String texte, @NonNull final String texteResume)
+	android.app.Notification getNotification(@NonNull Context context, @NonNull final String texte, @NonNull final String texteResume, int idSon)
 	{
 		Intent ii = new Intent(context.getApplicationContext(), MainActivity.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, ii, 0);
@@ -200,7 +202,7 @@ public class TTSService extends Service
 				.setLights(0, 1, 1)
 				.setPriority(NotificationCompat.PRIORITY_MIN)
 				.setAutoCancel(true)
-				.setSound(getUri(context, R.raw.beep));
+				.setSound(getUri(context, idSon));
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
 		{
@@ -213,7 +215,7 @@ public class TTSService extends Service
 
 			final NotificationManager nm = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 			NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, appName, NotificationManager.IMPORTANCE_DEFAULT);
-			notificationChannel.setSound(getUri(context, R.raw.beep), att);
+			notificationChannel.setSound(getUri(context, idSon), att);
 			notificationChannel.setShowBadge(false);
 			notificationChannel.setImportance(NotificationManager.IMPORTANCE_DEFAULT);
 			notificationChannel.enableLights(false);

@@ -25,14 +25,14 @@ public class ParametresMessagesWhatsApp
 		// Annoncer l'expediteur du sms
 		{
 			CheckBox cbAnnoncerExpediteur = dialogView.findViewById(R.id.checkBoxExpediteur);
-			cbAnnoncerExpediteur.setChecked(preferences.MessageWhatsAppLireExpediteur.get());
+			cbAnnoncerExpediteur.setChecked(preferences.messageWhatsAppLireExpediteur.get());
 			cbAnnoncerExpediteur.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 			{
 				@Override
 				public void onCheckedChanged(final CompoundButton compoundButton, final boolean b)
 				{
 					if (compoundButton.isPressed())
-						preferences.MessageWhatsAppLireExpediteur.set(b);
+						preferences.messageWhatsAppLireExpediteur.set(b);
 				}
 			});
 		}

@@ -29,7 +29,7 @@ public class ParametresEMails
 			cbExpediteur.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 			{
 				@Override
-				public void onCheckedChanged(final CompoundButton compoundButton, final boolean b)
+				public void onCheckedChanged(@NonNull final CompoundButton compoundButton, final boolean b)
 				{
 					if (compoundButton.isPressed())
 						preferences.eMailsAnnonceExpediteur.set(b);
@@ -44,7 +44,7 @@ public class ParametresEMails
 			cbSujet.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 			{
 				@Override
-				public void onCheckedChanged(final CompoundButton compoundButton, final boolean b)
+				public void onCheckedChanged(@NonNull final CompoundButton compoundButton, final boolean b)
 				{
 					if (compoundButton.isPressed())
 						preferences.eMailsAnnonceSujet.set(b);

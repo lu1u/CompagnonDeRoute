@@ -14,6 +14,13 @@ import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.report.Report;
 import com.lpi.compagnonderoute.tts.TTSService;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Reception des notifications WhatsApp
+// TODO: differencier messages et appels, notificitations "systeme"
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class NotificationWhatsApp
 {
 	/***
@@ -24,7 +31,18 @@ class NotificationWhatsApp
 	{
 		Report r = Report.getInstance(context);
 		r.log(Report.HISTORIQUE, "Notification WhatsApp");
-		if ((sbn.getNotification().flags & Notification.FLAG_GROUP_SUMMARY) != 0)
+		r.log(Report.DEBUG, "FLAG_ONGOING_EVENT " + (sbn.getNotification().flags | Notification.FLAG_ONGOING_EVENT));
+		r.log(Report.DEBUG, "FLAG_INSISTENT " + (sbn.getNotification().flags | Notification.FLAG_INSISTENT));
+		r.log(Report.DEBUG, "FLAG_ONLY_ALERT_ONCE " + (sbn.getNotification().flags | Notification.FLAG_ONLY_ALERT_ONCE));
+		r.log(Report.DEBUG, "FLAG_AUTO_CANCEL " + (sbn.getNotification().flags | Notification.FLAG_AUTO_CANCEL));
+		r.log(Report.DEBUG, "FLAG_NO_CLEAR " + (sbn.getNotification().flags | Notification.FLAG_NO_CLEAR));
+		r.log(Report.DEBUG, "FLAG_FOREGROUND_SERVICE " + (sbn.getNotification().flags | Notification.FLAG_FOREGROUND_SERVICE));
+		r.log(Report.DEBUG, "FLAG_HIGH_PRIORITY " + (sbn.getNotification().flags | Notification.FLAG_HIGH_PRIORITY));
+		r.log(Report.DEBUG, "FLAG_LOCAL_ONLY " + (sbn.getNotification().flags | Notification.FLAG_LOCAL_ONLY));
+		r.log(Report.DEBUG, "FLAG_GROUP_SUMMARY " + (sbn.getNotification().flags | Notification.FLAG_GROUP_SUMMARY));
+
+		// Eliminer les notifications "systemes" telles que "recherche de messages", "whatsapp web actif"...
+		if ((sbn.getNotification().flags & (Notification.FLAG_GROUP_SUMMARY | Notification.FLAG_FOREGROUND_SERVICE)) != 0)
 		{
 			//Ignore the notification
 			r.log(Report.DEBUG, "Notification groupee de WhatsApp, ignorer");
@@ -32,7 +50,6 @@ class NotificationWhatsApp
 		}
 
 		Preferences preferences = Preferences.getInstance(context);
-
 		if (!preferences.messageWhatsAppActif.get())
 		{
 			// Ne pas s'occuper de WhatsApp
@@ -62,9 +79,9 @@ class NotificationWhatsApp
 			r.log(Report.DEBUG, ": " + message);
 
 			if (from != null && message != null)
-				TTSService.speakFromAnywhere(context, R.raw.beep, preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.received_whatsapp, from, message);
+				TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.received_whatsapp, from, message);
 			else
-				TTSService.speakFromAnywhere(context, R.raw.beep, preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.received_whatsapp_null);
+				TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.received_whatsapp_null);
 
 		} catch (Exception e)
 		{

@@ -26,11 +26,11 @@ public class Carillon
 	public static @Nullable
 	Calendar getProchaineNotification(@NonNull final Calendar maintenant, @NonNull final Preferences preferences)
 	{
-		switch (preferences.delaiAnnonceHeure.get())
-		{
-			case Preferences.JAMAIS:
-				return null;
+		if (!preferences.horlogeAnnoncer.get())
+			return null;
 
+		switch (preferences.horlogeDelai.get())
+		{
 			case Preferences.DELAI_ANNONCE_HEURE_HEURES:
 				return Plannificateur.prochaineHeure(maintenant);
 
@@ -41,7 +41,7 @@ public class Carillon
 				return Plannificateur.prochaineQuartDHeure(maintenant);
 
 			default: //??? On ne devrait jamais passer par la
-				Report.getInstance(null).log(Report.ERROR, "Delai Annonce Heure incorrect dans Carillon.getProchaineNotification " + preferences.delaiAnnonceHeure.get());
+				Report.getInstance(null).log(Report.ERROR, "Delai Annonce Heure incorrect dans Carillon.getProchaineNotification " + preferences.horlogeDelai.get());
 				return null;
 		}
 	}

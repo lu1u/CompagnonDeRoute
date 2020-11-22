@@ -134,7 +134,7 @@ public class Plannificateur
 		{
 			String messageUI = "";
 			Preferences preferences = Preferences.getInstance(context);
-			if (!preferences.actif.get() || !preferences.annonceHeure.get())
+			if (!preferences.actif.get() || !preferences.horlogeAnnoncer.get())
 			{
 				// Arreter toute plannification
 				//Notification.getInstance(context).cancel(context);

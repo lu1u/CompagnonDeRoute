@@ -34,11 +34,11 @@ public class ParametresSMS
 		// Option lire SMS
 		{
 			RadioGroup rgLireSMS = dialogView.findViewById(R.id.radiogroupLireSMS);
-			switch (preferences.lireSMS.get())
+			switch (preferences.smsAnnoncer.get())
 			{
-				case Preferences.JAMAIS:
-					rgLireSMS.check(R.id.radioButtonSMSJamais);
-					break;
+//				case Preferences.JAMAIS:
+//					rgLireSMS.check(R.id.radioButtonSMSJamais);
+//					break;
 				case Preferences.TOUJOURS:
 					rgLireSMS.check(R.id.radioButtonSMSToujours);
 					break;
@@ -54,17 +54,13 @@ public class ParametresSMS
 				{
 					switch (checkedId)
 					{
-						case R.id.radioButtonSMSJamais:
-							r.log(Report.HISTORIQUE, "Messages: jamais");
-							preferences.lireSMS.set(Preferences.JAMAIS);
-							break;
 						case R.id.radioButtonSMSToujours:
 							r.log(Report.HISTORIQUE, "Messages: toujours");
-							preferences.lireSMS.set(Preferences.TOUJOURS);
+							preferences.smsAnnoncer.set(Preferences.TOUJOURS);
 							break;
 						case R.id.radioButtonSMSContacts:
 							r.log(Report.HISTORIQUE, "Messages: contacts");
-							preferences.lireSMS.set(Preferences.CONTACTS_SEULS);
+							preferences.smsAnnoncer.set(Preferences.CONTACTS_SEULS);
 							break;
 					}
 				}
@@ -74,14 +70,14 @@ public class ParametresSMS
 		// Annoncer l'expediteur du sms
 		{
 			CheckBox cbAnnoncerExpediteur = dialogView.findViewById(R.id.checkBoxExpediteur);
-			cbAnnoncerExpediteur.setChecked(preferences.lireExpediteurSMS.get());
+			cbAnnoncerExpediteur.setChecked(preferences.smsLireExpediteur.get());
 			cbAnnoncerExpediteur.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 			{
 				@Override
 				public void onCheckedChanged(final CompoundButton compoundButton, final boolean b)
 				{
 					if (compoundButton.isPressed())
-						preferences.lireExpediteurSMS.set(b);
+						preferences.smsLireExpediteur.set(b);
 				}
 			});
 		}
@@ -89,14 +85,14 @@ public class ParametresSMS
 		// Annoncer le contenu du sms
 		{
 			CheckBox cbContenuSMS = dialogView.findViewById(R.id.checkBoxContenu);
-			cbContenuSMS.setChecked(preferences.lireContenuSms.get() != Preferences.JAMAIS);
+			cbContenuSMS.setChecked(preferences.smsLireContenu.get());
 			cbContenuSMS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 			{
 				@Override
 				public void onCheckedChanged(final CompoundButton compoundButton, final boolean b)
 				{
 					if (compoundButton.isPressed())
-						preferences.lireContenuSms.set(Preferences.CONTACTS_SEULS);
+						preferences.smsLireContenu.set(b);
 				}
 			});
 		}
@@ -104,7 +100,7 @@ public class ParametresSMS
 		// Reponse automatique
 		{
 			RadioGroup rgReponseAuto = dialogView.findViewById(R.id.radiogroupReponseAutoSMS);
-			switch (preferences.repondreSms.get())
+			switch (preferences.smsRepondre.get())
 			{
 				case Preferences.JAMAIS:
 					rgReponseAuto.check(R.id.radioButtonJamais);
@@ -124,17 +120,17 @@ public class ParametresSMS
 				{
 					switch (checkedId)
 					{
-						case R.id.radioButtonSMSJamais:
+						case R.id.radioButtonJamais:
 							r.log(Report.HISTORIQUE, "Reponse: jamais");
-							preferences.repondreSms.set(Preferences.JAMAIS);
+							preferences.smsRepondre.set(Preferences.JAMAIS);
 							break;
-						case R.id.radioButtonSMSToujours:
+						case R.id.radioButtonToujours:
 							r.log(Report.HISTORIQUE, "Reponse: toujours");
-							preferences.repondreSms.set(Preferences.TOUJOURS);
+							preferences.smsRepondre.set(Preferences.TOUJOURS);
 							break;
-						case R.id.radioButtonSMSContacts:
+						case R.id.radioButtonContacts:
 							r.log(Report.HISTORIQUE, "Reponse: contacts");
-							preferences.repondreSms.set(Preferences.CONTACTS_SEULS);
+							preferences.smsRepondre.set(Preferences.CONTACTS_SEULS);
 							break;
 					}
 				}
@@ -144,20 +140,20 @@ public class ParametresSMS
 		// Texte de la reponse automatique
 		{
 			final TextView tvReponse = dialogView.findViewById(R.id.textViewReponse);
-			tvReponse.setText(preferences.reponseSms.get());
+			tvReponse.setText(preferences.smsReponse.get());
 			tvReponse.setOnClickListener(new View.OnClickListener()
 			{
 				@Override
 				public void onClick(final View v)
 				{
 					ModalEditText.showEditText(context, R.layout.modal_edittext, R.id.textViewTitre, R.id.editText, R.id.buttonOK,
-							context.getResources().getString(R.string.ui_sms_reponse_auto), preferences.reponseSms.get(),
+							context.getResources().getString(R.string.ui_sms_reponse_auto), preferences.smsReponse.get(),
 							new ModalEditText.ModalEditListener()
 							{
 								@Override
 								public void onTextEdited(final String s)
 								{
-									preferences.reponseSms.set(s);
+									preferences.smsReponse.set(s);
 									context.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 									tvReponse.setText(s);
 								}
