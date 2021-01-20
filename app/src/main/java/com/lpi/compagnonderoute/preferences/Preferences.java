@@ -51,6 +51,9 @@ public class Preferences
 	@NonNull private static final String PREF_VOLUME = "volumef";
 	@NonNull private static final String PREF_FORCE_SORTIE = "forceSortie";
 	private static final String PREF_SON_NOTIFICATION = "sonNotification";
+	private static final String PREF_AUTRES_APPLIS = "autresApplications";
+	private static final String PREF_NOTIFICATION_TITRE = "notificationTitre ";
+	private static final String PREF_NOTIFICATION_CONTENU = "notificationContenu ";
 
 	private static Preferences _instance;
 	public PreferenceBoolean actif;
@@ -79,6 +82,9 @@ public class Preferences
 	// Messages WhatsApp
 	public PreferenceBoolean messageWhatsAppActif;
 
+	// Autres applications
+	public PreferenceBoolean autresApplisActif;
+
 	public static final int DELAI_ANNONCE_HEURE_HEURES = 1;
 	public static final int DELAI_ANNONCE_HEURE_DEMI = 2;
 	public PreferenceBoolean messageWhatsAppLireExpediteur;
@@ -88,6 +94,8 @@ public class Preferences
 	public PreferenceFloat volume;
 	public PreferenceBoolean volumeDefaut;
 
+	private SQLiteDatabase database;
+
 	/***
 	 * Constructeur privé du singleton Preferences, on doit passer par getInstance pour obtenir une
 	 * instance
@@ -95,7 +103,7 @@ public class Preferences
 	 */
 	private Preferences(@NonNull final Context context)
 	{
-		SQLiteDatabase database = getDatabase(context);
+		database = getDatabase(context);
 
 		// Activation
 		actif = new PreferenceBoolean(database, PREF_ACTIF, false);
@@ -136,6 +144,9 @@ public class Preferences
 		volume = new PreferenceFloat(database, PREF_VOLUME, TTSService.VOLUME_MAX);
 		forceSortie = new PreferenceInt(database, PREF_FORCE_SORTIE, TTSService.SORTIE_DEFAUT);
 		sonNotification = new PreferenceInt(database, PREF_SON_NOTIFICATION, 0);
+
+		// Autres applications
+		autresApplisActif = new PreferenceBoolean(database, PREF_AUTRES_APPLIS, false);
 	}
 
 	private SQLiteDatabase getDatabase(final Context context)
@@ -167,6 +178,30 @@ public class Preferences
 			return R.raw.beep;
 
 		return ids[i];
+	}
+
+	public boolean getNotificationTitre(final String packageName)
+	{
+		PreferenceBoolean pref = new PreferenceBoolean(database, PREF_NOTIFICATION_TITRE + packageName, false);
+		return pref.get();
+	}
+
+	public boolean getNotificationContenu(final String packageName)
+	{
+		PreferenceBoolean pref = new PreferenceBoolean(database, PREF_NOTIFICATION_CONTENU + packageName, false);
+		return pref.get();
+	}
+
+	public void setNotificationTitre(final String packageName, boolean b)
+	{
+		PreferenceBoolean pref = new PreferenceBoolean(database, PREF_NOTIFICATION_TITRE + packageName, false);
+		pref.set(b);
+	}
+
+	public void setNotificationContenu(final String packageName, boolean b)
+	{
+		PreferenceBoolean pref = new PreferenceBoolean(database, PREF_NOTIFICATION_CONTENU + packageName, false);
+		pref.set(b);
 	}
 
 	private class DatabaseHelper extends SQLiteOpenHelper

@@ -2,9 +2,9 @@
 <resources>
 
     <!-- Theme 1 -->
-    <color name="Primary">#607D8B</color>
-    <color name="PrimaryDark">#37474F</color>
-    <color name="PrimaryLight">#90A4AE</color>
-    <color name="Accent">#2196F3</color>
-    <color name="AccentLight">#64B5F6</color>
+    <color name="Primary">#1976d2</color>
+    <color name="PrimaryDark">#004ba0</color>
+    <color name="PrimaryLight">#63a4ff</color>
+    <color name="Accent">#e64a19</color>
+    <color name="AccentLight">#ff7d47</color>
 </resources>

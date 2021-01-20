@@ -20,6 +20,8 @@
     <string name="deactivated">Disabled</string>
     <string name="received_whatsapp">Whatsapp message received from %1$s: %2$s</string>
     <string name="received_whatsapp_null">New WhatsApp message</string>
+    <string name="received_autre_appli">Notification from %1$s, %2$s, %3$s</string>
+    <string name="received_autre_appli_null">Notification received from %1$s</string>
     <string name="received_gmail">New mail received from %1$s, %2$s</string>
     <string name="received_gmail_null">New mail received</string>
     <string name="besoin_accord_notification_listener">You need to grant permission to intercept messages from this application. The system settings screen will be displayed. Please check the option corresponding to Road Companion. Press Cancel if you do no want to grant permissions.</string>
@@ -61,4 +63,5 @@
     <string name="menu_report">Report</string>
     <string name="menu_notifications">Notification access permissions</string>
     <string name="ui_notidication_sound">Notification sound:</string>
+    <string name="ui_other_applications">Other applications</string>
 </resources>

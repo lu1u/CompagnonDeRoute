@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.lpi.compagnonderoute.notificationListener.NotificationListenerManager;
 import com.lpi.compagnonderoute.parametres.ParametresAppel;
 import com.lpi.compagnonderoute.parametres.ParametresAppelWhatsApp;
+import com.lpi.compagnonderoute.parametres.ParametresAutresApplis;
 import com.lpi.compagnonderoute.parametres.ParametresEMails;
 import com.lpi.compagnonderoute.parametres.ParametresHorloge;
 import com.lpi.compagnonderoute.parametres.ParametresMessagesWhatsApp;
@@ -43,9 +44,9 @@ public class MainActivity extends AppCompatActivity
 	// Intercepte les messages du plannificateur pour maj l'interface utilisateur
 	@NonNull final IntentFilter _intentFilter = new IntentFilter(Plannificateur.ACTION_MESSAGE_UI);
 	Preferences _preferences;
-	private Switch _swSMS, _swHorloge, _swEMails, _swMessageWhatsApp, _swAppelTelephone, _swAppelWhatsApp;
+	private Switch _swSMS, _swHorloge, _swEMails, _swMessageWhatsApp, _swAppelTelephone, _swAppelWhatsApp, _swAutresApplis;
 	private ImageButton _bActiver, _bDesactiver;
-	private ImageButton _bSettingsHorloge, _bSettingsSMS, _bSettingsEMails, _bSettingsMessageWhatsApp, _bSettingsTelephone, _bSettingsAppelWhatsApp;
+	private ImageButton _bSettingsHorloge, _bSettingsSMS, _bSettingsEMails, _bSettingsMessageWhatsApp, _bSettingsTelephone, _bSettingsAppelWhatsApp, _bSettingsAutresApplis;
 	private TextView _tvMessage;
 	// Broadcast receiver pour recevoir les message de mise a jour envoyes par les services
 	@NonNull final BroadcastReceiver _receiverMajUI = new BroadcastReceiver()
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity
 		_swMessageWhatsApp = findViewById(R.id.switchWhatsApp);
 		_swAppelTelephone = findViewById(R.id.switchTelephone);
 		_swAppelWhatsApp = findViewById(R.id.switchAppelWhatsApp);
+		_swAutresApplis = findViewById(R.id.switchOtherApp);
 
 		_bSettingsHorloge = findViewById(R.id.imageButtonSettingsHorloge);
 		_bSettingsSMS = findViewById(R.id.imageButtonSettingsSMS);
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity
 		_bSettingsMessageWhatsApp = findViewById(R.id.imageButtonSettingsWhatsAppMessages);
 		_bSettingsTelephone = findViewById(R.id.imageButtonSettingsTelephone);
 		_bSettingsAppelWhatsApp = findViewById(R.id.imageButtonSettingsWhatsAppAppel);
+		_bSettingsAutresApplis = findViewById(R.id.imageButtonSettingsOtherApps);
 
 		_tvMessage = findViewById(R.id.textViewMessage);
 	}
@@ -270,6 +273,27 @@ public class MainActivity extends AppCompatActivity
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////
+		// Intercepter Autres Applications
+		////////////////////////////////////////////////////////////////////////////////////////////
+		if (_swAutresApplis != null)
+		{
+			_swAutresApplis.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+			{
+				@Override
+				public void onCheckedChanged(@NonNull final CompoundButton compoundButton, final boolean checked)
+				{
+					if (compoundButton.isPressed())
+					{
+						if (checked)
+							activerAutresApplis();
+						else
+							_preferences.autresApplisActif.set(false);
+					}
+				}
+			});
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////////////
 		// Bouton Parametres Horloge
 		////////////////////////////////////////////////////////////////////////////////////////////
 		if (_bSettingsHorloge != null)
@@ -366,6 +390,20 @@ public class MainActivity extends AppCompatActivity
 				}
 			});
 		}
+
+		////////////////////////////////////////////////////////////////////////////////////////////
+		// Bouton Parametres Autres Applications
+		////////////////////////////////////////////////////////////////////////////////////////////
+		if (_bSettingsAutresApplis != null)
+		{
+			_bSettingsAutresApplis.setOnClickListener(new View.OnClickListener()
+			{
+				@Override public void onClick(final View view)
+				{
+					ParametresAutresApplis.start(MainActivity.this);
+				}
+			});
+		}
 	}
 
 	/***
@@ -436,6 +474,37 @@ public class MainActivity extends AppCompatActivity
 			{
 				_swMessageWhatsApp.setChecked(false);
 				prefs.messageWhatsAppActif.set(false);
+			}
+		});
+	}
+
+	/***
+	 * Activer la gestion des messages WhatsApp, apres verification des droits
+	 */
+	private void activerAutresApplis()
+	{
+		final Preferences prefs = Preferences.getInstance(this);
+		NotificationListenerManager.checkNotificationServiceEnabled(this, R.string.besoin_accord_notification_listener, new NotificationListenerManager.checkNotificationServiceEnabledListener()
+		{
+			// Deja autorisé, on peut cocher l'option
+			@Override public void onEnabled()
+			{
+				_swAutresApplis.setChecked(true);
+				prefs.autresApplisActif.set(true);
+			}
+
+			// Pas autorisé et l'utilisateur ne veut pas modifier les paramètres, interdire l'option
+			@Override public void onCancel()
+			{
+				_swAutresApplis.setChecked(false);
+				prefs.autresApplisActif.set(false);
+			}
+
+			// Pas autorisé, l'utilisateur a été redirigé vers l'écran de parametrage
+			@Override public void onSettings()
+			{
+				_swAutresApplis.setChecked(false);
+				prefs.autresApplisActif.set(false);
 			}
 		});
 	}
@@ -577,6 +646,7 @@ public class MainActivity extends AppCompatActivity
 		_swMessageWhatsApp.setChecked(_preferences.messageWhatsAppActif.get());
 		_swAppelTelephone.setChecked(_preferences.telephoneGerer.get());
 		_swAppelWhatsApp.setChecked(_preferences.appelsWhatsAppGerer.get());
+		_swAutresApplis.setChecked(_preferences.autresApplisActif.get());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -61,13 +61,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/ui_sortie_audio" />
+        android:text="@string/ui_sortie_audio"
+        tools:visibility="gone" />
 
     <CheckBox
         android:id="@+id/checkBoxForceSortie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/ui_forcer_haut_parleur" />
+        android:text="@string/ui_forcer_haut_parleur"
+        tools:visibility="gone" />
 
     <TextView
         android:layout_width="match_parent"
@@ -79,11 +81,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ui_reactivate_after_restart" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/ui_notifications" />
 
 </LinearLayout>

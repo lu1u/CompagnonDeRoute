@@ -35,7 +35,7 @@ public class PreferencesActivity //extends AppCompatActivity
 		LayoutInflater inflater = context.getLayoutInflater();
 		View dialogView = inflater.inflate(R.layout.activity_preferences, null);
 
-		// Reactiver apres reboot
+		// Choix de la sonnerie
 		{
 			ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, context.getResources().getStringArray(R.array.sons_notification));
 			spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -46,17 +46,9 @@ public class PreferencesActivity //extends AppCompatActivity
 			spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
 			{
 				MediaPlayer _mp;
-//				boolean selectionProgramme = true; // Pour eviter de reagir au premier setSelection
-
 				@Override
 				public void onItemSelected(final AdapterView<?> adapterView, final View view, final int selected, final long l)
 				{
-//					if ( selectionProgramme)
-//					{
-//						selectionProgramme = false;
-//						return;
-//					}
-
 					// Jouer la nouvelle sonnerie
 					if (_mp != null)
 					{

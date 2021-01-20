@@ -15,8 +15,8 @@ import com.lpi.compagnonderoute.report.Report;
  */
 public class NotificationListener extends android.service.notification.NotificationListenerService
 {
-	private static final String WHATSAPP_PACKAGE = "com.whatsapp";
-	private static final String GMAIL_PACKAGE = "com.google.android.gm";
+	public static final String WHATSAPP_PACKAGE = "com.whatsapp";
+	public static final String GMAIL_PACKAGE = "com.google.android.gm";
 
 	@Override
 	public void onListenerConnected()
@@ -64,7 +64,7 @@ public class NotificationListener extends android.service.notification.Notificat
 
 				default:
 					r.log(Report.DEBUG, "application inconnue");
-					dumpNotification(sbn.getNotification());
+					NotificationAutresApplis.reception(this, sbn);
 					break;
 			}
 		} catch (Exception e)
