@@ -44,7 +44,6 @@
         android:text="@string/ui_a_propos_icones" />
 
     <TextView
-        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ui_a_propos_code" />

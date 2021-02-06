@@ -10,7 +10,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewNomAppli"
         app:srcCompat="@drawable/fond_bouton" />
 
     <TextView
@@ -19,8 +19,9 @@
         android:layout_height="wrap_content"
         android:text="ddddd"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toBottomOf="@+id/switchContenu"
         app:layout_constraintStart_toEndOf="@+id/imageViewIcone"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/switchNomAppli" />
 
     <TextView
         android:id="@+id/textViewPackageName"
@@ -31,17 +32,24 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewNomAppli" />
 
     <Switch
+        android:id="@+id/switchNomAppli"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Application"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Switch
         android:id="@+id/switchTitre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Titre"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchNomAppli" />
 
     <Switch
         android:id="@+id/switchContenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:text="Contenu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchTitre" />

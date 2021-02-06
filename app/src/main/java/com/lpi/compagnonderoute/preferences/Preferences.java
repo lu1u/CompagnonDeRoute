@@ -1,23 +1,16 @@
 package com.lpi.compagnonderoute.preferences;
 
 import android.content.Context;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.lpi.compagnonderoute.R;
+import com.lpi.compagnonderoute.database.DatabaseHelper;
 import com.lpi.compagnonderoute.tts.TTSService;
 
 public class Preferences
 {
-	// Base de donnees
-	public static final String TABLE_PREFERENCES = "PREFERENCES";
-	public static final String COLONNE_NOM = "NOM";
-	public static final String COLONNE_VALEUR = "VALEUR";
-
 	public static final int JAMAIS = 0;
 	public static final int TOUJOURS = 1;
 	public static final int CONTACTS_SEULS = 2;
@@ -54,6 +47,7 @@ public class Preferences
 	private static final String PREF_AUTRES_APPLIS = "autresApplications";
 	private static final String PREF_NOTIFICATION_TITRE = "notificationTitre ";
 	private static final String PREF_NOTIFICATION_CONTENU = "notificationContenu ";
+	private static final String PREF_NOTIFICATION_NOM_APPLI = "notificationNomAppli";
 
 	private static Preferences _instance;
 	public PreferenceBoolean actif;
@@ -192,6 +186,13 @@ public class Preferences
 		return pref.get();
 	}
 
+	public boolean getNotificationNomAppli(final String packageName)
+	{
+		PreferenceBoolean pref = new PreferenceBoolean(database, PREF_NOTIFICATION_NOM_APPLI + packageName, false);
+
+		return pref.get();
+	}
+
 	public void setNotificationTitre(final String packageName, boolean b)
 	{
 		PreferenceBoolean pref = new PreferenceBoolean(database, PREF_NOTIFICATION_TITRE + packageName, false);
@@ -204,45 +205,9 @@ public class Preferences
 		pref.set(b);
 	}
 
-	private class DatabaseHelper extends SQLiteOpenHelper
+	public void setNotificationNomAppli(final String packageName, boolean b)
 	{
-		public static final int DATABASE_VERSION = 1;
-		public static final String DATABASE_NAME = "preferences.db";
-
-		public DatabaseHelper(Context context)
-		{
-			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-		{
-			try
-			{
-				Log.w(DatabaseHelper.class.getName(), "Upgrading database from version " + oldVersion + " to "
-						+ newVersion + ", which will destroy all old data");
-				db.execSQL("DROP TABLE IF EXISTS " + TABLE_PREFERENCES);
-				onCreate(db);
-			} catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
-		}
-
-		@Override public void onCreate(final SQLiteDatabase database)
-		{
-			try
-			{
-				String DATABASE_PREFERENCES_CREATE = "create table IF NOT EXISTS "
-						+ TABLE_PREFERENCES + "("
-						+ COLONNE_NOM + " TEXT NOT NULL, "
-						+ COLONNE_VALEUR + " text"
-						+ ");";
-				database.execSQL(DATABASE_PREFERENCES_CREATE);
-			} catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
-		}
+		PreferenceBoolean pref = new PreferenceBoolean(database, PREF_NOTIFICATION_NOM_APPLI + packageName, false);
+		pref.set(b);
 	}
 }

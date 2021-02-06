@@ -57,7 +57,10 @@ public class SmsListener extends BroadcastReceiver
 			if (bundle != null)
 			{
 				Object[] pdus = (Object[]) bundle.get("pdus");
+				StringBuilder body = new StringBuilder();
+				String sender = null;
 				if (pdus != null)
+				{
 					for (int i = 0; i < pdus.length; i++)
 					{
 						SmsMessage message;
@@ -70,12 +73,19 @@ public class SmsListener extends BroadcastReceiver
 						{
 							message = SmsMessage.createFromPdu((byte[]) pdus[i]);
 						}
+						body.append(message.getMessageBody());
+						if (sender == null)
+							sender = message.getOriginatingAddress();
+					}
 
-						annonceSms(context, message);
+					if (sender != null)
+					{
+						annonceSms(context, sender, body.toString());
 
 						int subscriptionId = bundle.getInt("subscription", -1);
-						repondreSms(context, message, subscriptionId);
+						repondreSms(context, sender, subscriptionId);
 					}
+				}
 			}
 		} catch (Exception e)
 		{
@@ -87,15 +97,16 @@ public class SmsListener extends BroadcastReceiver
 	/***
 	 * Annonce l'arrivee d'un sms
 	 * @param context
-	 * @param message
+	 * @param sender
+	 * @param body
 	 */
-	private void annonceSms(final Context context, final SmsMessage message)
+	private void annonceSms(final Context context, final String sender, final String body)
 	{
 		Preferences preferences = Preferences.getInstance(context);
 		final boolean expediteur = preferences.smsLireExpediteur.get();
 		final boolean contenu = preferences.smsLireContenu.get();
 
-		String contact = ContactUtils.getContactFromNumber(context, message.getOriginatingAddress());
+		String contact = ContactUtils.getContactFromNumber(context, sender);
 		if (contact == null)
 		{
 			if (preferences.smsAnnoncer.get() == Preferences.CONTACTS_SEULS)
@@ -104,7 +115,7 @@ public class SmsListener extends BroadcastReceiver
 				return;
 			}
 			else
-				contact = TTSService.formatNumeroTelephone(message.getOriginatingAddress());
+				contact = TTSService.formatNumeroTelephone(sender);
 		}
 
 		int messageId = R.string.received_sms;
@@ -119,22 +130,22 @@ public class SmsListener extends BroadcastReceiver
 				messageId = R.string.received_sms_body;
 		}
 
-		TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, messageId, contact, message.getDisplayMessageBody());
+		TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, messageId, contact, body);
 	}
 
 	/***
 	 * Reponse automatique par SMS
 	 * @param context
-	 * @param message
+	 * @param sender
 	 * @param subscriptionId
 	 */
-	private void repondreSms(final Context context, final SmsMessage message, int subscriptionId)
+	private void repondreSms(final Context context, final @NonNull String sender, int subscriptionId)
 	{
 		Preferences preferences = Preferences.getInstance(context);
 		if (preferences.smsRepondre.get() == Preferences.JAMAIS)
 			return;
 
-		String contact = ContactUtils.getContactFromNumber(context, message.getOriginatingAddress());
+		String contact = ContactUtils.getContactFromNumber(context, sender);
 		if (contact == null)
 		{
 			if (preferences.smsRepondre.get() == Preferences.CONTACTS_SEULS)
@@ -143,7 +154,7 @@ public class SmsListener extends BroadcastReceiver
 				return;
 			}
 			else
-				contact = message.getDisplayOriginatingAddress();
+				contact = sender;
 		}
 		// Renvoyer un SMS
 		send(context, contact,
@@ -170,13 +181,6 @@ public class SmsListener extends BroadcastReceiver
 				SubscriptionManager subscriptionManager = (context).getSystemService(SubscriptionManager.class);
 				if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
 				{
-					// TODO: Consider calling
-					//    ActivityCompat#requestPermissions
-					// here to request the missing permissions, and then overriding
-					//   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-					//                                          int[] grantResults)
-					// to handle the case where the user grants the permission. See the documentation
-					// for ActivityCompat#requestPermissions for more details.
 					return;
 				}
 				@Nullable SubscriptionInfo subscriptionInfo = subscriptionManager.getActiveSubscriptionInfo(subscriptionId);

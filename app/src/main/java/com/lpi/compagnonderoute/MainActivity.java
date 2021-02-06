@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
@@ -45,7 +44,8 @@ public class MainActivity extends AppCompatActivity
 	@NonNull final IntentFilter _intentFilter = new IntentFilter(Plannificateur.ACTION_MESSAGE_UI);
 	Preferences _preferences;
 	private Switch _swSMS, _swHorloge, _swEMails, _swMessageWhatsApp, _swAppelTelephone, _swAppelWhatsApp, _swAutresApplis;
-	private ImageButton _bActiver, _bDesactiver;
+	//private RadioGroup _rgGroupActiver;
+	private CustomOnOffSwitch _customOnOffSwitch;
 	private ImageButton _bSettingsHorloge, _bSettingsSMS, _bSettingsEMails, _bSettingsMessageWhatsApp, _bSettingsTelephone, _bSettingsAppelWhatsApp, _bSettingsAutresApplis;
 	private TextView _tvMessage;
 	// Broadcast receiver pour recevoir les message de mise a jour envoyes par les services
@@ -82,9 +82,8 @@ public class MainActivity extends AppCompatActivity
 	 */
 	private void initControles()
 	{
-		_bActiver = findViewById(R.id.imageButtonActiver);
-		_bDesactiver = findViewById(R.id.imageButtonDesactiver);
-
+		//_rgGroupActiver = findViewById(R.id.radioGroupActiver);
+		_customOnOffSwitch = findViewById(R.id.customOnOffSwitch);
 		_swSMS = findViewById(R.id.switchSMS);
 		_swHorloge = findViewById(R.id.switchHorloge);
 		_swEMails = findViewById(R.id.switchEMails);
@@ -104,55 +103,83 @@ public class MainActivity extends AppCompatActivity
 		_tvMessage = findViewById(R.id.textViewMessage);
 	}
 
-	/***
+	/***********************************************************************************************
 	 * Initialisation de la gestion de l'interface utilisateur
-	 */
+	 **********************************************************************************************/
 	private void initListeners()
 	{
 		final Report r = Report.getInstance(this);
 
-		if (_bActiver != null && _bDesactiver != null)
+		////////////////////////////////////////////////////////////////////////////////////////////
+		// Boutons Actif/Inactif
+		////////////////////////////////////////////////////////////////////////////////////////////
+		if (_customOnOffSwitch != null)
 		{
-			_bActiver.setOnClickListener(new View.OnClickListener()
+			_customOnOffSwitch.setOnCheckedChangeListener(new CustomOnOffSwitch.OnCheckedChangeListener()
 			{
-				@Override public void onClick(final View view)
+				@Override public void onCheckedChanged(final boolean checked)
 				{
-					r.log(Report.HISTORIQUE, "Activé");
-					_preferences.actif.set(true);
-					_bActiver.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_exit));
-					_bActiver.setVisibility(View.GONE);
-					_bDesactiver.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_enter));
-					_bDesactiver.setVisibility(View.VISIBLE);
-					Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.enabled), Toast.LENGTH_SHORT).show();
-					TTSService.speakFromAnywhere(MainActivity.this, _preferences.getSoundId(MainActivity.this),
-							_preferences.volumeDefaut.get() ? _preferences.volume.get() : -1,
-							MainActivity.this.getResources().getString(R.string.enabled));
-					Plannificateur.getInstance(MainActivity.this).plannifieProchaineNotification(MainActivity.this);
-				}
-			});
-
-			_bDesactiver.setOnClickListener(new View.OnClickListener()
-			{
-				@Override public void onClick(final View view)
-				{
-					r.log(Report.HISTORIQUE, "Désactivé");
-
-					_preferences.actif.set(false);
-					_bActiver.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_enter));
-					_bActiver.setVisibility(View.VISIBLE);
-					_bDesactiver.setAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.pop_exit));
-					_bDesactiver.setVisibility(View.GONE);
-					Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.disabled), Toast.LENGTH_SHORT).show();
-					TTSService.speakFromAnywhere(MainActivity.this, _preferences.getSoundId(MainActivity.this), _preferences.volumeDefaut.get() ? _preferences.volume.get() : -1, MainActivity.this.getResources().getString(R.string.disabled));
-					Plannificateur.getInstance(MainActivity.this).arrete(MainActivity.this);
+					if (checked)
+					{
+						r.log(Report.HISTORIQUE, "Activé");
+						_preferences.actif.set(true);
+						Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.enabled), Toast.LENGTH_SHORT).show();
+						TTSService.speakFromAnywhere(MainActivity.this, _preferences.getSoundId(MainActivity.this),
+								_preferences.volumeDefaut.get() ? _preferences.volume.get() : -1,
+								MainActivity.this.getResources().getString(R.string.enabled));
+						Plannificateur.getInstance(MainActivity.this).plannifieProchaineNotification(MainActivity.this);
+					}
+					else
+					{
+						r.log(Report.HISTORIQUE, "Désactivé");
+						_preferences.actif.set(false);
+						Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.disabled), Toast.LENGTH_SHORT).show();
+						TTSService.speakFromAnywhere(MainActivity.this, _preferences.getSoundId(MainActivity.this), _preferences.volumeDefaut.get() ? _preferences.volume.get() : -1, MainActivity.this.getResources().getString(R.string.disabled));
+						Plannificateur.getInstance(MainActivity.this).arrete(MainActivity.this);
+					}
 				}
 			});
 		}
+//		if (_rgGroupActiver != null)
+//		{
+//			_rgGroupActiver.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+//			{
+//				@Override
+//				public void onCheckedChanged(final RadioGroup group, @IdRes final int checkedId)
+//				{
+//					if( findViewById(checkedId).isPressed())
+//					{
+//						switch (checkedId)
+//						{
+//							case R.id.radioButtonEnabled:
+//
+//								r.log(Report.HISTORIQUE, "Activé");
+//								_preferences.actif.set(true);
+//								Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.enabled), Toast.LENGTH_SHORT).show();
+//								TTSService.speakFromAnywhere(MainActivity.this, _preferences.getSoundId(MainActivity.this),
+//										_preferences.volumeDefaut.get() ? _preferences.volume.get() : -1,
+//										MainActivity.this.getResources().getString(R.string.enabled));
+//								Plannificateur.getInstance(MainActivity.this).plannifieProchaineNotification(MainActivity.this);
+//								break;
+//
+//							case R.id.radioButtonDisabled:
+//								r.log(Report.HISTORIQUE, "Désactivé");
+//								_preferences.actif.set(false);
+//								Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.disabled), Toast.LENGTH_SHORT).show();
+//								TTSService.speakFromAnywhere(MainActivity.this, _preferences.getSoundId(MainActivity.this), _preferences.volumeDefaut.get() ? _preferences.volume.get() : -1, MainActivity.this.getResources().getString(R.string.disabled));
+//								Plannificateur.getInstance(MainActivity.this).arrete(MainActivity.this);
+//								break;
+//						}
+//					}
+//				}
+//			});
+//		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////
 		// Annoncer l'heure
 		////////////////////////////////////////////////////////////////////////////////////////////
 		if (_swHorloge != null)
+
 		{
 			_swHorloge.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 			{
@@ -172,6 +199,7 @@ public class MainActivity extends AppCompatActivity
 		// Intercepter SMS
 		////////////////////////////////////////////////////////////////////////////////////////////
 		if (_swSMS != null)
+
 		{
 			_swSMS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 			{
@@ -276,6 +304,7 @@ public class MainActivity extends AppCompatActivity
 		// Intercepter Autres Applications
 		////////////////////////////////////////////////////////////////////////////////////////////
 		if (_swAutresApplis != null)
+
 		{
 			_swAutresApplis.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 			{
@@ -323,7 +352,7 @@ public class MainActivity extends AppCompatActivity
 
 		////////////////////////////////////////////////////////////////////////////////////////////
 		// Bouton Parametres EMails
-		////////////////////////////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////////////////////////
 		if (_bSettingsEMails != null)
 		{
 			_bSettingsEMails.setOnClickListener(new View.OnClickListener()
@@ -549,7 +578,8 @@ public class MainActivity extends AppCompatActivity
 			Preferences.getInstance(this).telephoneGerer.set(true);
 	}
 
-	private boolean activerSiDroits(@NonNull final String[] permissions, final int requestCode, @StringRes final int idMessage)
+	private boolean activerSiDroits(@NonNull final String[] permissions,
+	                                final int requestCode, @StringRes final int idMessage)
 	{
 		if (Permissions.verifiePermissions(this, permissions))
 			return true;
@@ -572,7 +602,8 @@ public class MainActivity extends AppCompatActivity
 	}
 
 	@Override
-	public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults)
+	public void onRequestPermissionsResult(final int requestCode,
+	                                       @NonNull final String[] permissions, @NonNull final int[] grantResults)
 	{
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		for (int result : grantResults)
@@ -624,22 +655,11 @@ public class MainActivity extends AppCompatActivity
 	 */
 	private void majUI()
 	{
-		if (_preferences.actif.get())
-		{
-			if (_bActiver != null)
-				_bActiver.setVisibility(View.GONE);
-			if (_bDesactiver != null)
-				_bDesactiver.setVisibility(View.VISIBLE);
-		}
-		else
-		{
-			if (_bActiver != null)
-				_bActiver.setVisibility(View.VISIBLE);
-			if (_bDesactiver != null)
-				_bDesactiver.setVisibility(View.GONE);
-
-		}
-
+		_customOnOffSwitch.setChecked(_preferences.actif.get());
+//		if (_preferences.actif.get())
+//			_rgGroupActiver.check(R.id.radioButtonEnabled);
+//		else
+//			_rgGroupActiver.check(R.id.radioButtonDisabled);
 		_swHorloge.setChecked(_preferences.horlogeAnnoncer.get());
 		_swSMS.setChecked(_preferences.smsGerer.get());
 		_swEMails.setChecked(_preferences.eMailsGerer.get());

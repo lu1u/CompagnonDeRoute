@@ -20,7 +20,7 @@ import com.lpi.compagnonderoute.R;
 public class ReportActivity extends AppCompatActivity
 {
 	int _niveau = Report.DEBUG;
-	TracesAdapter _adapter;
+	ReportAdapter _adapter;
 
 	/***
 	 * Lancer l'activity Report
@@ -42,7 +42,7 @@ public class ReportActivity extends AppCompatActivity
 		// Listview qui contient les messages
 		ListView lv = findViewById(R.id.idListView);
 		lv.setEmptyView(findViewById(R.id.textViewEmpty));
-		_adapter = new TracesAdapter(this, TracesDatabase.getInstance(this).getCursor(_niveau));
+		_adapter = new ReportAdapter(this, ReportDatabase.getInstance(this).getCursor(_niveau));
 		lv.setAdapter(_adapter);
 
 		/// Spinner pour le niveau de traces affichées (DEBUG, WARNING, ERROR)
@@ -56,7 +56,7 @@ public class ReportActivity extends AppCompatActivity
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 			{
 				_niveau = position;
-				_adapter.changeCursor(TracesDatabase.getInstance(ReportActivity.this).getCursor(_niveau));
+				_adapter.changeCursor(ReportDatabase.getInstance(ReportActivity.this).getCursor(_niveau));
 			}
 
 			@Override
@@ -105,7 +105,7 @@ public class ReportActivity extends AppCompatActivity
 				{
 					@Override public void onPositive()
 					{
-						TracesDatabase db = TracesDatabase.getInstance(ReportActivity.this);
+						ReportDatabase db = ReportDatabase.getInstance(ReportActivity.this);
 						db.Vide();
 						_adapter.changeCursor(db.getCursor(_niveau));
 					}

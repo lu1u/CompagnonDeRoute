@@ -28,7 +28,7 @@ public class RebootReceiver extends BroadcastReceiver
 
 			if (!preferences.actifApresReboot.get())
 			{
-				r.log(Report.DEBUG, "Inactiver");
+				r.log(Report.DEBUG, "Non actif apres reboot");
 				preferences.actif.set(false);
 			}
 			else if (preferences.actif.get())

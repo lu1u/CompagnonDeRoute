@@ -41,20 +41,20 @@ public class Report
 	private static final int MAX_BACKTRACE = 10;
 	@Nullable
 	private static Report INSTANCE = null;
-	final TracesDatabase _tracesDatabase;
+	final ReportDatabase _reportDatabase;
 
 	private Report(Context context)
 	{
 
 		if (BuildConfig.REPORT)
-			_tracesDatabase = TracesDatabase.getInstance(context);
+			_reportDatabase = ReportDatabase.getInstance(context);
 		else
-			_tracesDatabase = null;
+			_reportDatabase = null;
 	}
 
 	/**
 	 * Point d'accès pour l'instance unique du singleton
-	 * @param context: le context habituel d'ANdroid, peut être null si l'objet a deja ete utilise
+	 * @param context: le context habituel d'Android, peut être null si l'objet a deja ete utilise
 	 */
 	@NonNull
 	public static synchronized Report getInstance(@Nullable Context context)
@@ -68,7 +68,7 @@ public class Report
 
 	public void log(int niv, @NonNull Exception e)
 	{
-		if (_tracesDatabase != null)
+		if (_reportDatabase != null)
 		{
 			log(niv, e.getLocalizedMessage());
 			for (int i = 0; i < e.getStackTrace().length && i < MAX_BACKTRACE; i++)
@@ -78,10 +78,10 @@ public class Report
 
 	public void log(int niv, @NonNull String message)
 	{
-		if (_tracesDatabase != null)
+		if (_reportDatabase != null)
 		{
 			Log.d(TAG, message);
-			_tracesDatabase.Ajoute(DatabaseHelper.CalendarToSQLiteDate(null), niv, message);
+			_reportDatabase.Ajoute(ReportDatabaseHelper.CalendarToSQLiteDate(null), niv, message);
 		}
 	}
 }

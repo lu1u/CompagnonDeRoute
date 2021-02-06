@@ -11,6 +11,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.Calendar;
 
 public class ReportDatabaseHelper extends SQLiteOpenHelper
 {
@@ -35,6 +38,21 @@ public class ReportDatabaseHelper extends SQLiteOpenHelper
 	public ReportDatabaseHelper(Context context)
 	{
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+	}
+
+	static public int CalendarToSQLiteDate(@Nullable Calendar cal)
+	{
+		if (cal == null)
+			cal = Calendar.getInstance();
+		return (int) (cal.getTimeInMillis() / 1000L);
+	}
+
+	@NonNull
+	static public Calendar SQLiteDateToCalendar(int date)
+	{
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis((long) date * 1000L);
+		return cal;
 	}
 
 	@Override

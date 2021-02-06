@@ -19,10 +19,10 @@ import java.util.Calendar;
  * Adapter pour afficher les traces
  * Created by lucien on 06/02/2016.
  */
-public class TracesAdapter extends CursorAdapter
+public class ReportAdapter extends CursorAdapter
 {
 
-	public TracesAdapter(Context context, Cursor cursor)
+	public ReportAdapter(Context context, Cursor cursor)
 	{
 		super(context, cursor, 0);
 	}
@@ -59,7 +59,7 @@ public class TracesAdapter extends CursorAdapter
 
 	public static String formatDate(Context context, int date)
 	{
-		Calendar c = DatabaseHelper.SQLiteDateToCalendar(date);
+		Calendar c = ReportDatabaseHelper.SQLiteDateToCalendar(date);
 
 		//return android.text.format.DateFormat.getDateFormat(context).format(c.getTime()) + ' '
 		//		+ android.text.format.DateFormat.getTimeFormat(context).format(c.getTime());

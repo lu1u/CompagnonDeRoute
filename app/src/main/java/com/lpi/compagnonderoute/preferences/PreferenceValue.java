@@ -6,10 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.NonNull;
 
+import com.lpi.compagnonderoute.database.DatabaseHelper;
+
 class PreferenceValue
 {
-	private static final String SELECTION_NOM = Preferences.COLONNE_NOM + "=?";
-	private static final String[] COLONNES_VALEUR = {Preferences.COLONNE_VALEUR};
+	private static final String SELECTION_NOM = DatabaseHelper.COLONNE_NOM + "=?";
+	private static final String[] COLONNES_VALEUR = {DatabaseHelper.COLONNE_VALEUR};
 	protected final SQLiteDatabase _database;
 	protected final String _nom;
 	protected String _valeur;
@@ -28,11 +30,11 @@ class PreferenceValue
 		try
 		{
 			String[] selectionArgs = new String[]{_nom};
-			cursor = _database.query(Preferences.TABLE_PREFERENCES, COLONNES_VALEUR, SELECTION_NOM, selectionArgs, null, null, null);
+			cursor = _database.query(DatabaseHelper.TABLE_PREFERENCES, COLONNES_VALEUR, SELECTION_NOM, selectionArgs, null, null, null);
 			if (cursor != null)
 			{
 				cursor.moveToFirst();
-				final int index = cursor.getColumnIndex(Preferences.COLONNE_VALEUR);
+				final int index = cursor.getColumnIndex(DatabaseHelper.COLONNE_VALEUR);
 				valeur = cursor.getString(index);
 			}
 		} catch (Exception e)
@@ -52,14 +54,14 @@ class PreferenceValue
 		{
 			_valeur = valeur;
 			ContentValues values = new ContentValues();
-			values.put(Preferences.COLONNE_NOM, _nom);
-			values.put(Preferences.COLONNE_VALEUR, _valeur);
+			values.put(DatabaseHelper.COLONNE_NOM, _nom);
+			values.put(DatabaseHelper.COLONNE_VALEUR, _valeur);
 
 			String[] selectionArgs = new String[]{_nom};
 
-			int affectedRows = _database.update(Preferences.TABLE_PREFERENCES, values, SELECTION_NOM, selectionArgs);
+			int affectedRows = _database.update(DatabaseHelper.TABLE_PREFERENCES, values, SELECTION_NOM, selectionArgs);
 			if (affectedRows <= 0)
-				_database.insertWithOnConflict(Preferences.TABLE_PREFERENCES, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+				_database.insertWithOnConflict(DatabaseHelper.TABLE_PREFERENCES, null, values, SQLiteDatabase.CONFLICT_IGNORE);
 
 		} catch (Exception e)
 		{

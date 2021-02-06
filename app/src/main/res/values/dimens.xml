@@ -1,13 +1,14 @@
 <resources>
     <dimen name="marge_categories">8dp</dimen>
-    <dimen name="padding_toggle">8dp</dimen>
-    <dimen name="taille_bouton">64dp</dimen>
+    <dimen name="padding_toggle">16dp</dimen>
+    <dimen name="taille_bouton">96dp</dimen>
     <dimen name="taille_degrade">4dp</dimen>
     <dimen name="espace_premier_item">20dp</dimen>
-    <dimen name="espace_itemes">12dp</dimen>
-    <dimen name="marge_ecran_parametre">8dp</dimen>
+    <dimen name="marge_ecran_parametre">12dp</dimen>
     <dimen name="radius_modal_background">16dp</dimen>
     <dimen name="ecart_bouton_droite">8dp</dimen>
     <dimen name="taille_bouton_settings">24dp</dimen>
+    <dimen name="taille_bord_toggle">2dp</dimen>
+    <dimen name="taille_drawable_enable">48dp</dimen>
 
 </resources>

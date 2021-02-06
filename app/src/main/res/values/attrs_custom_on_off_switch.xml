@@ -1,0 +1,18 @@
+<resources>
+    <declare-styleable name="CustomOnOffSwitch">
+        <attr name="CCOS_on" format="boolean" />
+        <attr name="COOS_tailleDrawable" format="dimension" />
+        <attr name="COOS_drawableOff" format="integer" />
+        <attr name="COOS_drawableOn" format="integer" />
+        <attr name="COOS_drawableThumb" format="integer" />
+        <attr name="COOS_drawableTrack" format="integer" />
+        <attr name="COOS_texteOn" format="string" />
+        <attr name="COOS_texteOff" format="string" />
+        <attr name="COOS_tailleTexte" format="dimension" />
+        <attr name="COOS_paddingThumb" format="dimension" />
+        <attr name="COOS_paddingDrawable" format="dimension" />
+        <attr name="COOS_couleurTexte" format="color" />
+        <attr name="CCOS_thumbSize" format="fraction" />
+        <attr name="CCOS_dureeAnimation" format="integer" />
+    </declare-styleable>
+</resources>

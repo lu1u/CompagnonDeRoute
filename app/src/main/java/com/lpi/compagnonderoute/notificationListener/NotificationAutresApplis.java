@@ -32,7 +32,7 @@ class NotificationAutresApplis
 		if (!preferences.autresApplisActif.get())
 		{
 			// Ne pas s'occuper des autres applications
-			r.log(Report.DEBUG, "Messages d'une application désactivés");
+			r.log(Report.DEBUG, "Messages d'une autre application désactivés");
 			return;
 		}
 
@@ -53,36 +53,42 @@ class NotificationAutresApplis
 			}
 
 			final String packageName = sbn.getPackageName();
-			boolean titre = preferences.getNotificationTitre(packageName);
-			boolean contenu = preferences.getNotificationContenu(packageName);
-			if (!titre && !contenu)
+			final boolean nomAppli = preferences.getNotificationNomAppli(packageName);
+			final boolean titre = preferences.getNotificationTitre(packageName);
+			final boolean contenu = preferences.getNotificationContenu(packageName);
+			if (!nomAppli && !titre && !contenu)
 			{
-				r.log(Report.DEBUG, "Titre et contenu désactivé");
+				r.log(Report.DEBUG, "NomAppli, Titre et contenu désactivé");
 				return;
 			}
 
-			String sTitre = null;
-			String sSujet = null;
-			final String applicationName = getApplicationName(context, packageName);
+			StringBuilder sb = new StringBuilder();
+
+			// Dire le nom de l'application
+			if (nomAppli)
+			{
+				final String nom = getApplicationName(context, packageName);
+				r.log(Report.DEBUG, "Nom:" + nom);
+				sb.append(context.getString(R.string.received_autre_appli_nom, nom));
+			}
+
+			// Dire le titre de la notification
 			if (titre)
 			{
 				Object o = bundle.get(NotificationCompat.EXTRA_TITLE);
 				if (o != null)
-					sTitre = o.toString();
+					sb.append(o.toString() + ". ");
 			}
 
+			// Dire le contenu
 			if (contenu)
 			{
 				Object o = bundle.get(NotificationCompat.EXTRA_TEXT);
 				if (o != null)
-					sSujet = o.toString();
+					sb.append(o.toString() + ". ");
 			}
 
-			if (sTitre != null && sSujet != null)
-				TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.received_autre_appli, applicationName, sTitre, sSujet);
-			else
-				TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.received_autre_appli_null);
-
+			TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, sb.toString());
 		} catch (Exception e)
 		{
 			r.log(Report.ERROR, "Erreur dans NotificationListener.receptionMessageWhatsApp");

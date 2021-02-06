@@ -53,6 +53,7 @@ public class ParametresAutresApplis
 	{
 		public String packageName;
 		public String applicationName;
+		public boolean nomAppli;
 		public boolean titre;
 		public boolean contenu;
 	}
@@ -89,6 +90,7 @@ public class ParametresAutresApplis
 					a.applicationName = getApplicationName(context, packInfo);
 					a.titre = prefs.getNotificationTitre(packInfo.packageName);
 					a.contenu = prefs.getNotificationContenu(packInfo.packageName);
+					a.nomAppli = prefs.getNotificationNomAppli(packInfo.packageName);
 					liste.add(a);
 				}
 			}
@@ -139,11 +141,13 @@ public class ParametresAutresApplis
 			TextView tvPackage = convertView.findViewById(R.id.textViewPackageName);
 			Switch swTitre = convertView.findViewById(R.id.switchTitre);
 			Switch swContenu = convertView.findViewById(R.id.switchContenu);
+			Switch swNomAppli = convertView.findViewById(R.id.switchNomAppli);
 
 			tvName.setText(packageInfo.applicationName);
 			tvPackage.setText(packageInfo.packageName);
 			swTitre.setChecked(packageInfo.titre);
 			swContenu.setChecked(packageInfo.contenu);
+			swNomAppli.setChecked(packageInfo.nomAppli);
 
 			swTitre.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 			{
@@ -167,6 +171,19 @@ public class ParametresAutresApplis
 					{
 						packageInfo.contenu = b;
 						preferences.setNotificationContenu(packageInfo.packageName, b);
+					}
+				}
+			});
+
+			swNomAppli.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+			{
+				@Override
+				public void onCheckedChanged(final CompoundButton compoundButton, final boolean b)
+				{
+					if (compoundButton.isPressed())
+					{
+						packageInfo.nomAppli = b;
+						preferences.setNotificationNomAppli(packageInfo.packageName, b);
 					}
 				}
 			});

@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Road companion</string>
+    <string name="app_name">Traveling companion</string>
     <string name="received_sms_sender_and_body">SMS received from %1$s.\n%2$s</string>
     <string name="received_sms_sender">SMS received from %1$s.</string>
     <string name="received_sms_body">SMS received: %2$s.</string>
     <string name="received_sms">SMS received</string>
     <string name="phone_call_format">Incoming phone call from %1$s</string>
     <string name="time_announce">It is %1$s.</string>
-    <string name="ask_for_permissions">Road companion needs permission to access your phone:\n-receive sms and phone calls\n-access to your contacts\n-send sms</string>
+    <string name="ask_for_permissions">Traveling companion needs permission to access your phone:\n-receive sms and phone calls\n-access to your contacts\n-send sms</string>
     <string name="missing_permissions">Missing permissions</string>
     <string name="grant_permissions_button">Grant permissions</string>
     <string name="enabled">Enabled</string>
@@ -20,12 +20,11 @@
     <string name="deactivated">Disabled</string>
     <string name="received_whatsapp">Whatsapp message received from %1$s: %2$s</string>
     <string name="received_whatsapp_null">New WhatsApp message</string>
-    <string name="received_autre_appli">Notification from %1$s, %2$s, %3$s</string>
-    <string name="received_autre_appli_null">Notification received from %1$s</string>
     <string name="received_gmail">New mail received from %1$s, %2$s</string>
     <string name="received_gmail_null">New mail received</string>
-    <string name="besoin_accord_notification_listener">You need to grant permission to intercept messages from this application. The system settings screen will be displayed. Please check the option corresponding to Road Companion. Press Cancel if you do no want to grant permissions.</string>
+    <string name="besoin_accord_notification_listener">You need to grant permission to intercept messages from this application. The system settings screen will be displayed. Please check the option corresponding to Traveling Companion. Press Cancel if you do no want to grant permissions.</string>
 
+    <string name="received_autre_appli_nom">Notification from %1$s. </string>
 
     <string name="permissions_sms">You must grant this application the rights to access you SMS and contacts</string>
     <string name="permissions_telephone">You must grant this application the rights to access you phone and contacts</string>
@@ -36,7 +35,7 @@
     <string name="ui_contacts_seulement">Contacts only</string>
     <string name="ui_parametres_horloge">Clock parameters</string>
     <string name="ui_annoncer_l_heure">Hour announce:</string>
-    <string name="sms_copyright_reponse_automatique">\n(Message automatically sent by Road Companion (c)2019 Lucien Pilloni)</string>
+    <string name="sms_copyright_reponse_automatique">\n(Message automatically sent by Traveling Companion (c)2019 Lucien Pilloni)</string>
     <string name="ui_a_propos_icones">Icons from https://materialdesignicons.com/</string>
     <string name="ui_a_propos_code">Some code from https://stackoverflow.com/</string>
     <string name="ui_horloge">Clock:</string>
@@ -56,7 +55,6 @@
     <string name="ui_apres_demarrage">After a restart, reactivate the Companion if it whas activated</string>
     <string name="ui_reactivate_after_restart">Reactivate if the companion whas active before restart</string>
     <string name="ui_notifications">Notifications</string>
-    <string name="ui_permissions_system">Change the notification intercept system permissions</string>
     <string name="menu_parametres">Parameters</string>
     <string name="menu_tts">Text to speech synthesis</string>
     <string name="menu_apropos">About...</string>

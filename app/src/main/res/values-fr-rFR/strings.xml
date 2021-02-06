@@ -5,10 +5,7 @@
     <string name="received_sms_sender">SMS reçu de %1$s.</string>
     <string name="received_sms_body">SMS reçu: %2$s</string>
     <string name="received_sms">SMS reçu:</string>
-    <string name="received_autre_appli">Notification de %1$s, %2$s, %3$s</string>
-    <string name="received_autre_appli_null">Notification de %1$s</string>
-
-    <string name="phone_call_format">Appel téléphonique de %1$s</string>
+     <string name="phone_call_format">Appel téléphonique de %1$s</string>
     <string name="time_announce">Il est %1$s.</string>
     <string name="ask_for_permissions">L\'application Compagnon de Route ne peut pas fonctionner sans que vous lui
 		accordiez la permission d\'accéder à certaines fonctionnalités de votre téléphone:\n- recevoir les appels
@@ -60,12 +57,13 @@
     <string name="ui_apres_demarrage">Après un redémarrage</string>
     <string name="ui_reactivate_after_restart">Réactiver si le Compagnon était actif avant le redémarrage</string>
     <string name="ui_notifications">Notifications:</string>
-    <string name="ui_permissions_system">Changer les permissions système d\'interception des notifications</string>
     <string name="menu_parametres">Paramètres</string>
     <string name="menu_tts">Synthèse vocale</string>
     <string name="menu_apropos">A propos...</string>
     <string name="menu_report">Rapport</string>
     <string name="ui_notidication_sound">Son de notification:</string>
     <string name="ui_other_applications">Autres applications</string>
+    <string name="menu_notifications">Permission d\'accès aux notifications</string>
+    <string name="received_autre_appli_nom">Notification de %1$s. </string>
 
 </resources>
