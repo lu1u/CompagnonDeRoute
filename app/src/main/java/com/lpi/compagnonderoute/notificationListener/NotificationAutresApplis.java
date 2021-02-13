@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.lpi.compagnonderoute.R;
+import com.lpi.compagnonderoute.database.NotificationDatabase;
 import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.report.Report;
 import com.lpi.compagnonderoute.tts.TTSService;
@@ -89,6 +90,7 @@ class NotificationAutresApplis
 			}
 
 			TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, sb.toString());
+			NotificationDatabase.getInstance(context).ajoute(sb.toString());
 		} catch (Exception e)
 		{
 			r.log(Report.ERROR, "Erreur dans NotificationListener.receptionMessageWhatsApp");

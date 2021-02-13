@@ -14,6 +14,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,19 +34,70 @@ import com.lpi.compagnonderoute.report.Report;
 
 public class TTSService extends Service
 {
-	public static final int SORTIE_DEFAUT = 0;
-	public static final int SORTIE_FORCE_HP = 1;
-
+	private static final String SOUNDID_EXTRA = "TTSService.soundId";
 	public static final String MESSAGE_EXTRA = "TTSService.message";
 	public static final String VOLUME_EXTRA = "TTSService.volume";
 	public static final float VOLUME_MAX = 1.0f;
-	private static final String SOUNDID_EXTRA = "TTSService.soundId";
+	private MediaPlayer _mediaPlayer;
 
 	/**
 	 * The unique identifier for this type of notification.
 	 */
 	@NonNull
 	private TextToSpeech _textToSpeech;
+
+	/***
+	 * Demarrage du service
+	 * @param intent
+	 * @param flags
+	 * @param startId
+	 * @return
+	 */
+	@Override public int onStartCommand(final Intent intent, final int flags, final int startId)
+	{
+		final Report r = Report.getInstance(this);
+		r.log(Report.DEBUG, "TTSService.onStartCommand");
+		if (intent != null)
+		{
+			try
+			{
+				String message = intent.getStringExtra(MESSAGE_EXTRA);
+				int idSon = intent.getIntExtra(SOUNDID_EXTRA, 0);
+
+				// Android: un foreground service doit obligatoirement afficher une notification
+				startForeground((int) System.currentTimeMillis(), getNotification(this, message, message, idSon));
+
+				if (message != null)
+				{
+					float volume = intent.getFloatExtra(VOLUME_EXTRA, -1);
+					int soundId = intent.getIntExtra(SOUNDID_EXTRA, 0);
+
+					TTSService t = new TTSService();
+					t.parler(this, soundId, volume, message, new TTSServiceListener()
+					{
+						@Override public void result(final int ttsStatus)
+						{
+							r.log(Report.DEBUG, "speak status: " + ttsStatus);
+							fermerService();
+						}
+
+						@Override public void onInit(final int status)
+						{
+							r.log(Report.DEBUG, "TTS initialisé");
+							if (status != TextToSpeech.SUCCESS)
+								// Impossible d'initialiser le TTS, fermer ce service
+								fermerService();
+						}
+					});
+				}
+			} catch (Exception e)
+			{
+				r.log(Report.ERROR, "Erreur dans TTSService.onStartCommand");
+				r.log(Report.ERROR, e);
+			}
+		}
+		return super.onStartCommand(intent, flags, startId);
+	}
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/***
@@ -123,59 +175,6 @@ public class TTSService extends Service
 	}
 
 	/***
-	 * Demarrage du service
-	 * @param intent
-	 * @param flags
-	 * @param startId
-	 * @return
-	 */
-	@Override public int onStartCommand(final Intent intent, final int flags, final int startId)
-	{
-		final Report r = Report.getInstance(this);
-		r.log(Report.DEBUG, "TTSService.onStartCommand");
-		if (intent != null)
-		{
-			try
-			{
-				String message = intent.getStringExtra(MESSAGE_EXTRA);
-				int idSon = intent.getIntExtra(SOUNDID_EXTRA, 0);
-
-				// Android: un foreground service doit obligatoirement afficher une notification
-				startForeground((int) System.currentTimeMillis(), getNotification(this, message, message, idSon));
-
-				if (message != null)
-				{
-					float volume = intent.getFloatExtra(VOLUME_EXTRA, -1);
-					int soundId = intent.getIntExtra(SOUNDID_EXTRA, 0);
-
-					TTSService t = new TTSService();
-					t.parler(this, soundId, volume, message, new TTSServiceListener()
-					{
-						@Override public void result(final int ttsStatus)
-						{
-							r.log(Report.DEBUG, "speak status: " + ttsStatus);
-							fermerService();
-						}
-
-						@Override public void onInit(final int status)
-						{
-							r.log(Report.DEBUG, "TTS initialisé");
-							if (status != TextToSpeech.SUCCESS)
-								// Impossible d'initialiser le TTS, fermer ce service
-								fermerService();
-						}
-					});
-				}
-			} catch (Exception e)
-			{
-				r.log(Report.ERROR, "Erreur dans TTSService.onStartCommand");
-				r.log(Report.ERROR, e);
-			}
-		}
-		return super.onStartCommand(intent, flags, startId);
-	}
-
-	/***
 	 * Obtient une Notification (obligatoire sous Android pour un foregroundService)
 	 * @param context
 	 * @param texte
@@ -201,8 +200,7 @@ public class TTSService extends Service
 				.setStyle(bigText)
 				.setLights(0, 1, 1)
 				.setPriority(NotificationCompat.PRIORITY_MIN)
-				.setAutoCancel(true)
-				.setSound(getUri(context, idSon));
+				.setAutoCancel(true);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
 		{
@@ -215,11 +213,12 @@ public class TTSService extends Service
 
 			final NotificationManager nm = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 			NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, appName, NotificationManager.IMPORTANCE_DEFAULT);
-			notificationChannel.setSound(getUri(context, idSon), att);
+			notificationChannel.setSound(null, null);
 			notificationChannel.setShowBadge(false);
 			notificationChannel.setImportance(NotificationManager.IMPORTANCE_DEFAULT);
 			notificationChannel.enableLights(false);
 			notificationChannel.enableVibration(false);
+			notificationChannel.setImportance(NotificationManager.IMPORTANCE_LOW);
 			nm.createNotificationChannel(notificationChannel);
 			builder.setChannelId(CHANNEL_ID);
 		}
@@ -232,33 +231,21 @@ public class TTSService extends Service
 	 * @param message
 	 * @param listener
 	 */
-	private void parler(@NonNull final Context context, int soundId, final float volume, @NonNull final String message, @Nullable final TTSServiceListener listener)
+	private void parler(@NonNull final Context context, final int soundId, final float volume, @NonNull final String message, @Nullable final TTSServiceListener listener)
 	{
-		final Report r = Report.getInstance(context);
-
+		@NonNull final Report r = Report.getInstance(context);
 		try
 		{
 			_textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener()
 			{
-				/**
-				 * Le tts est initialisé
-				 */
 				@Override public void onInit(final int ttsStatus)
 				{
-					if (listener != null)
-						listener.onInit(ttsStatus);
-
 					if (ttsStatus != TextToSpeech.SUCCESS)
 					{
 						r.log(Report.ERROR, "Erreur TTS.init " + ttsStatus);
+						if (listener != null)
+							listener.result(ttsStatus);
 						return;
-					}
-
-					final Bundle params = new Bundle();
-					params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "lpi.TTSService");
-					if (volume >= 0.0f)
-					{
-						params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, volume);
 					}
 
 					_textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener()
@@ -277,7 +264,7 @@ public class TTSService extends Service
 									listener.result(TextToSpeech.SUCCESS);
 							} catch (Exception e)
 							{
-								r.log(Report.ERROR, "Erreur dans TTSService.discours.onDone");
+								r.log(Report.ERROR, "Erreur dans TTSService.parler.onDone");
 								r.log(Report.ERROR, e);
 							}
 						}
@@ -290,16 +277,39 @@ public class TTSService extends Service
 						}
 					});
 
+					_mediaPlayer = MediaPlayer.create(context, soundId);
+					_mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+					{
+						@Override public void onCompletion(final MediaPlayer mediaPlayer)
+						{
+							_mediaPlayer.release();
+						}
+					});
+					_mediaPlayer.seekTo(0);
+					_mediaPlayer.start();
+
+					// Et enfin... prononcer le discours
+					final Bundle params = new Bundle();
+					params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "lpi.TTSService");
+					if (volume >= 0.0f)
+						params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, volume);
+
 					_textToSpeech.speak(message, TextToSpeech.QUEUE_ADD, params, "lpi.TTSService");
 
 				}
 			});
-
 		} catch (Exception e)
 		{
-			r.log(Report.ERROR, "Erreur dans TTSService.doSpeak");
+			r.log(Report.ERROR, "Erreur dans TTSService.parler");
 			r.log(Report.ERROR, e);
 		}
+	}
+
+	private class Options
+	{
+		int soundId;
+		float volume;
+		boolean forcerSortieSpeaker;
 	}
 
 	/***

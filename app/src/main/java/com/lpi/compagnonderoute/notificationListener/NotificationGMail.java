@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.lpi.compagnonderoute.R;
+import com.lpi.compagnonderoute.database.NotificationDatabase;
 import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.report.Report;
 import com.lpi.compagnonderoute.tts.TTSService;
@@ -70,10 +71,14 @@ public class NotificationGMail
 					sujet = o.toString();
 			}
 
+			String message;
 			if (expediteur != null && sujet != null)
-				TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.received_gmail, expediteur, sujet);
+				message = context.getResources().getString(R.string.received_gmail, expediteur, sujet);
 			else
-				TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, R.string.received_gmail_null);
+				message = context.getResources().getString(R.string.received_gmail_null);
+
+			TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, message);
+			NotificationDatabase.getInstance(context).ajoute(message);
 
 		} catch (Exception e)
 		{

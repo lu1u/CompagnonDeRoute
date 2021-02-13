@@ -62,4 +62,7 @@
     <string name="menu_notifications">Notification access permissions</string>
     <string name="ui_notidication_sound">Notification sound:</string>
     <string name="ui_other_applications">Other applications</string>
+    <string name="menu_notification_log">Notification log</string>
+    <string name="pas_encore_de_notifications">No notification yet</string>
+    <string name="effacer_notifications">Delete notification log?</string>
 </resources>

@@ -11,16 +11,16 @@ import androidx.annotation.Nullable;
 /**
  * Base des traces (log)
  */
-public class NotificationsDatabase
+public class NotificationDatabase
 {
 	private static final int NB_MAX_TRACES = 500;
 
 	@Nullable
-	protected static NotificationsDatabase INSTANCE = null;
+	protected static NotificationDatabase INSTANCE = null;
 	protected final SQLiteDatabase database;
 	protected final DatabaseHelper dbHelper;
 
-	protected NotificationsDatabase(Context context)
+	protected NotificationDatabase(Context context)
 	{
 		dbHelper = new DatabaseHelper(context);
 		database = dbHelper.getWritableDatabase();
@@ -30,13 +30,13 @@ public class NotificationsDatabase
 	 * Point d'accès pour l'instance unique du singleton
 	 */
 	@NonNull
-	public static synchronized NotificationsDatabase getInstance(Context context)
+	public static synchronized NotificationDatabase getInstance(Context context)
 	{
 		if (INSTANCE == null)
 		{
-			INSTANCE = new NotificationsDatabase(context);
+			INSTANCE = new NotificationDatabase(context);
 		}
-		return (NotificationsDatabase) INSTANCE;
+		return (NotificationDatabase) INSTANCE;
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class NotificationsDatabase
 		database.delete(DatabaseHelper.TABLE_NOTIFICATIONS, null, null);
 	}
 
-	public void Ajoute(int Date, final @NonNull String ligne)
+	public void ajoute(final @NonNull String ligne)
 	{
 		try
 		{
@@ -68,8 +68,9 @@ public class NotificationsDatabase
 						+ " IN (SELECT " + DatabaseHelper.COLONNE_NOTIFICATION_ID + " FROM " + DatabaseHelper.TABLE_NOTIFICATIONS + " ORDER BY " + DatabaseHelper.COLONNE_NOTIFICATION_ID + " LIMIT 50)");
 			}
 
+			int date = DatabaseHelper.calendarToSQLiteDate(null);
 			ContentValues initialValues = new ContentValues();
-			initialValues.put(DatabaseHelper.COLONNE_NOTIFICATION_DATE, Date);
+			initialValues.put(DatabaseHelper.COLONNE_NOTIFICATION_DATE, date);
 			initialValues.put(DatabaseHelper.COLONNE_NOTIFICATION_LIGNE, ligne);
 
 			database.insert(DatabaseHelper.TABLE_NOTIFICATIONS, null, initialValues);

@@ -20,7 +20,6 @@ import androidx.annotation.Nullable;
 
 import com.lpi.compagnonderoute.R;
 import com.lpi.compagnonderoute.audio.AudioManagerHelper;
-import com.lpi.compagnonderoute.tts.TTSService;
 
 /***
  * Fenetre des preferences de l'application
@@ -133,34 +132,12 @@ public class PreferencesActivity //extends AppCompatActivity
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// Forcer la sortie vers le haut parleur
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		{
-			CheckBox cbForcerSortie = dialogView.findViewById(R.id.checkBoxForceSortie);
-			cbForcerSortie.setChecked(prefs.forceSortie.get() == TTSService.SORTIE_FORCE_HP);
-			cbForcerSortie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-			{
-				@Override
-				public void onCheckedChanged(final CompoundButton compoundButton, final boolean checked)
-				{
-					prefs.forceSortie.set(checked ? TTSService.SORTIE_FORCE_HP : TTSService.SORTIE_DEFAUT);
-				}
-			});
-		}
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Afficher la fenetre
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		dialogBuilder.setView(dialogView);
 		dialogBuilder.show();
 	}
 
-//	@Override
-//	protected void onCreate(Bundle savedInstanceState)
-//	{
-//		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_preferences);
-//	}
 
 	/***
 	 * Charge un tableau d'entiers depuis les ressources arrays.xml

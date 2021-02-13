@@ -27,6 +27,7 @@ public class ConfirmBox
 	 */
 	public static void show(@NonNull final Context context, @NonNull final String message, @NonNull final ConfirmBoxListener listener)
 	{
+		//
 		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
 		{
 			@Override
@@ -74,4 +75,5 @@ public class ConfirmBox
 		void onPositive();
 		void onNegative();
 	}
+
 }

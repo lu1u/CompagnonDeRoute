@@ -65,5 +65,8 @@
     <string name="ui_other_applications">Autres applications</string>
     <string name="menu_notifications">Permission d\'accès aux notifications</string>
     <string name="received_autre_appli_nom">Notification de %1$s. </string>
+    <string name="menu_notification_log">Journal des notifications</string>
+    <string name="pas_encore_de_notifications">Pas encore de notifications</string>
+    <string name="effacer_notifications">Effacer le journal des notifications?</string>
 
 </resources>

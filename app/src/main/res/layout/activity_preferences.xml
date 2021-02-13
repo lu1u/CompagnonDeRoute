@@ -60,19 +60,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/ui_sortie_audio"
-        tools:visibility="gone" />
-
-    <CheckBox
-        android:id="@+id/checkBoxForceSortie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/ui_forcer_haut_parleur"
-        tools:visibility="gone" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/ui_apres_demarrage" />
 
     <CheckBox

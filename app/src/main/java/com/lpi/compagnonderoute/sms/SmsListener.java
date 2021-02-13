@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import com.lpi.compagnonderoute.R;
+import com.lpi.compagnonderoute.database.NotificationDatabase;
 import com.lpi.compagnonderoute.phone.ContactUtils;
 import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.report.Report;
@@ -81,6 +82,7 @@ public class SmsListener extends BroadcastReceiver
 					if (sender != null)
 					{
 						annonceSms(context, sender, body.toString());
+						NotificationDatabase.getInstance(context).ajoute(body.toString());
 
 						int subscriptionId = bundle.getInt("subscription", -1);
 						repondreSms(context, sender, subscriptionId);

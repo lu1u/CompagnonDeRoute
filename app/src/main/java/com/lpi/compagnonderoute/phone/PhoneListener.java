@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.lpi.compagnonderoute.R;
+import com.lpi.compagnonderoute.database.NotificationDatabase;
 import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.report.Report;
 import com.lpi.compagnonderoute.tts.TTSService;
@@ -107,6 +108,7 @@ public class PhoneListener extends BroadcastReceiver
 
 		String message = context.getResources().getString(R.string.phone_call_format, contact);
 		TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, message);
+		NotificationDatabase.getInstance(context).ajoute(message);
 
 		// Repondre a l'appel
 //		if (preferences.telephoneRepondre.get() != Preferences.JAMAIS)

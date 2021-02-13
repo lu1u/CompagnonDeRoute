@@ -55,7 +55,6 @@ public class Preferences
 	public PreferenceInt horlogeDelai;
 	public PreferenceInt telephoneRepondre;
 	public PreferenceString telephoneReponse;
-	public PreferenceInt forceSortie;
 	public PreferenceBoolean horlogeAnnoncer;
 	public PreferenceBoolean appelsWhatsAppGerer;
 	// SMS
@@ -136,7 +135,6 @@ public class Preferences
 		// Configuration audio
 		volumeDefaut = new PreferenceBoolean(database, PREF_VOLUME_DEFAUT, true);
 		volume = new PreferenceFloat(database, PREF_VOLUME, TTSService.VOLUME_MAX);
-		forceSortie = new PreferenceInt(database, PREF_FORCE_SORTIE, TTSService.SORTIE_DEFAUT);
 		sonNotification = new PreferenceInt(database, PREF_SON_NOTIFICATION, 0);
 
 		// Autres applications

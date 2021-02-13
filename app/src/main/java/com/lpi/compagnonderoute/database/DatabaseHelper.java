@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
-	static public int CalendarToSQLiteDate(@Nullable Calendar cal)
+	static public int calendarToSQLiteDate(@Nullable Calendar cal)
 	{
 		if (cal == null)
 			cal = Calendar.getInstance();

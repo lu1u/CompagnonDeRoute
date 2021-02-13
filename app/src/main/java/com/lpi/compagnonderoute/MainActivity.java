@@ -15,7 +15,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
@@ -123,9 +122,11 @@ public class MainActivity extends AppCompatActivity
 					{
 						r.log(Report.HISTORIQUE, "Activé");
 						_preferences.actif.set(true);
-						Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.enabled), Toast.LENGTH_SHORT).show();
-						TTSService.speakFromAnywhere(MainActivity.this, _preferences.getSoundId(MainActivity.this),
-								_preferences.volumeDefaut.get() ? _preferences.volume.get() : -1,
+						CustomToast.show(MainActivity.this, R.string.enabled);
+						//Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.enabled), Toast.LENGTH_SHORT).show();
+						TTSService.speakFromAnywhere(MainActivity.this,
+								_preferences.getSoundId(MainActivity.this),
+								_preferences.volumeDefaut.get() ? _preferences.volume.get() : -1.0f,
 								MainActivity.this.getResources().getString(R.string.enabled));
 						Plannificateur.getInstance(MainActivity.this).plannifieProchaineNotification(MainActivity.this);
 					}
@@ -133,8 +134,12 @@ public class MainActivity extends AppCompatActivity
 					{
 						r.log(Report.HISTORIQUE, "Désactivé");
 						_preferences.actif.set(false);
-						Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.disabled), Toast.LENGTH_SHORT).show();
-						TTSService.speakFromAnywhere(MainActivity.this, _preferences.getSoundId(MainActivity.this), _preferences.volumeDefaut.get() ? _preferences.volume.get() : -1, MainActivity.this.getResources().getString(R.string.disabled));
+						//Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.disabled), Toast.LENGTH_SHORT).show();
+						CustomToast.show(MainActivity.this, R.string.disabled);
+						TTSService.speakFromAnywhere(MainActivity.this,
+								_preferences.getSoundId(MainActivity.this),
+								_preferences.volumeDefaut.get() ? _preferences.volume.get() : -1.0f,
+								MainActivity.this.getResources().getString(R.string.disabled));
 						Plannificateur.getInstance(MainActivity.this).arrete(MainActivity.this);
 					}
 				}
@@ -717,6 +722,12 @@ public class MainActivity extends AppCompatActivity
 			case R.id.menu_parametres:
 				if (Report.GENERER_TRACES)
 					PreferencesActivity.start(this);
+				break;
+
+			case R.id.menu_notification_log:
+				NotificationLogActivity.start(this);
+				break;
+
 			default:
 				return super.onOptionsItemSelected(item);
 		}

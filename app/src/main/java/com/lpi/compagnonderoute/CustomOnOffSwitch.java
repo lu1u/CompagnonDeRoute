@@ -14,7 +14,7 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +22,8 @@ import androidx.annotation.Nullable;
 import com.lpi.compagnonderoute.report.Report;
 
 /**
- * TODO: document your custom view class.
+ * Controle personnalisé: bouton On/Off
+ * Attributs: voir @values/attrs_custom_on_off_switch.xml
  */
 public class CustomOnOffSwitch extends View
 {
@@ -55,11 +56,14 @@ public class CustomOnOffSwitch extends View
 	float _milieuYThumb;
 	int _topDrawable;
 	int _bottomDrawable;
+
 	// Animation
 	ValueAnimator _animator;
 	float _valeurADessiner;
 	boolean _on = false;
 	private float _tailleThumb;
+
+	// Listener, pour prevenir des changements d'etat
 	private OnCheckedChangeListener _listener;
 
 	public CustomOnOffSwitch(Context context)
@@ -68,72 +72,75 @@ public class CustomOnOffSwitch extends View
 		init(null, 0);
 	}
 
-	private void init(AttributeSet attrs, int defStyle)
-	{
-		// Load attributes
-		final TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CustomOnOffSwitch, defStyle, 0);
-
-		_tailleThumb = a.getFraction(R.styleable.CustomOnOffSwitch_CCOS_thumbSize, 1, 1, 0.5f);
-		_texteOn = a.getString(R.styleable.CustomOnOffSwitch_COOS_texteOn);
-		_texteOff = a.getString(R.styleable.CustomOnOffSwitch_COOS_texteOff);
-		_dureeAnimation = a.getInt(R.styleable.CustomOnOffSwitch_CCOS_dureeAnimation, 500);
-
-		_on = a.getBoolean(R.styleable.CustomOnOffSwitch_CCOS_on, false);
-		if (_on)
-			_valeurADessiner = 0f;
-		else
-			_valeurADessiner = 1f;
-
-		_drawableThumb = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableThumb);
-		_drawableTrack = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableTrack);
-
-		_drawableOn = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableOn);
-		_drawableOff = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableOff);
-		_tailleDrawable = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_tailleDrawable, 10);
-
-		_paddingThumb = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_paddingThumb, 10);
-		_paddingDrawable = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_paddingDrawable, 10);
-		float tailleTexte = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_tailleTexte, 10);
-		int couleurTexte = a.getColor(R.styleable.CustomOnOffSwitch_COOS_couleurTexte, Color.WHITE);
-		_textPaint = new TextPaint();
-		_textPaint.setTextSize(tailleTexte);
-		_textPaint.setColor(couleurTexte);
-
-		a.recycle();
-		retaille();
-	}
-
-	private Drawable loadDrawable(final TypedArray a, final int attr)
-	{
-		if (a.hasValue(attr))
-		{
-			Drawable d = a.getDrawable(attr);
-			if (d != null)
-				d.setCallback(this);
-			return d;
-		}
-
-		return null;
-	}
-
 	public CustomOnOffSwitch(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 		init(attrs, 0);
 	}
 
-	public CustomOnOffSwitch(Context context, AttributeSet attrs, int defStyle)
+	/***
+	 * Lecture des attributs donnés dans le XML et preparation des objets graphiques
+	 * @param attrs
+	 * @param defStyle
+	 */
+	private void init(AttributeSet attrs, int defStyle)
 	{
-		super(context, attrs, defStyle);
-		init(attrs, defStyle);
-	}
+		{
+			final TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CustomOnOffSwitch, defStyle, 0);
 
-	@Override protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh)
-	{
-		super.onSizeChanged(w, h, oldw, oldh);
+			_tailleThumb = a.getFraction(R.styleable.CustomOnOffSwitch_CCOS_thumbSize, 1, 1, 0.5f);
+			_texteOn = a.getString(R.styleable.CustomOnOffSwitch_COOS_texteOn);
+			_texteOff = a.getString(R.styleable.CustomOnOffSwitch_COOS_texteOff);
+			_dureeAnimation = a.getInt(R.styleable.CustomOnOffSwitch_CCOS_dureeAnimation, 500);
+
+			_on = a.getBoolean(R.styleable.CustomOnOffSwitch_CCOS_on, false);
+			if (_on)
+				_valeurADessiner = 0f;
+			else
+				_valeurADessiner = 1f;
+
+			_drawableThumb = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableThumb);
+			_drawableTrack = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableTrack);
+
+			_drawableOn = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableOn);
+			_drawableOff = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableOff);
+			_tailleDrawable = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_tailleDrawable, 10);
+
+			_paddingThumb = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_paddingThumb, 10);
+			_paddingDrawable = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_paddingDrawable, 10);
+			float tailleTexte = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_tailleTexte, 10);
+			int couleurTexte = a.getColor(R.styleable.CustomOnOffSwitch_COOS_couleurTexte, Color.WHITE);
+			_textPaint = new TextPaint();
+			_textPaint.setTextSize(tailleTexte);
+			_textPaint.setAntiAlias(true);
+			_textPaint.setElegantTextHeight(true);
+			_textPaint.setColor(couleurTexte);
+
+			a.recycle();
+		}
 		retaille();
 	}
 
+	/***
+	 * Charge un drawable
+	 * @param a
+	 * @param attr
+	 * @return
+	 */
+	@Nullable static private Drawable loadDrawable(final TypedArray a, final int attr)
+	{
+		if (a.hasValue(attr))
+		{
+			Drawable d = a.getDrawable(attr);
+			return d;
+		}
+
+		return null;
+	}
+
+	/***
+	 * Recalcule les tailles en cas de redimensionnement
+	 */
 	private void retaille()
 	{
 		_paddingLeft = getPaddingLeft();
@@ -154,6 +161,35 @@ public class CustomOnOffSwitch extends View
 		_bottomDrawable = (int) (_topDrawable + _tailleDrawable);
 	}
 
+	public CustomOnOffSwitch(Context context, AttributeSet attrs, int defStyle)
+	{
+		super(context, attrs, defStyle);
+		init(attrs, defStyle);
+	}
+
+	/***
+	 * Dessine un texte centré
+	 * @param canvas
+	 * @param paint
+	 * @param text
+	 * @param left
+	 * @param top
+	 * @param right
+	 * @param bottom
+	 */
+	private static void afficheTextCentre(@NonNull Canvas canvas, @NonNull Paint
+			paint, @NonNull String text, int left, int top, int right, int bottom)
+	{
+		Rect r = new Rect(left, top, right, bottom);
+		int cHeight = r.height();
+		int cWidth = r.width();
+		paint.setTextAlign(Paint.Align.LEFT);
+		paint.getTextBounds(text, 0, text.length(), r);
+		float x = cWidth / 2f - r.width() / 2f - r.left;
+		float y = cHeight / 2f + r.height() / 2f - r.bottom;
+		canvas.drawText(text, left + x, top + y, paint);
+	}
+
 	@Override
 	protected void onDraw(Canvas canvas)
 	{
@@ -170,12 +206,6 @@ public class CustomOnOffSwitch extends View
 			{
 				_drawableTrack.setBounds(left, top, right, bottom);
 				_drawableTrack.draw(canvas);
-			}
-			else
-			{
-				Paint paint = new Paint();
-				paint.setColor(getResources().getColor(R.color.Accent));
-				canvas.drawRoundRect(left, top, right, bottom, 16, 16, paint);
 			}
 		}
 
@@ -212,13 +242,6 @@ public class CustomOnOffSwitch extends View
 				_drawableThumb.setBounds(left, top, right, bottom);
 				_drawableThumb.draw(canvas);
 			}
-			else
-			{
-				Paint paint = new Paint();
-				paint.setColor(getResources().getColor(R.color.AccentLight));
-				final float rayonThumb = 16 * _hauteurThumb / _hauteurTrack;
-				canvas.drawRoundRect(left, top, right, bottom, rayonThumb, rayonThumb, paint);
-			}
 
 			String message;
 			if (_on)
@@ -231,23 +254,17 @@ public class CustomOnOffSwitch extends View
 		}
 	}
 
-	/***********************************************************************************************
-	 * Afficher un texte centré
-	 * @param canvas
-	 * @param paint
-	 * @param text
+	/***
+	 * Changement de taille
+	 * @param w
+	 * @param h
+	 * @param oldw
+	 * @param oldh
 	 */
-	private static void afficheTextCentre(@NonNull Canvas canvas, @NonNull Paint
-			paint, @NonNull String text, int left, int top, int right, int bottom)
+	@Override protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh)
 	{
-		Rect r = new Rect(left, top, right, bottom);
-		int cHeight = r.height();
-		int cWidth = r.width();
-		paint.setTextAlign(Paint.Align.LEFT);
-		paint.getTextBounds(text, 0, text.length(), r);
-		float x = cWidth / 2f - r.width() / 2f - r.left;
-		float y = cHeight / 2f + r.height() / 2f - r.bottom;
-		canvas.drawText(text, left + x, top + y, paint);
+		super.onSizeChanged(w, h, oldw, oldh);
+		retaille();
 	}
 
 	@Override
@@ -256,7 +273,7 @@ public class CustomOnOffSwitch extends View
 		Report.getInstance(getContext()).log(Report.DEBUG, "onToucheEvent " + event.getAction());
 		if (event.getAction() == MotionEvent.ACTION_UP)
 		{
-			click();
+			performClick();
 			return true;
 		}
 		return true;
@@ -265,11 +282,12 @@ public class CustomOnOffSwitch extends View
 	/***
 	 * Reagir au click sur le controle: changer la valeur et animer le controle
 	 */
-	public void click()
+	@Override
+	public boolean performClick()
 	{
 		if (_animator != null)
 			// Animation deja en cours
-			return;
+			return false;
 
 		float valeurdepart, valeurcible;
 		if (_on)
@@ -289,7 +307,7 @@ public class CustomOnOffSwitch extends View
 		_animator.setDuration(_dureeAnimation);
 		PropertyValuesHolder valeur = PropertyValuesHolder.ofFloat(PROPERTY_VALEUR, valeurdepart, valeurcible);
 		_animator.setValues(valeur);
-		_animator.setInterpolator(new AccelerateDecelerateInterpolator());
+		_animator.setInterpolator(new OvershootInterpolator());
 		_animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
 		{
 			@Override
@@ -338,11 +356,12 @@ public class CustomOnOffSwitch extends View
 			}
 		});
 		_animator.start();
+		return false;
 	}
 
 	/***
 	 * Donner le listener qui sera averti des changement du controle
-	 * @param listener
+	 * @param listener Le listener
 	 */
 	public void setOnCheckedChangeListener(@Nullable final OnCheckedChangeListener listener)
 	{
@@ -360,8 +379,8 @@ public class CustomOnOffSwitch extends View
 		invalidate();
 	}
 
-	public interface OnCheckedChangeListener
+	interface OnCheckedChangeListener
 	{
-		public void onCheckedChanged(boolean checked);
+		void onCheckedChanged(boolean checked);
 	}
 }
