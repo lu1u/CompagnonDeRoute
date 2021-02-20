@@ -2,6 +2,7 @@ package com.lpi.compagnonderoute;
 
 import android.animation.Animator;
 import android.animation.PropertyValuesHolder;
+import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -14,6 +15,11 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnticipateInterpolator;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 import androidx.annotation.NonNull;
@@ -34,12 +40,15 @@ public class CustomOnOffSwitch extends View
 	Drawable _drawableThumb, _drawableTrack;
 	String _texteOn, _texteOff;
 	TextPaint _textPaint;
+	int _interpolator;
+
 	// Drawables On et Off
 	Drawable _drawableOn, _drawableOff;
 	float _tailleDrawable;
 	float _paddingThumb;
 	int _dureeAnimation;
 	float _paddingDrawable;
+
 	/***
 	 * Memorisation des dimensions
 	 */
@@ -87,7 +96,7 @@ public class CustomOnOffSwitch extends View
 	{
 		{
 			final TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CustomOnOffSwitch, defStyle, 0);
-
+			_interpolator = a.getInt(R.styleable.CustomOnOffSwitch_CCOS_interpolateur, 0);
 			_tailleThumb = a.getFraction(R.styleable.CustomOnOffSwitch_CCOS_thumbSize, 1, 1, 0.5f);
 			_texteOn = a.getString(R.styleable.CustomOnOffSwitch_COOS_texteOn);
 			_texteOff = a.getString(R.styleable.CustomOnOffSwitch_COOS_texteOff);
@@ -285,10 +294,7 @@ public class CustomOnOffSwitch extends View
 	@Override
 	public boolean performClick()
 	{
-		if (_animator != null)
-			// Animation deja en cours
-			return false;
-
+		// Changement de la valeur
 		float valeurdepart, valeurcible;
 		if (_on)
 		{
@@ -303,60 +309,87 @@ public class CustomOnOffSwitch extends View
 			valeurcible = 0;
 		}
 
-		_animator = ValueAnimator.ofFloat(valeurdepart, valeurcible);
-		_animator.setDuration(_dureeAnimation);
-		PropertyValuesHolder valeur = PropertyValuesHolder.ofFloat(PROPERTY_VALEUR, valeurdepart, valeurcible);
-		_animator.setValues(valeur);
-		_animator.setInterpolator(new OvershootInterpolator());
-		_animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+		if (_animator == null)
 		{
-			@Override
-			public void onAnimationUpdate(@NonNull ValueAnimator animation)
+			// Pas d'animation en cours
+
+			_animator = ValueAnimator.ofFloat(valeurdepart, valeurcible);
+			_animator.setDuration(_dureeAnimation);
+			PropertyValuesHolder valeur = PropertyValuesHolder.ofFloat(PROPERTY_VALEUR, valeurdepart, valeurcible);
+			_animator.setValues(valeur);
+			_animator.setInterpolator(getInterpolateur());
+			_animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
 			{
-				try
+				@Override
+				public void onAnimationUpdate(@NonNull ValueAnimator animation)
 				{
-					_valeurADessiner = (float) animation.getAnimatedValue(PROPERTY_VALEUR);
-					invalidate();
-				} catch (Exception e)
+					try
+					{
+						_valeurADessiner = (float) animation.getAnimatedValue(PROPERTY_VALEUR);
+						invalidate();
+					} catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+
+				}
+			});
+
+			_animator.addListener(new Animator.AnimatorListener()
+			{
+				@Override public void onAnimationStart(final Animator animator)
 				{
-					e.printStackTrace();
+
 				}
 
-			}
-		});
+				@Override public void onAnimationEnd(final Animator animator)
+				{
+					_animator = null;
+					if (_on)
+						_valeurADessiner = 0f;
+					else
+						_valeurADessiner = 1f;
+				}
 
-		_animator.addListener(new Animator.AnimatorListener()
-		{
-			@Override public void onAnimationStart(final Animator animator)
-			{
+				@Override public void onAnimationCancel(final Animator animator)
+				{
 
-			}
+				}
 
-			@Override public void onAnimationEnd(final Animator animator)
-			{
-				_animator = null;
-				if (_on)
-					_valeurADessiner = 0f;
-				else
-					_valeurADessiner = 1f;
-				invalidate();
+				@Override public void onAnimationRepeat(final Animator animator)
+				{
 
-				if (_listener != null)
-					_listener.onCheckedChanged(_on);
-			}
+				}
+			});
+			_animator.start();
+		}
 
-			@Override public void onAnimationCancel(final Animator animator)
-			{
+		if (_listener != null)
+			_listener.onCheckedChanged(_on);
 
-			}
-
-			@Override public void onAnimationRepeat(final Animator animator)
-			{
-
-			}
-		});
-		_animator.start();
+		invalidate();
 		return false;
+	}
+
+	private @NonNull TimeInterpolator getInterpolateur()
+	{
+		switch (_interpolator)
+		{
+			case 0:
+				return new AccelerateDecelerateInterpolator();
+			case 1:
+				return new AccelerateInterpolator();
+			case 2:
+				return new AnticipateInterpolator();
+			case 3:
+				return new BounceInterpolator();
+			case 4:
+				return new LinearInterpolator();
+			case 5:
+				return new OvershootInterpolator();
+			default:
+				return new LinearInterpolator();
+		}
 	}
 
 	/***

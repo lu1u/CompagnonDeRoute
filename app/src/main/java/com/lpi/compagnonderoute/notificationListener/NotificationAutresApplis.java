@@ -93,7 +93,7 @@ class NotificationAutresApplis
 			NotificationDatabase.getInstance(context).ajoute(sb.toString());
 		} catch (Exception e)
 		{
-			r.log(Report.ERROR, "Erreur dans NotificationListener.receptionMessageWhatsApp");
+			r.log(Report.ERROR, "Erreur dans NotificationListener.receptionMessageAutresApplis");
 			r.log(Report.ERROR, e);
 		}
 	}

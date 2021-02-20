@@ -9,8 +9,8 @@ android {
         minSdkVersion 27
         targetSdkVersion 28
         versionCode 1
-        versionName "0.9"
-        buildConfigField "boolean", "REPORT", "true"
+        versionName "1.0"
+        buildConfigField "boolean", "REPORT", "false"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

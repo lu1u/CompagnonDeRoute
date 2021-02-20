@@ -49,7 +49,7 @@ public class Carillon
 	/*******************************************************************************************************************
 	 * Calcule une representation textuelle de l'heure actuelle
 	 *******************************************************************************************************************/
-	public static String toHourString(@NonNull Context context, @NonNull Calendar c)
+	public static String texte(@NonNull Context context, @NonNull Calendar c)
 	{
 		return DateUtils.formatDateTime(context, c.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
 	}

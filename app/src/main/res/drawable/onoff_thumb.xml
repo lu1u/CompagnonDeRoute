@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="50dp" />
-    <solid android:color="@color/PrimaryLight" />
+    <corners android:radius="10dp" />
+    <solid android:color="@color/AccentLight" />
+    <gradient
+        android:angle="270"
+        android:centerColor="@color/Accent"
+        android:endColor="@color/AccentDark"
+        android:startColor="@color/Accent"
+        android:type="linear" />
     <stroke
         android:width="@dimen/taille_bord_toggle"
         android:color="#fff" />

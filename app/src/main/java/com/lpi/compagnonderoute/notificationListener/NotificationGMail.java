@@ -33,7 +33,7 @@ public class NotificationGMail
 		}
 		if (!preferences.eMailsGerer.get())
 		{
-			// Ne pas s'occuper de WhatsApp
+			// Ne pas s'occuper des mails
 			r.log(Report.DEBUG, "Messages Gmail désactivés");
 			return;
 		}
@@ -82,7 +82,7 @@ public class NotificationGMail
 
 		} catch (Exception e)
 		{
-			r.log(Report.ERROR, "Erreur dans NotificationListener.receptionMessageWhatsApp");
+			r.log(Report.ERROR, "Erreur dans NotificationListener.receptionMessageGmail");
 			r.log(Report.ERROR, e);
 		}
 	}

@@ -22,8 +22,6 @@
     <string name="ui_half">Demi</string>
     <string name="ui_quarter">Quart</string>
     <string name="deactivated">Désactivé</string>
-    <string name="received_whatsapp">Message Whatsapp reçu de %1$s: %2$s</string>
-    <string name="received_whatsapp_null">Message WhatsApp reçu</string>
     <string name="received_gmail">Nouveau mail reçu de %1$s, %2$s</string>
     <string name="received_gmail_null">Nouveau mail reçu</string>
     <string name="besoin_accord_notification_listener">Vous devez donner votre autorisation pour intercepter les messages de cette application. L\'écran de confirmation du système va être affiché, veuillez cocher l\'option correspondant à Compagnon de route. Pressez \'Annuler\' si vous ne voulez pas accorder l\'aurorisation à l\'application.</string>
@@ -45,15 +43,11 @@
     <string name="ui_horl">Horloge</string>
     <string name="ui_sms">Sms</string>
     <string name="ui_phone">Téléphone</string>
-    <string name="ui_whatsapp_calls">WhatsApp</string>
     <string name="ui_volume">Volume</string>
     <string name="ui_parametres">Paramètres</string>
     <string name="ui_emails">Mails</string>
-    <string name="ui_whatsapp">WhatsApp</string>
 
     <string name="ui_volume_defaut">Volume par défaut du système</string>
-    <string name="ui_sortie_audio">Sortie audio:</string>
-    <string name="ui_forcer_haut_parleur">Forcer la sortie audio vers le haut-parleur du téléphone quand un périphérique Bluetooth est connecté</string>
     <string name="ui_apres_demarrage">Après un redémarrage</string>
     <string name="ui_reactivate_after_restart">Réactiver si le Compagnon était actif avant le redémarrage</string>
     <string name="ui_notifications">Notifications:</string>
@@ -68,5 +62,6 @@
     <string name="menu_notification_log">Journal des notifications</string>
     <string name="pas_encore_de_notifications">Pas encore de notifications</string>
     <string name="effacer_notifications">Effacer le journal des notifications?</string>
+    <string name="working_please_wait">Veuillez patienter</string>
 
 </resources>

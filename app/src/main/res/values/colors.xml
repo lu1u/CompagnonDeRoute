@@ -5,9 +5,9 @@
     <color name="Primary">#1565c0</color>
     <color name="PrimaryDark">#003c8f</color>
     <color name="PrimaryLight">#5e92f3</color>
-    <color name="Accent">#ef6c00</color>
-    <color name="AccentDark">#b53d00</color>
-    <color name="AccentLight">#ff9d3f</color>
+    <color name="Accent">#00b0ff</color>
+    <color name="AccentDark">#0081cb</color>
+    <color name="AccentLight">#69e2ff</color>
     <!--<color name="CustomToast">#ccb53d00</color>-->
     <color name="CustomToast">#cc555555</color>
     <color name="attrColorTexteRadioBoutons">#fff</color>

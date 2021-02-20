@@ -12,8 +12,9 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/taille_bouton"
         app:CCOS_dureeAnimation="250"
+        app:CCOS_interpolateur="OvershootInterpolator"
         app:CCOS_on="true"
-        app:CCOS_thumbSize="70%"
+        app:CCOS_thumbSize="75%"
         app:COOS_couleurTexte="@color/attrColorTexteRadioBoutons"
         app:COOS_drawableOff="@drawable/icstopcircle"
         app:COOS_drawableOn="@drawable/icplaycircle"
@@ -33,7 +34,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:foregroundGravity="center|fill_vertical"
         app:layout_constraintBottom_toTopOf="@+id/textViewMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +98,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/switchAppelWhatsApp" />
+                app:layout_constraintTop_toBottomOf="@+id/switchTelephone" />
 
             <Switch
                 android:id="@+id/switchSMS"
@@ -117,27 +118,14 @@
                 app:layout_constraintStart_toStartOf="@+id/textView10"
                 app:layout_constraintTop_toTopOf="@+id/switchSMS" />
 
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/listDivider"
-                android:padding="@dimen/marge_ecran_parametre"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/switchSMS" />
-
             <Switch
                 android:id="@+id/switchEMails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:drawableLeft="@drawable/ic_email"
                 android:drawableTint="@color/Primary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider" />
+                app:layout_constraintTop_toBottomOf="@+id/switchSMS" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -146,36 +134,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/switchEMails"
                 app:layout_constraintStart_toStartOf="@+id/textView10"
                 app:layout_constraintTop_toTopOf="@+id/switchEMails" />
-
-            <Switch
-                android:id="@+id/switchWhatsApp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:drawableLeft="@drawable/ic_whatsapp"
-                android:drawableTint="@color/Primary"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider2" />
-
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/listDivider"
-                android:padding="@dimen/marge_ecran_parametre"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/switchEMails" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ui_whatsapp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/switchWhatsApp"
-                app:layout_constraintStart_toStartOf="@+id/textView10"
-                app:layout_constraintTop_toTopOf="@+id/switchWhatsApp" />
 
             <TextView
                 android:id="@+id/textView18"
@@ -186,7 +144,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/switchWhatsApp" />
+                app:layout_constraintTop_toBottomOf="@+id/switchEMails" />
 
             <Switch
                 android:id="@+id/switchTelephone"
@@ -206,27 +164,6 @@
                 app:layout_constraintStart_toStartOf="@+id/textView10"
                 app:layout_constraintTop_toTopOf="@+id/switchTelephone" />
 
-            <View
-                android:id="@+id/divider3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/listDivider"
-                android:padding="@dimen/marge_ecran_parametre"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/switchTelephone" />
-
-            <Switch
-                android:id="@+id/switchAppelWhatsApp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:drawableLeft="@drawable/ic_whatsapp"
-                android:drawableTint="@color/Primary"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider3" />
-
             <Switch
                 android:id="@+id/switchOtherApp"
                 android:layout_width="wrap_content"
@@ -236,15 +173,6 @@
                 android:drawableTint="@color/Primary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView14" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ui_whatsapp_calls"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/switchAppelWhatsApp"
-                app:layout_constraintStart_toStartOf="@+id/textView10"
-                app:layout_constraintTop_toTopOf="@+id/switchAppelWhatsApp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -294,20 +222,6 @@
                 app:srcCompat="@drawable/ic_cog" />
 
             <ImageButton
-                android:id="@+id/imageButtonSettingsWhatsAppMessages"
-                android:layout_width="@dimen/taille_bouton_settings"
-                android:layout_height="@dimen/taille_bouton_settings"
-                android:background="@drawable/ripple_effect"
-                android:scaleType="fitCenter"
-                android:tint="@color/Accent"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/switchWhatsApp"
-                app:layout_constraintEnd_toEndOf="@+id/imageButtonSettingsHorloge"
-                app:layout_constraintStart_toStartOf="@+id/imageButtonSettingsHorloge"
-                app:layout_constraintTop_toTopOf="@+id/switchWhatsApp"
-                app:srcCompat="@drawable/ic_cog" />
-
-            <ImageButton
                 android:id="@+id/imageButtonSettingsTelephone"
                 android:layout_width="@dimen/taille_bouton_settings"
                 android:layout_height="@dimen/taille_bouton_settings"
@@ -318,19 +232,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonSettingsHorloge"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonSettingsHorloge"
                 app:layout_constraintTop_toBottomOf="@+id/textView18"
-                app:srcCompat="@drawable/ic_cog" />
-
-            <ImageButton
-                android:id="@+id/imageButtonSettingsWhatsAppAppel"
-                android:layout_width="@dimen/taille_bouton_settings"
-                android:layout_height="@dimen/taille_bouton_settings"
-                android:background="@drawable/ripple_effect"
-                android:scaleType="fitCenter"
-                android:tint="@color/Accent"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/imageButtonSettingsHorloge"
-                app:layout_constraintStart_toStartOf="@+id/imageButtonSettingsHorloge"
-                app:layout_constraintTop_toTopOf="@+id/switchAppelWhatsApp"
                 app:srcCompat="@drawable/ic_cog" />
 
             <ImageButton

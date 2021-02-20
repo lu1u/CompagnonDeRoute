@@ -9,7 +9,7 @@
         android:top="4dp">
         <shape>
             <corners android:radius="50dp" />
-            <solid android:color="#ABBB" />
+            <solid android:color="#DDDD" />
         </shape>
     </item>
     <item
@@ -19,18 +19,17 @@
         android:top="4dp">
         <shape>
             <corners android:radius="50dp" />
-            <solid android:color="#FAAA" />
+            <solid android:color="#AAAA" />
         </shape>
     </item>
     <item
-        android:bottom="4dp"
-        android:left="4dp"
-        android:right="4dp"
-        android:top="4dp">
+        android:bottom="3dp"
+        android:left="3dp"
+        android:right="3dp"
+        android:top="3dp">
         <shape xmlns:android="http://schemas.android.com/apk/res/android">
-            <corners android:radius="50dp" />
+            <corners android:radius="10dp" />
             <solid android:color="@color/Primary" />
-            <!--<gradient android:angle="90" android:type="linear" android:startColor="@color/PrimaryDark" android:endColor="@color/PrimaryLight"/>-->
         </shape>
     </item>
 </layer-list>

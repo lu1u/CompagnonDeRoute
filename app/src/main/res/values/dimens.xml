@@ -8,7 +8,7 @@
     <dimen name="radius_modal_background">16dp</dimen>
     <dimen name="ecart_bouton_droite">8dp</dimen>
     <dimen name="taille_bouton_settings">24dp</dimen>
-    <dimen name="taille_bord_toggle">4dp</dimen>
+    <dimen name="taille_bord_toggle">2dp</dimen>
     <dimen name="taille_drawable_enable">48dp</dimen>
 
 </resources>

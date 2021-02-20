@@ -34,15 +34,10 @@ public class Preferences
 	@NonNull private static final String PREF_GERER_MAILS = "gererMails";
 	@NonNull private static final String PREF_EMAIL_ANNONCE_EXPEDITEUR = "eMailsAnnonceExpediteur";
 	@NonNull private static final String PREF_EMAIL_ANNONCE_SUJET = "eMailsAnnonceSujet";
-	// Messages WhatsApp
 	@NonNull private static final String PREF_GERER_TELEPHONE = "gererTelephone";
-	@NonNull private static final String PREF_GERER_WHATSAPP = "gererWhatsapp";
-	@NonNull private static final String PREF_GERER_APPELWHATSAPP = "gererAppelWhatsapp";
-	@NonNull private static final String PREF_WHATSAPP_LIRE_EXPEDITEUR = "whatsAppLireExpediteur";
 	@NonNull private static final String PREF_ACTIF_APRES_REBOOT = "actifApresReboot";
 	@NonNull private static final String PREF_VOLUME_DEFAUT = "volumeDefaut";
 	@NonNull private static final String PREF_VOLUME = "volumef";
-	@NonNull private static final String PREF_FORCE_SORTIE = "forceSortie";
 	private static final String PREF_SON_NOTIFICATION = "sonNotification";
 	private static final String PREF_AUTRES_APPLIS = "autresApplications";
 	private static final String PREF_NOTIFICATION_TITRE = "notificationTitre ";
@@ -56,7 +51,6 @@ public class Preferences
 	public PreferenceInt telephoneRepondre;
 	public PreferenceString telephoneReponse;
 	public PreferenceBoolean horlogeAnnoncer;
-	public PreferenceBoolean appelsWhatsAppGerer;
 	// SMS
 	public PreferenceInt smsAnnoncer;
 	public PreferenceInt smsRepondre;
@@ -72,15 +66,12 @@ public class Preferences
 	public PreferenceBoolean eMailsGerer;
 	public PreferenceBoolean eMailsAnnonceExpediteur;
 	public PreferenceBoolean eMailsAnnonceSujet;
-	// Messages WhatsApp
-	public PreferenceBoolean messageWhatsAppActif;
 
 	// Autres applications
 	public PreferenceBoolean autresApplisActif;
 
 	public static final int DELAI_ANNONCE_HEURE_HEURES = 1;
 	public static final int DELAI_ANNONCE_HEURE_DEMI = 2;
-	public PreferenceBoolean messageWhatsAppLireExpediteur;
 
 	// Audio
 	public PreferenceInt sonNotification;
@@ -125,12 +116,6 @@ public class Preferences
 		eMailsAnnonceExpediteur = new PreferenceBoolean(database, PREF_EMAIL_ANNONCE_EXPEDITEUR, true);
 		eMailsAnnonceSujet = new PreferenceBoolean(database, PREF_EMAIL_ANNONCE_SUJET, true);
 
-		// Messages WhatsApp
-		messageWhatsAppActif = new PreferenceBoolean(database, PREF_GERER_WHATSAPP, false);
-		messageWhatsAppLireExpediteur = new PreferenceBoolean(database, PREF_WHATSAPP_LIRE_EXPEDITEUR, false);
-
-		// Appels WhatsApp
-		appelsWhatsAppGerer = new PreferenceBoolean(database, PREF_GERER_APPELWHATSAPP, false);
 
 		// Configuration audio
 		volumeDefaut = new PreferenceBoolean(database, PREF_VOLUME_DEFAUT, true);

@@ -32,21 +32,31 @@ import java.util.List;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 public class ParametresAutresApplis
 {
+	/*******************************************************************************************
+	 * Affiche et gere la fenetre de reglage des notifications pour Autres Applications
+	 * @param context
+	 *******************************************************************************************/
 	public static void start(@NonNull final Activity context)
 	{
 		final AlertDialog dialogBuilder = new AlertDialog.Builder(context).create();
 
 		LayoutInflater inflater = context.getLayoutInflater();
-		View dialogView = inflater.inflate(R.layout.parametres_autres_applis, null);
+		final View dialogView = inflater.inflate(R.layout.parametres_autres_applis, null);
+		final ListView listView = dialogView.findViewById(R.id.listApplications);
 
-		ListView listView = dialogView.findViewById(R.id.listApplications);
-		listView.setAdapter(new ApplicationsAdapter(context));
+		BackgroundTaskWithSpinner.execute(context, R.layout.background_working, new BackgroundTaskWithSpinner.TaskListener()
+		{
+			@Override public void execute()
+			{
+				listView.setAdapter(new ApplicationsAdapter(context));
+			}
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// Afficher la fenetre
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		dialogBuilder.setView(dialogView);
-		dialogBuilder.show();
+			@Override public void onFinished()
+			{
+				dialogBuilder.setView(dialogView);
+				dialogBuilder.show();
+			}
+		});
 	}
 
 	static private class InfoAppli
@@ -58,19 +68,21 @@ public class ParametresAutresApplis
 		public boolean contenu;
 	}
 
+	/***
+	 * Adapter pour la liste des applications installées
+	 */
 	static public class ApplicationsAdapter extends ArrayAdapter<InfoAppli>
 	{
-
 		public ApplicationsAdapter(Context context)
 		{
 			super(context, 0, getListApplications(context));
 		}
 
-		/***
+		/*******************************************************************************************
 		 * Retrouve la liste des applications installées, triée par ordre de nom d'application
 		 * @param context
 		 * @return
-		 */
+		 *******************************************************************************************/
 		private static @NonNull List<InfoAppli> getListApplications(@NonNull final Context context)
 		{
 			Preferences prefs = Preferences.getInstance(context);
@@ -83,7 +95,7 @@ public class ParametresAutresApplis
 				if ((packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0              // Ne pas afficher les applications systeme
 						&& !notreApplication.equals(packInfo.packageName)                            // Ne pas annoncer notre propre application, sinon boucle infinie
 						&& !NotificationListener.GMAIL_PACKAGE.equals(packInfo.packageName)          // Application GMail traitée ailleurs
-						&& !NotificationListener.WHATSAPP_PACKAGE.equals(packInfo.packageName))      // Application WhatsApp traitée ailleurs
+				)
 				{
 					InfoAppli a = new InfoAppli();
 					a.packageName = packInfo.packageName;
@@ -105,12 +117,12 @@ public class ParametresAutresApplis
 			return liste;
 		}
 
-		/***
+		/*******************************************************************************************
 		 * Retrouve le nom affichable d'une application a partir de son PackageName
 		 * @param context
 		 * @param packageInfo
 		 * @return
-		 */
+		 *******************************************************************************************/
 		private static final @NonNull
 		String getApplicationName(@NonNull final Context context, @NonNull final PackageInfo packageInfo)
 		{

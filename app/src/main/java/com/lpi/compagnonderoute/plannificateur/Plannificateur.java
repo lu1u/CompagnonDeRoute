@@ -148,7 +148,7 @@ public class Plannificateur
 				if (prochaineNotification != null)
 				{
 					//String message = context.getString(R.string.next_alarm_notification, Carillon.toHourString(context, prochaineNotification));
-					messageUI = context.getString(R.string.next_alarm_ui, Carillon.toHourString(context, prochaineNotification));
+					messageUI = context.getString(R.string.next_alarm_ui, Carillon.texte(context, prochaineNotification));
 
 					plannifie(context, prochaineNotification);
 					//Notification.getInstance(context).notify(context, message, "Démarré");
@@ -168,17 +168,15 @@ public class Plannificateur
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/***
+	/***********************************************************************************************
 	 * Programme une alarme Android
 	 * @param context
 	 * @param prochaineNotification heure de la prochaine notification
-	 */
+	 **********************************************************************************************/
 	public void plannifie(final @NonNull Context context, @NonNull final Calendar prochaineNotification)
 	{
 		Report r = Report.getInstance(context);
-		r.log(Report.DEBUG, "set alarme: " + Carillon.toHourString(context, prochaineNotification));
+		r.log(Report.DEBUG, "set alarme: " + Carillon.texte(context, prochaineNotification));
 		try
 		{
 			//if (_pendingIntent != null)
@@ -190,8 +188,8 @@ public class Plannificateur
 				_pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 			}
 
-			//_alarmManager.setExact(AlarmManager.RTC_WAKEUP, prochaineNotification.getTimeInMillis(), _pendingIntent);
-			_alarmManager.setWindow(AlarmManager.RTC_WAKEUP, prochaineNotification.getTimeInMillis(), ALARM_WINDOW, _pendingIntent);
+			_alarmManager.setExact(AlarmManager.RTC_WAKEUP, prochaineNotification.getTimeInMillis(), _pendingIntent);
+			//_alarmManager.setWindow(AlarmManager.RTC_WAKEUP, prochaineNotification.getTimeInMillis(), ALARM_WINDOW, _pendingIntent);
 		} catch (Exception e)
 		{
 			r.log(Report.ERROR, "Plannificateur.plannifie");

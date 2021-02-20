@@ -15,19 +15,12 @@ import com.lpi.compagnonderoute.report.Report;
  */
 public class NotificationListener extends android.service.notification.NotificationListenerService
 {
-	public static final String WHATSAPP_PACKAGE = "com.whatsapp";
 	public static final String GMAIL_PACKAGE = "com.google.android.gm";
 
-	@Override
-	public void onListenerConnected()
-	{
-		Report.getInstance(this).log(Report.DEBUG, "NotificationListener connected");
-	}
-
-	/***
+	/***********************************************************************************************
 	 * Interception d'une notification emise par une application tierce
 	 * @param sbn
-	 */
+	 ***********************************************************************************************/
 	@Override
 	public void onNotificationPosted(@NonNull StatusBarNotification sbn)
 	{
@@ -53,10 +46,6 @@ public class NotificationListener extends android.service.notification.Notificat
 
 			switch (packageName)
 			{
-				case WHATSAPP_PACKAGE:
-					NotificationWhatsApp.reception(this, sbn);
-					break;
-
 				case GMAIL_PACKAGE:
 					dumpNotification(sbn.getNotification());
 					NotificationGMail.reception(this, sbn);
