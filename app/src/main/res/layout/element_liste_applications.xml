@@ -17,9 +17,8 @@
         android:id="@+id/textViewNomAppli"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="ddddd"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="@+id/switchContenu"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageViewIcone"
         app:layout_constraintTop_toTopOf="@+id/switchNomAppli" />
 
@@ -35,15 +34,16 @@
         android:id="@+id/switchNomAppli"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Application"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:text="@string/ui_application"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
         android:id="@+id/switchTitre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="89dp"
+        android:layout_height="10dp"
         android:layout_marginTop="8dp"
-        android:text="Titre"
+        android:text="@string/ui_titre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchNomAppli" />
 
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Contenu"
+        android:text="@string/contenu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchTitre" />
 

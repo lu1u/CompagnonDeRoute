@@ -123,7 +123,7 @@ public class ParametresAutresApplis
 		 * @param packageInfo
 		 * @return
 		 *******************************************************************************************/
-		private static final @NonNull
+		private static @NonNull
 		String getApplicationName(@NonNull final Context context, @NonNull final PackageInfo packageInfo)
 		{
 			PackageManager packageManager = context.getPackageManager();
@@ -134,6 +134,7 @@ public class ParametresAutresApplis
 			} catch
 			(final PackageManager.NameNotFoundException e)
 			{
+				e.printStackTrace();
 			}
 			return (String) ((applicationInfo != null) ? packageManager.getApplicationLabel(applicationInfo) : "???");
 		}

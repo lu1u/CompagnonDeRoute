@@ -1,6 +1,4 @@
-/***
- * Recepteur des alarmes Carillon
- */
+
 package com.lpi.compagnonderoute.plannificateur;
 
 
@@ -18,6 +16,9 @@ import com.lpi.compagnonderoute.tts.TTSService;
 
 import java.util.Calendar;
 
+/***
+ * Recepteur des alarmes Carillon
+ */
 public class AlarmReceiver extends BroadcastReceiver
 {
 	/***
@@ -46,8 +47,7 @@ public class AlarmReceiver extends BroadcastReceiver
 			}
 			else
 				r.log(Report.WARNING, "action inconnue dans AlarmReceiver.onReceive " + action);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			r.log(Report.ERROR, "Erreur dans AlarmReceiver.onReceive");
 			r.log(Report.ERROR, e.toString());

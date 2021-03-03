@@ -8,9 +8,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_application"
+        android:drawableStart="@drawable/ic_application"
         android:drawableTint="@color/Primary"
-        android:text="Paramètres Autres applications"
+        android:text="@string/ui_autres_applications"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -21,12 +21,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Annoncer les notifications pour ces applications:" />
+        android:text="@string/ui_annoncer_les_notifications_pour_ces_applications" />
 
     <ListView
         android:id="@+id/listApplications"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="0.5" />
 
 </LinearLayout>

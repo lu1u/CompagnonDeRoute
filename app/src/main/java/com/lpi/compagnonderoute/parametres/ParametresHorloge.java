@@ -9,8 +9,8 @@ import android.widget.RadioGroup;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 
-import com.lpi.compagnonderoute.Carillon;
 import com.lpi.compagnonderoute.R;
+import com.lpi.compagnonderoute.plannificateur.Plannificateur;
 import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.report.Report;
 
@@ -63,7 +63,7 @@ public class ParametresHorloge
 						break;
 				}
 
-				Carillon.changeDelai(context);
+				Plannificateur.changeDelai(context);
 			}
 		});
 

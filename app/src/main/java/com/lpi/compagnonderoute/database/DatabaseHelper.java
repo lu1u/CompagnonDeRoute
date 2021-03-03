@@ -38,7 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 			+ COLONNE_NOTIFICATION_DATE + " integer,"
 			+ COLONNE_NOTIFICATION_LIGNE + " text not null"
 			+ ");";
-	private String DATABASE_PREFERENCES_CREATE = "create table IF NOT EXISTS "
+	private final String DATABASE_PREFERENCES_CREATE = "create table IF NOT EXISTS "
 			+ TABLE_PREFERENCES + "("
 			+ COLONNE_NOM + " TEXT NOT NULL, "
 			+ COLONNE_VALEUR + " text"

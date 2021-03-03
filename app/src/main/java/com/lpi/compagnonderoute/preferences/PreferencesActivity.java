@@ -36,7 +36,7 @@ public class PreferencesActivity //extends AppCompatActivity
 
 		// Choix de la sonnerie
 		{
-			ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, context.getResources().getStringArray(R.array.sons_notification));
+			ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, context.getResources().getStringArray(R.array.sons_notification));
 			spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			final Spinner spinner = dialogView.findViewById(R.id.spinnerChoixSon);
 			spinner.setAdapter(spinnerArrayAdapter);
@@ -45,6 +45,7 @@ public class PreferencesActivity //extends AppCompatActivity
 			spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
 			{
 				MediaPlayer _mp;
+
 				@Override
 				public void onItemSelected(final AdapterView<?> adapterView, final View view, final int selected, final long l)
 				{

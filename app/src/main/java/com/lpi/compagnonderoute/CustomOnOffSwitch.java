@@ -27,8 +27,8 @@ import androidx.annotation.Nullable;
 
 import com.lpi.compagnonderoute.report.Report;
 
-/**
- * Controle personnalisé: bouton On/Off
+/***************************************************************************************************
+ * Controle personnalisé: switch On/Off
  * Attributs: voir @values/attrs_custom_on_off_switch.xml
  */
 public class CustomOnOffSwitch extends View
@@ -41,9 +41,8 @@ public class CustomOnOffSwitch extends View
 	String _texteOn, _texteOff;
 	TextPaint _textPaint;
 	int _interpolator;
-
-	// Drawables On et Off
 	Drawable _drawableOn, _drawableOff;
+
 	float _tailleDrawable;
 	float _paddingThumb;
 	int _dureeAnimation;
@@ -87,69 +86,72 @@ public class CustomOnOffSwitch extends View
 		init(attrs, 0);
 	}
 
-	/***
+	public CustomOnOffSwitch(Context context, AttributeSet attrs, int defStyle)
+	{
+		super(context, attrs, defStyle);
+		init(attrs, defStyle);
+	}
+
+	/***********************************************************************************************
 	 * Lecture des attributs donnés dans le XML et preparation des objets graphiques
 	 * @param attrs
 	 * @param defStyle
-	 */
+	 ***********************************************************************************************/
 	private void init(AttributeSet attrs, int defStyle)
 	{
-		{
-			final TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CustomOnOffSwitch, defStyle, 0);
-			_interpolator = a.getInt(R.styleable.CustomOnOffSwitch_CCOS_interpolateur, 0);
-			_tailleThumb = a.getFraction(R.styleable.CustomOnOffSwitch_CCOS_thumbSize, 1, 1, 0.5f);
-			_texteOn = a.getString(R.styleable.CustomOnOffSwitch_COOS_texteOn);
-			_texteOff = a.getString(R.styleable.CustomOnOffSwitch_COOS_texteOff);
-			_dureeAnimation = a.getInt(R.styleable.CustomOnOffSwitch_CCOS_dureeAnimation, 500);
+		final TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CustomOnOffSwitch, defStyle, 0);
+		_interpolator = a.getInt(R.styleable.CustomOnOffSwitch_CCOS_interpolateur, 0);
+		_tailleThumb = a.getFraction(R.styleable.CustomOnOffSwitch_CCOS_thumbSize, 1, 1, 0.5f);
+		_texteOn = a.getString(R.styleable.CustomOnOffSwitch_COOS_texteOn);
+		_texteOff = a.getString(R.styleable.CustomOnOffSwitch_COOS_texteOff);
+		_dureeAnimation = a.getInt(R.styleable.CustomOnOffSwitch_CCOS_dureeAnimation, 500);
 
-			_on = a.getBoolean(R.styleable.CustomOnOffSwitch_CCOS_on, false);
-			if (_on)
-				_valeurADessiner = 0f;
-			else
-				_valeurADessiner = 1f;
+		_on = a.getBoolean(R.styleable.CustomOnOffSwitch_CCOS_on, false);
+		if (_on)
+			_valeurADessiner = 0f;
+		else
+			_valeurADessiner = 1f;
 
-			_drawableThumb = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableThumb);
-			_drawableTrack = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableTrack);
+		_drawableThumb = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableThumb);
+		_drawableTrack = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableTrack);
 
-			_drawableOn = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableOn);
-			_drawableOff = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableOff);
-			_tailleDrawable = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_tailleDrawable, 10);
+		_drawableOn = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableOn);
+		_drawableOff = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableOff);
+		_tailleDrawable = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_tailleDrawable, 10);
 
-			_paddingThumb = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_paddingThumb, 10);
-			_paddingDrawable = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_paddingDrawable, 10);
-			float tailleTexte = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_tailleTexte, 10);
-			int couleurTexte = a.getColor(R.styleable.CustomOnOffSwitch_COOS_couleurTexte, Color.WHITE);
-			_textPaint = new TextPaint();
-			_textPaint.setTextSize(tailleTexte);
-			_textPaint.setAntiAlias(true);
-			_textPaint.setElegantTextHeight(true);
-			_textPaint.setColor(couleurTexte);
+		_paddingThumb = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_paddingThumb, 10);
+		_paddingDrawable = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_paddingDrawable, 10);
+		float tailleTexte = a.getDimension(R.styleable.CustomOnOffSwitch_COOS_tailleTexte, 10);
+		int couleurTexte = a.getColor(R.styleable.CustomOnOffSwitch_COOS_couleurTexte, Color.WHITE);
+		_textPaint = new TextPaint();
+		_textPaint.setTextSize(tailleTexte);
+		_textPaint.setAntiAlias(true);
+		_textPaint.setElegantTextHeight(true);
+		_textPaint.setColor(couleurTexte);
 
-			a.recycle();
-		}
+		a.recycle();
 		retaille();
 	}
 
-	/***
+	/***********************************************************************************************
 	 * Charge un drawable
 	 * @param a
 	 * @param attr
 	 * @return
-	 */
+	 ***********************************************************************************************/
 	@Nullable static private Drawable loadDrawable(final TypedArray a, final int attr)
 	{
 		if (a.hasValue(attr))
 		{
-			Drawable d = a.getDrawable(attr);
-			return d;
+			return a.getDrawable(attr);
 		}
 
 		return null;
 	}
 
-	/***
+	/***********************************************************************************************
 	 * Recalcule les tailles en cas de redimensionnement
-	 */
+	 ***********************************************************************************************/
 	private void retaille()
 	{
 		_paddingLeft = getPaddingLeft();
@@ -170,35 +172,10 @@ public class CustomOnOffSwitch extends View
 		_bottomDrawable = (int) (_topDrawable + _tailleDrawable);
 	}
 
-	public CustomOnOffSwitch(Context context, AttributeSet attrs, int defStyle)
-	{
-		super(context, attrs, defStyle);
-		init(attrs, defStyle);
-	}
-
-	/***
-	 * Dessine un texte centré
+	/***********************************************************************************************
+	 * Affichage du controle
 	 * @param canvas
-	 * @param paint
-	 * @param text
-	 * @param left
-	 * @param top
-	 * @param right
-	 * @param bottom
-	 */
-	private static void afficheTextCentre(@NonNull Canvas canvas, @NonNull Paint
-			paint, @NonNull String text, int left, int top, int right, int bottom)
-	{
-		Rect r = new Rect(left, top, right, bottom);
-		int cHeight = r.height();
-		int cWidth = r.width();
-		paint.setTextAlign(Paint.Align.LEFT);
-		paint.getTextBounds(text, 0, text.length(), r);
-		float x = cWidth / 2f - r.width() / 2f - r.left;
-		float y = cHeight / 2f + r.height() / 2f - r.bottom;
-		canvas.drawText(text, left + x, top + y, paint);
-	}
-
+	 ***********************************************************************************************/
 	@Override
 	protected void onDraw(Canvas canvas)
 	{
@@ -263,6 +240,29 @@ public class CustomOnOffSwitch extends View
 		}
 	}
 
+	/***********************************************************************************************
+	 * Dessine un texte centré dans un rectangle
+	 * @param canvas
+	 * @param paint
+	 * @param text
+	 * @param left
+	 * @param top
+	 * @param right
+	 * @param bottom
+	 ***********************************************************************************************/
+	private static void afficheTextCentre(@NonNull Canvas canvas, @NonNull Paint
+			paint, @NonNull String text, int left, int top, int right, int bottom)
+	{
+		Rect r = new Rect(left, top, right, bottom);
+		final int cHeight = r.height();
+		final int cWidth = r.width();
+		paint.setTextAlign(Paint.Align.LEFT);
+		paint.getTextBounds(text, 0, text.length(), r);
+		final float x = cWidth / 2f - r.width() / 2f - r.left;
+		final float y = cHeight / 2f + r.height() / 2f - r.bottom;
+		canvas.drawText(text, left + x, top + y, paint);
+	}
+
 	/***
 	 * Changement de taille
 	 * @param w
@@ -312,7 +312,6 @@ public class CustomOnOffSwitch extends View
 		if (_animator == null)
 		{
 			// Pas d'animation en cours
-
 			_animator = ValueAnimator.ofFloat(valeurdepart, valeurcible);
 			_animator.setDuration(_dureeAnimation);
 			PropertyValuesHolder valeur = PropertyValuesHolder.ofFloat(PROPERTY_VALEUR, valeurdepart, valeurcible);
@@ -371,6 +370,10 @@ public class CustomOnOffSwitch extends View
 		return false;
 	}
 
+	/***
+	 * Creer le type d'interpolateur en fonction de l'attribut
+	 * @return
+	 */
 	private @NonNull TimeInterpolator getInterpolateur()
 	{
 		switch (_interpolator)
@@ -383,10 +386,9 @@ public class CustomOnOffSwitch extends View
 				return new AnticipateInterpolator();
 			case 3:
 				return new BounceInterpolator();
-			case 4:
-				return new LinearInterpolator();
 			case 5:
 				return new OvershootInterpolator();
+			case 4:
 			default:
 				return new LinearInterpolator();
 		}

@@ -65,6 +65,7 @@ class PreferenceValue
 
 		} catch (Exception e)
 		{
+			e.printStackTrace();
 		}
 	}
 }

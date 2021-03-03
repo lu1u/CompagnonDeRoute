@@ -8,7 +8,7 @@
         android:right="1dp"
         android:top="4dp">
         <shape>
-            <corners android:radius="50dp" />
+            <corners android:radius="@dimen/corner_onoff_track" />
             <solid android:color="#DDDD" />
         </shape>
     </item>
@@ -18,7 +18,7 @@
         android:right="2dp"
         android:top="4dp">
         <shape>
-            <corners android:radius="50dp" />
+            <corners android:radius="@dimen/corner_onoff_track" />
             <solid android:color="#AAAA" />
         </shape>
     </item>
@@ -27,8 +27,8 @@
         android:left="3dp"
         android:right="3dp"
         android:top="3dp">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android">
-            <corners android:radius="10dp" />
+        <shape>
+            <corners android:radius="@dimen/corner_onoff_track" />
             <solid android:color="@color/Primary" />
         </shape>
     </item>

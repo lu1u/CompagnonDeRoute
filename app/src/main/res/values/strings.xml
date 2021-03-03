@@ -2,7 +2,7 @@
     <string name="app_name">Traveling companion</string>
     <string name="received_sms_sender_and_body">SMS received from %1$s.\n%2$s</string>
     <string name="received_sms_sender">SMS received from %1$s.</string>
-    <string name="received_sms_body">SMS received: %2$s.</string>
+    <string name="received_sms_body">SMS received: %1$s.</string>
     <string name="received_sms">SMS received</string>
     <string name="phone_call_format">Incoming phone call from %1$s</string>
     <string name="time_announce">It is %1$s.</string>
@@ -33,7 +33,7 @@
     <string name="ui_contacts_seulement">Contacts only</string>
     <string name="ui_parametres_horloge">Clock parameters</string>
     <string name="ui_annoncer_l_heure">Hour announce:</string>
-    <string name="sms_copyright_reponse_automatique">\n(Message automatically sent by Traveling Companion (c)2019 Lucien Pilloni)</string>
+    <string name="sms_copyright_reponse_automatique">\n(Message automatically sent by Traveling Companion ©2019 Lucien Pilloni)</string>
     <string name="ui_a_propos_icones">Icons from https://materialdesignicons.com/</string>
     <string name="ui_a_propos_code">Some code from https://stackoverflow.com/</string>
     <string name="ui_horloge">Clock:</string>
@@ -51,7 +51,7 @@
     <string name="ui_notifications">Notifications</string>
     <string name="menu_parametres">Parameters</string>
     <string name="menu_tts">Text to speech synthesis</string>
-    <string name="menu_apropos">About...</string>
+    <string name="menu_apropos">About…</string>
     <string name="menu_report">Report</string>
     <string name="menu_notifications">Notification access permissions</string>
     <string name="ui_notidication_sound">Notification sound:</string>
@@ -60,4 +60,16 @@
     <string name="pas_encore_de_notifications">No notification yet</string>
     <string name="effacer_notifications">Delete notification log?</string>
     <string name="working_please_wait">Please wait</string>
+    <string name="ui_application">Application</string>
+    <string name="ui_titre">Title</string>
+    <string name="contenu">Content</string>
+    <string name="ui_autres_applications">Other application settings</string>
+    <string name="ui_annoncer_les_notifications_pour_ces_applications">Announce notifications for these applications:</string>
+    <string name="param_tres_emails">EMails parameters</string>
+    <string name="ui_annoncer_le_titre">Announce title</string>
+    <string name="ui_annoncer_le_contenu">Announce content</string>
+    <string name="ui_annoncer_les_sms">Announce SMS</string>
+    <string name="ui_annoncer_l_exp_diteur">Announce sender</string>
+    <string name="ui_reponse_automatique">Automatic answer:</string>
+    <string name="ui_jamais">Never</string>
 </resources>

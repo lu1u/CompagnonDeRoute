@@ -3,7 +3,7 @@
     <string name="app_name">Compagnon de route</string>
     <string name="received_sms_sender_and_body">SMS reçu de %1$s.\n%2$s</string>
     <string name="received_sms_sender">SMS reçu de %1$s.</string>
-    <string name="received_sms_body">SMS reçu: %2$s</string>
+    <string name="received_sms_body">SMS reçu: %1$s</string>
     <string name="received_sms">SMS reçu:</string>
      <string name="phone_call_format">Appel téléphonique de %1$s</string>
     <string name="time_announce">Il est %1$s.</string>
@@ -34,7 +34,7 @@
     <string name="ui_contacts_seulement">Contacts seulement</string>
     <string name="ui_parametres_horloge">Paramètres horloge:</string>
     <string name="ui_annoncer_l_heure">Annoncer l\'heure:</string>
-    <string name="sms_copyright_reponse_automatique">\n(Message envoyé automatiquement par l\'application Compagnon de Route (c)2019 Lucien Pilloni)</string>
+    <string name="sms_copyright_reponse_automatique">\n(Message envoyé automatiquement par l\'application Compagnon de Route ©2019 Lucien Pilloni)</string>
     <string name="ui_a_propos_icones">Source des icônes https://materialdesignicons.com/</string>
     <string name="ui_a_propos_code">Quelques morceaux de code: https://stackoverflow.com/</string>
     <string name="ui_horloge">Horloge:</string>
@@ -53,7 +53,7 @@
     <string name="ui_notifications">Notifications:</string>
     <string name="menu_parametres">Paramètres</string>
     <string name="menu_tts">Synthèse vocale</string>
-    <string name="menu_apropos">A propos...</string>
+    <string name="menu_apropos">A propos…</string>
     <string name="menu_report">Rapport</string>
     <string name="ui_notidication_sound">Son de notification:</string>
     <string name="ui_other_applications">Autres applications</string>
@@ -63,5 +63,17 @@
     <string name="pas_encore_de_notifications">Pas encore de notifications</string>
     <string name="effacer_notifications">Effacer le journal des notifications?</string>
     <string name="working_please_wait">Veuillez patienter</string>
+    <string name="ui_application">Application</string>
+    <string name="ui_titre">Titre</string>
+    <string name="contenu">Contenu</string>
+    <string name="ui_autres_applications">Paramètres autres applications</string>
+    <string name="ui_annoncer_les_notifications_pour_ces_applications">Annoncer les notification pour ces applications:</string>
+    <string name="param_tres_emails">Paramètres EMails</string>
+    <string name="ui_annoncer_le_titre">Annoncer titre</string>
+    <string name="ui_annoncer_le_contenu">Annoncer contenu</string>
+    <string name="ui_annoncer_les_sms">Annoncer SMS</string>
+    <string name="ui_annoncer_l_exp_diteur">Annoncer expéditeur</string>
+    <string name="ui_reponse_automatique">Réponse automatique:</string>
+    <string name="ui_jamais">Jamais</string>
 
 </resources>

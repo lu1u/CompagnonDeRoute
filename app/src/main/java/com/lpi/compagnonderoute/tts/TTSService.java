@@ -238,6 +238,10 @@ public class TTSService extends Service
 		{
 			_textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener()
 			{
+				/***
+				 * TTS Initialisé (ou erreur)
+				 * @param ttsStatus
+				 */
 				@Override public void onInit(final int ttsStatus)
 				{
 					if (ttsStatus != TextToSpeech.SUCCESS)
@@ -277,6 +281,12 @@ public class TTSService extends Service
 						}
 					});
 
+					final Bundle params = new Bundle();
+					params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "lpi.TTSService");
+					if (volume >= 0.0f)
+						params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, volume);
+
+					// Sonnerie avant le discours
 					_mediaPlayer = MediaPlayer.create(context, soundId);
 					_mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
 					{
@@ -289,11 +299,6 @@ public class TTSService extends Service
 					_mediaPlayer.start();
 
 					// Et enfin... prononcer le discours
-					final Bundle params = new Bundle();
-					params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "lpi.TTSService");
-					if (volume >= 0.0f)
-						params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, volume);
-
 					_textToSpeech.speak(message, TextToSpeech.QUEUE_ADD, params, "lpi.TTSService");
 
 				}
@@ -303,13 +308,6 @@ public class TTSService extends Service
 			r.log(Report.ERROR, "Erreur dans TTSService.parler");
 			r.log(Report.ERROR, e);
 		}
-	}
-
-	private class Options
-	{
-		int soundId;
-		float volume;
-		boolean forcerSortieSpeaker;
 	}
 
 	/***

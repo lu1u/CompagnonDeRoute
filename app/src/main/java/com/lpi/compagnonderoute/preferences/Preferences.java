@@ -45,30 +45,30 @@ public class Preferences
 	private static final String PREF_NOTIFICATION_NOM_APPLI = "notificationNomAppli";
 
 	private static Preferences _instance;
-	public PreferenceBoolean actif;
-	public PreferenceBoolean actifApresReboot;
-	public PreferenceInt horlogeDelai;
-	public PreferenceInt telephoneRepondre;
-	public PreferenceString telephoneReponse;
-	public PreferenceBoolean horlogeAnnoncer;
+	public final PreferenceBoolean actif;
+	public final PreferenceBoolean actifApresReboot;
+	public final PreferenceInt horlogeDelai;
+	public final PreferenceInt telephoneRepondre;
+	public final PreferenceString telephoneReponse;
+	public final PreferenceBoolean horlogeAnnoncer;
 	// SMS
-	public PreferenceInt smsAnnoncer;
-	public PreferenceInt smsRepondre;
-	public PreferenceString smsReponse;
-	public PreferenceBoolean smsGerer;
-	public PreferenceBoolean smsLireExpediteur;
-	public PreferenceBoolean smsLireContenu;
+	public final PreferenceInt smsAnnoncer;
+	public final PreferenceInt smsRepondre;
+	public final PreferenceString smsReponse;
+	public final PreferenceBoolean smsGerer;
+	public final PreferenceBoolean smsLireExpediteur;
+	public final PreferenceBoolean smsLireContenu;
 
 	// Appels telephoniques
-	public PreferenceBoolean telephoneGerer;
-	public PreferenceInt telephoneAnnoncer;
+	public final PreferenceBoolean telephoneGerer;
+	public final PreferenceInt telephoneAnnoncer;
 	// EMails
-	public PreferenceBoolean eMailsGerer;
-	public PreferenceBoolean eMailsAnnonceExpediteur;
-	public PreferenceBoolean eMailsAnnonceSujet;
+	public final PreferenceBoolean eMailsGerer;
+	public final PreferenceBoolean eMailsAnnonceExpediteur;
+	public final PreferenceBoolean eMailsAnnonceSujet;
 
 	// Autres applications
-	public PreferenceBoolean autresApplisActif;
+	public final PreferenceBoolean autresApplisActif;
 
 	public static final int DELAI_ANNONCE_HEURE_HEURES = 1;
 	public static final int DELAI_ANNONCE_HEURE_DEMI = 2;
@@ -78,7 +78,7 @@ public class Preferences
 	public PreferenceFloat volume;
 	public PreferenceBoolean volumeDefaut;
 
-	private SQLiteDatabase database;
+	private final SQLiteDatabase database;
 
 	/***
 	 * Constructeur privé du singleton Preferences, on doit passer par getInstance pour obtenir une

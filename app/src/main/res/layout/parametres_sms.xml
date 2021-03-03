@@ -22,7 +22,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Annoncer les SMS" />
+        android:text="@string/ui_annoncer_les_sms" />
 
     <RadioGroup
         android:id="@+id/radiogroupLireSMS"
@@ -38,7 +38,7 @@
             android:layout_weight="1"
             android:checked="true"
             android:padding="@dimen/padding_toggle"
-            android:text="Toujours" />
+            android:text="@string/ui_toujours" />
 
         <RadioButton
             android:id="@+id/radioButtonSMSContacts"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/padding_toggle"
-            android:text="Contacts seulement" />
+            android:text="@string/ui_contacts_seulement" />
 
     </RadioGroup>
 
@@ -54,18 +54,18 @@
         android:id="@+id/checkBoxExpediteur"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Annoncer l'expéditeur" />
+        android:text="@string/ui_annoncer_l_exp_diteur" />
 
     <CheckBox
         android:id="@+id/checkBoxContenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Annoncer le contenu" />
+        android:text="@string/ui_annoncer_le_contenu" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Réponse automatique:" />
+        android:text="@string/ui_reponse_automatique" />
 
     <RadioGroup
         android:id="@+id/radiogroupReponseAutoSMS"
@@ -76,19 +76,19 @@
             android:id="@+id/radioButtonJamais"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Jamais" />
+            android:text="@string/ui_jamais" />
 
         <RadioButton
             android:id="@+id/radioButtonToujours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Toujours" />
+            android:text="@string/ui_toujours" />
 
         <RadioButton
             android:id="@+id/radioButtonContacts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Contacts seulement" />
+            android:text="@string/ui_contacts_seulement" />
 
     </RadioGroup>
 
@@ -99,6 +99,6 @@
         android:background="@drawable/modal_background"
         android:padding="4dp"
         android:singleLine="false"
-        android:text="TextView" />
+        android:text="" />
 
 </LinearLayout>

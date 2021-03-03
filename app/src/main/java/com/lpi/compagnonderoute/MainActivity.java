@@ -126,8 +126,6 @@ public class MainActivity extends AppCompatActivity
 					{
 						r.log(Report.HISTORIQUE, "Activé");
 						_preferences.actif.set(true);
-						CustomToast.show(MainActivity.this, R.string.enabled);
-						//Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.enabled), Toast.LENGTH_SHORT).show();
 						TTSService.speakFromAnywhere(MainActivity.this,
 								_preferences.getSoundId(MainActivity.this),
 								_preferences.volumeDefaut.get() ? _preferences.volume.get() : -1.0f,
@@ -138,8 +136,6 @@ public class MainActivity extends AppCompatActivity
 					{
 						r.log(Report.HISTORIQUE, "Désactivé");
 						_preferences.actif.set(false);
-						//Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.disabled), Toast.LENGTH_SHORT).show();
-						CustomToast.show(MainActivity.this, R.string.disabled);
 						TTSService.speakFromAnywhere(MainActivity.this,
 								_preferences.getSoundId(MainActivity.this),
 								_preferences.volumeDefaut.get() ? _preferences.volume.get() : -1.0f,
@@ -164,7 +160,7 @@ public class MainActivity extends AppCompatActivity
 					if (compoundButton.isPressed())
 					{
 						_preferences.horlogeAnnoncer.set(checked);
-						Carillon.changeDelai(MainActivity.this);
+						Plannificateur.changeDelai(MainActivity.this);
 					}
 				}
 			});
