@@ -5,6 +5,6 @@ You get vocal notification for:
 - incoming calls
 - incoming sms
 - notifications from all other application
-<img src="Screenshot_1.png">
-![Image](Screenshot_2.png?raw=true)
+<img src="app/images/Screenshot_1.png">
+<img src="app/images/Screenshot_2.png">
 I use this while riding my motorbike
