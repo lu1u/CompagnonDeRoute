@@ -6,8 +6,8 @@ You get vocal notification for:
 - incoming sms
 - notifications from all other application
 
-<a href=""app/images/Screenshot_1.png""><img src="app/images/Screenshot_1.png" width="200"></a>
-<a href=""app/images/Screenshot_2.png""><img src="app/images/Screenshot_2.png" width="200"></a>
+<a href="app/images/Screenshot_1.png"><img src="app/images/Screenshot_1.png" width="200"></a>
+<a href="app/images/Screenshot_2.png"><img src="app/images/Screenshot_2.png" width="200"></a>
 
 I use this while riding my motorbike
 ### Installation
