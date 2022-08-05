@@ -23,23 +23,23 @@ public class NotificationGMail
 	public static void reception(@NonNull final Context context, @NonNull final StatusBarNotification sbn)
 	{
 		Report r = Report.getInstance(context);
-		Preferences preferences = Preferences.getInstance(context);
-		r.log(Report.HISTORIQUE, "Notification GMail");
-		if ((sbn.getNotification().flags & Notification.FLAG_GROUP_SUMMARY) != 0)
-		{
-			//Ignore the notification
-			r.log(Report.DEBUG, "Notification groupee de GMail, ignorer");
-			return;
-		}
-		if (!preferences.eMailsGerer.get())
-		{
-			// Ne pas s'occuper des mails
-			r.log(Report.DEBUG, "Messages Gmail désactivés");
-			return;
-		}
-
 		try
 		{
+			Preferences preferences = Preferences.getInstance(context);
+			r.log(Report.HISTORIQUE, "Notification GMail");
+			if ((sbn.getNotification().flags & Notification.FLAG_GROUP_SUMMARY) != 0)
+			{
+				//Ignore the notification
+				r.log(Report.DEBUG, "Notification groupee de GMail, ignorer");
+				return;
+			}
+			if (!preferences.eMailsGerer.get())
+			{
+				// Ne pas s'occuper des mails
+				r.log(Report.DEBUG, "Messages Gmail désactivés");
+				return;
+			}
+
 			final Notification notification = sbn.getNotification();
 			if (notification == null)
 			{

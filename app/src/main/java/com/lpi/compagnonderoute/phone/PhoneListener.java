@@ -28,8 +28,8 @@ public class PhoneListener extends BroadcastReceiver
 	public void onReceive(@NonNull Context context, Intent intent)
 	{
 		Report r = Report.getInstance(context);
-		r.log(Report.DEBUG, "PhoneListener.onReceive");
-
+		try
+		{
 		if (!TelephonyManager.ACTION_PHONE_STATE_CHANGED.equals(intent.getAction()))
 			return;
 
@@ -42,8 +42,7 @@ public class PhoneListener extends BroadcastReceiver
 			// Ne pas annoncer les appels
 			return;
 
-		try
-		{
+
 			Bundle b = intent.getExtras();
 			if (b != null)
 			{
@@ -89,28 +88,31 @@ public class PhoneListener extends BroadcastReceiver
 
 	protected void onIncomingCallStarted(@NonNull final Context context, String number, int subId)
 	{
-		if (number == null)
-			return;
-
-		Preferences preferences = Preferences.getInstance(context);
-		@Nullable String contact = ContactUtils.getContactFromNumber(context, number);
-
-		if (contact == null)
+		Report r = Report.getInstance(context);
+		try
 		{
-			if (preferences.telephoneAnnoncer.get() == Preferences.CONTACTS_SEULS)
-			{
-				// N'afficher que les sms provenant d'un contact enregistré
+			if (number == null)
 				return;
+
+			Preferences preferences = Preferences.getInstance(context);
+			@Nullable String contact = ContactUtils.getContactFromNumber(context, number);
+
+			if (contact == null)
+			{
+				if (preferences.telephoneAnnoncer.get() == Preferences.CONTACTS_SEULS)
+				{
+					// N'afficher que les sms provenant d'un contact enregistré
+					return;
+				}
+				else
+					contact = number;
 			}
-			else
-				contact = number;
-		}
 
-		String message = context.getResources().getString(R.string.phone_call_format, contact);
-		TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, message);
-		NotificationDatabase.getInstance(context).ajoute(message);
+			String message = context.getResources().getString(R.string.phone_call_format, contact);
+			TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, message);
+			NotificationDatabase.getInstance(context).ajoute(message);
 
-		// Repondre a l'appel
+			// Repondre a l'appel
 //		if (preferences.telephoneRepondre.get() != Preferences.JAMAIS)
 //		{
 //			String appelant = number;
@@ -124,6 +126,11 @@ public class PhoneListener extends BroadcastReceiver
 //			}
 //		}
 
-		//PhoneUtils.rejectCall(context);
+			//PhoneUtils.rejectCall(context);
+		}catch (Exception e)
+		{
+			r.log(Report.ERROR, "Erreur dans IncomingCallReceiver.onIncomingCallStarted");
+			r.log(Report.ERROR, e);
+		}
 	}
 }

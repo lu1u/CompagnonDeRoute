@@ -16,6 +16,7 @@ import com.lpi.compagnonderoute.report.Report;
 public class NotificationListener extends android.service.notification.NotificationListenerService
 {
 	public static final String GMAIL_PACKAGE = "com.google.android.gm";
+	public static final String WHATSAPP_PACKAGE = "com.whatsapp";
 
 	/***********************************************************************************************
 	 * Interception d'une notification emise par une application tierce
@@ -49,6 +50,10 @@ public class NotificationListener extends android.service.notification.Notificat
 				case GMAIL_PACKAGE:
 					dumpNotification(sbn.getNotification());
 					NotificationGMail.reception(this, sbn);
+					break;
+				case WHATSAPP_PACKAGE:
+					dumpNotification(sbn.getNotification());
+					NotificationWhatsApp.reception(this, sbn);
 					break;
 
 				default:

@@ -9,6 +9,8 @@ import android.view.View;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
+import com.lpi.compagnonderoute.report.Report;
+
 class BackgroundTaskWithSpinner
 {
 	/*******************************************************************************************
@@ -20,6 +22,8 @@ class BackgroundTaskWithSpinner
 	 *******************************************************************************************/
 	public static void execute(@NonNull final Activity context, @LayoutRes int layoutId, @NonNull final TaskListener listener)
 	{
+		Report r = Report.getInstance(context);
+		r.log(Report.DEBUG, "BackgroundTaskWithSpinner.execute");
 		final AlertDialog dialogBuilder = new AlertDialog.Builder(context).create();
 
 		LayoutInflater inflater = context.getLayoutInflater();
@@ -31,6 +35,7 @@ class BackgroundTaskWithSpinner
 			@Override protected void onPreExecute()
 			{
 				super.onPreExecute();
+				r.log(Report.DEBUG, "AsyncTask.onPreExecute");
 				dialogBuilder.show();
 			}
 
@@ -43,6 +48,7 @@ class BackgroundTaskWithSpinner
 			@Override protected void onPostExecute(final Void aVoid)
 			{
 				super.onPostExecute(aVoid);
+				r.log(Report.DEBUG, "AsyncTask.onPostExecute");
 				if (dialogBuilder.isShowing())
 					dialogBuilder.dismiss();
 				listener.onFinished();
@@ -51,6 +57,8 @@ class BackgroundTaskWithSpinner
 			@Override
 			protected Void doInBackground(final Void... voids)
 			{
+				r.log(Report.DEBUG, "AsyncTask.doInBackground");
+
 				listener.execute();
 				return null;
 			}

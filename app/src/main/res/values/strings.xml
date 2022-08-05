@@ -25,6 +25,7 @@
     <string name="received_autre_appli_nom">Notification from %1$s. </string>
 
     <string name="permissions_sms">You must grant this application the rights to access you SMS and contacts</string>
+    <string name="permissions_alarme">You must grant this application the rights to schedule alarms</string>
     <string name="permissions_telephone">You must grant this application the rights to access you phone and contacts</string>
     <string name="ui_sms_reponse_auto">SMS: réponse automatique</string>
     <string name="ui_parametres_telephone">Phone Parameters</string>
@@ -72,4 +73,9 @@
     <string name="ui_annoncer_l_exp_diteur">Announce sender</string>
     <string name="ui_reponse_automatique">Automatic answer:</string>
     <string name="ui_jamais">Never</string>
+    <string name="browse_genre_subtitle">Genres</string>
+    <string name="browse_genres">genres</string>
+
+    <string name="received_whatsapp">WhatsApp message received from %1$s, %2$s</string>
+    <string name="received_whatsapp_null">WhatsApp message received</string>
 </resources>

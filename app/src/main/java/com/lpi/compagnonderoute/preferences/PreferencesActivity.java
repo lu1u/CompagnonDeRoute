@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -105,7 +106,10 @@ public class PreferencesActivity //extends AppCompatActivity
 				}
 			});
 
-			sbVolume.setMin(1);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+			{
+				sbVolume.setMin(1);
+			}
 			sbVolume.setMax(10);
 			sbVolume.setProgress((int) (prefs.volume.get() * 10.0f));
 			sbVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()

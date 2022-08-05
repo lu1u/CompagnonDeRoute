@@ -21,24 +21,24 @@ class NotificationAutresApplis
 	public static void reception(@NonNull final Context context, @NonNull final StatusBarNotification sbn)
 	{
 		Report r = Report.getInstance(context);
-		Preferences preferences = Preferences.getInstance(context);
-		r.log(Report.HISTORIQUE, "Autre notification");
-		if ((sbn.getNotification().flags & Notification.FLAG_GROUP_SUMMARY) != 0)
-		{
-			//Ignore the notification
-			r.log(Report.DEBUG, "Notification groupee d'une application, ignorer");
-			return;
-		}
-
-		if (!preferences.autresApplisActif.get())
-		{
-			// Ne pas s'occuper des autres applications
-			r.log(Report.DEBUG, "Messages d'une autre application désactivés");
-			return;
-		}
-
 		try
 		{
+			Preferences preferences = Preferences.getInstance(context);
+			r.log(Report.HISTORIQUE, "Autre notification");
+			if ((sbn.getNotification().flags & Notification.FLAG_GROUP_SUMMARY) != 0)
+			{
+				//Ignore the notification
+				r.log(Report.DEBUG, "Notification groupee d'une application, ignorer");
+				return;
+			}
+
+			if (!preferences.autresApplisActif.get())
+			{
+				// Ne pas s'occuper des autres applications
+				r.log(Report.DEBUG, "Messages d'une autre application désactivés");
+				return;
+			}
+
 			final Notification notification = sbn.getNotification();
 			if (notification == null)
 			{
@@ -54,43 +54,50 @@ class NotificationAutresApplis
 			}
 
 			final String packageName = sbn.getPackageName();
-			final boolean nomAppli = preferences.getNotificationNomAppli(packageName);
-			final boolean titre = preferences.getNotificationTitre(packageName);
-			final boolean contenu = preferences.getNotificationContenu(packageName);
-			if (!nomAppli && !titre && !contenu)
+			if( packageName!=null)
 			{
-				r.log(Report.DEBUG, "NomAppli, Titre et contenu désactivé");
-				return;
+				final String notreApplication = context.getPackageName();
+				if ( notreApplication.equals(packageName))
+					return;
+
+				final boolean nomAppli = preferences.getNotificationNomAppli(packageName);
+				final boolean titre = preferences.getNotificationTitre(packageName);
+				final boolean contenu = preferences.getNotificationContenu(packageName);
+				if (!nomAppli && !titre && !contenu)
+				{
+					r.log(Report.DEBUG, "NomAppli, Titre et contenu désactivé");
+					return;
+				}
+
+				StringBuilder sb = new StringBuilder();
+
+				// Dire le nom de l'application
+				if (nomAppli)
+				{
+					final String nom = getApplicationName(context, packageName);
+					r.log(Report.DEBUG, "Nom:" + nom);
+					sb.append(context.getString(R.string.received_autre_appli_nom, nom));
+				}
+
+				// Dire le titre de la notification
+				if (titre)
+				{
+					Object o = bundle.get(NotificationCompat.EXTRA_TITLE);
+					if (o != null)
+						sb.append(o.toString() + ". ");
+				}
+
+				// Dire le contenu
+				if (contenu)
+				{
+					Object o = bundle.get(NotificationCompat.EXTRA_TEXT);
+					if (o != null)
+						sb.append(o.toString() + ". ");
+				}
+
+				TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, sb.toString());
+				NotificationDatabase.getInstance(context).ajoute(sb.toString());
 			}
-
-			StringBuilder sb = new StringBuilder();
-
-			// Dire le nom de l'application
-			if (nomAppli)
-			{
-				final String nom = getApplicationName(context, packageName);
-				r.log(Report.DEBUG, "Nom:" + nom);
-				sb.append(context.getString(R.string.received_autre_appli_nom, nom));
-			}
-
-			// Dire le titre de la notification
-			if (titre)
-			{
-				Object o = bundle.get(NotificationCompat.EXTRA_TITLE);
-				if (o != null)
-					sb.append(o.toString() + ". ");
-			}
-
-			// Dire le contenu
-			if (contenu)
-			{
-				Object o = bundle.get(NotificationCompat.EXTRA_TEXT);
-				if (o != null)
-					sb.append(o.toString() + ". ");
-			}
-
-			TTSService.speakFromAnywhere(context, preferences.getSoundId(context), preferences.volumeDefaut.get() ? preferences.volume.get() : -1, sb.toString());
-			NotificationDatabase.getInstance(context).ajoute(sb.toString());
 		} catch (Exception e)
 		{
 			r.log(Report.ERROR, "Erreur dans NotificationListener.receptionMessageAutresApplis");
@@ -107,8 +114,8 @@ class NotificationAutresApplis
 			ai = pm.getApplicationInfo(packageName, 0);
 		} catch (final PackageManager.NameNotFoundException e)
 		{
-			ai = null;
+			return "(unknown)";
 		}
-		return (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
+		return pm.getApplicationLabel(ai).toString() ;
 	}
 }

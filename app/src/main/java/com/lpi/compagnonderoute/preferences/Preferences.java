@@ -38,6 +38,10 @@ public class Preferences
 	@NonNull private static final String PREF_ACTIF_APRES_REBOOT = "actifApresReboot";
 	@NonNull private static final String PREF_VOLUME_DEFAUT = "volumeDefaut";
 	@NonNull private static final String PREF_VOLUME = "volumef";
+
+	@NonNull private static final String PREF_MESSAGE_WHATSAPPACTIF = "messageWhatsAppActif";
+
+
 	private static final String PREF_SON_NOTIFICATION = "sonNotification";
 	private static final String PREF_AUTRES_APPLIS = "autresApplications";
 	private static final String PREF_NOTIFICATION_TITRE = "notificationTitre ";
@@ -72,6 +76,7 @@ public class Preferences
 
 	public static final int DELAI_ANNONCE_HEURE_HEURES = 1;
 	public static final int DELAI_ANNONCE_HEURE_DEMI = 2;
+	public final PreferenceBoolean messageWhatsAppActif;
 
 	// Audio
 	public PreferenceInt sonNotification;
@@ -124,6 +129,7 @@ public class Preferences
 
 		// Autres applications
 		autresApplisActif = new PreferenceBoolean(database, PREF_AUTRES_APPLIS, false);
+		messageWhatsAppActif = new PreferenceBoolean(database, PREF_MESSAGE_WHATSAPPACTIF, false);
 	}
 
 	private SQLiteDatabase getDatabase(final Context context)

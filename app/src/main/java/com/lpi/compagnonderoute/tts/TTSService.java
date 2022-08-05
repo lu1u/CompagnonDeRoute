@@ -14,10 +14,14 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.PlaybackParams;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
@@ -32,18 +36,13 @@ import com.lpi.compagnonderoute.MainActivity;
 import com.lpi.compagnonderoute.R;
 import com.lpi.compagnonderoute.report.Report;
 
-public class TTSService extends Service
+public class TTSService extends Service //implements AudioManager.OnAudioFocusChangeListener
 {
 	private static final String SOUNDID_EXTRA = "TTSService.soundId";
 	public static final String MESSAGE_EXTRA = "TTSService.message";
 	public static final String VOLUME_EXTRA = "TTSService.volume";
 	public static final float VOLUME_MAX = 1.0f;
 	private MediaPlayer _mediaPlayer;
-
-	/**
-	 * The unique identifier for this type of notification.
-	 */
-	@NonNull
 	private TextToSpeech _textToSpeech;
 
 	/***
@@ -98,7 +97,6 @@ public class TTSService extends Service
 		}
 		return super.onStartCommand(intent, flags, startId);
 	}
-	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/***
 	 * Prononcer un texte parametré, avec un format provenant directement des resources
@@ -113,8 +111,6 @@ public class TTSService extends Service
 		String format = ctx.getResources().getString(resId);
 		speakFromAnywhere(ctx, soundID, volume, String.format(format, args));
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/***
 	 * Prononcer un texte
@@ -254,9 +250,7 @@ public class TTSService extends Service
 
 					_textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener()
 					{
-						@Override public void onStart(final String s)
-						{
-						}
+						@Override public void onStart(final String s){}
 
 						@Override public void onDone(final String s)
 						{
@@ -295,6 +289,7 @@ public class TTSService extends Service
 							_mediaPlayer.release();
 						}
 					});
+
 					_mediaPlayer.seekTo(0);
 					_mediaPlayer.start();
 
@@ -309,6 +304,50 @@ public class TTSService extends Service
 			r.log(Report.ERROR, e);
 		}
 	}
+
+//	private void demandeFocuseRequest(final Context context, MediaPlayer mMediaPlayer)
+//	{
+//		// initialization of the audio attributes and focus request
+//		AudioManager mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+//		AudioAttributes  mPlaybackAttributes = new AudioAttributes.Builder()
+//				.setUsage(AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE)
+//				.setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+//				.build();
+//
+//
+//		AudioFocusRequest mFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+//				.setAudioAttributes(mPlaybackAttributes)
+//				.setAcceptsDelayedFocusGain(true)
+//				.setWillPauseWhenDucked(true)
+//				.setOnAudioFocusChangeListener(this,new Handler())
+//				.build();
+//		mMediaPlayer = new MediaPlayer();
+//		mMediaPlayer.setAudioAttributes(mPlaybackAttributes);
+//		final Object mFocusLock = new Object();
+//
+//		boolean mPlaybackDelayed = false;
+//
+//		// requesting audio focus
+//		int res = mAudioManager.requestAudioFocus(mFocusRequest);
+//		synchronized (mFocusLock)
+//		{
+//			if (res == AudioManager.AUDIOFOCUS_REQUEST_FAILED)
+//			{
+//				mPlaybackDelayed = false;
+//			}
+//			else if (res == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
+//			{
+//				mPlaybackDelayed = false;
+//				//playbackNow();
+//			}
+//			else if (res == AudioManager.AUDIOFOCUS_REQUEST_DELAYED)
+//			{
+//				mPlaybackDelayed = true;
+//			}
+//		}
+//
+//
+//	}
 
 	/***
 	 * Fermer le service quand le message a été prononcé
@@ -329,10 +368,50 @@ public class TTSService extends Service
 		}
 	}
 
-	private static Uri getUri(@NonNull final Context context, final int soundId)
-	{
-		return Uri.parse("android.resource://" + context.getApplicationContext().getPackageName() + "/" + soundId);
-	}
+//	private static Uri getUri(@NonNull final Context context, final int soundId)
+//	{
+//		return Uri.parse("android.resource://" + context.getApplicationContext().getPackageName() + "/" + soundId);
+//	}
+//
+//	@Override public void onAudioFocusChange( int focusChange)
+//	{
+//		if ( mFocusLock==null)
+//			mFocusLock = new Object();
+//		switch (focusChange)
+//		{
+//			case AudioManager.AUDIOFOCUS_GAIN:
+//				if (mPlaybackDelayed || mResumeOnFocusGain)
+//				{
+//					synchronized (mFocusLock)
+//					{
+//						mPlaybackDelayed = false;
+//						mResumeOnFocusGain = false;
+//					}
+//					//playbackNow();
+//				}
+//				break;
+//			case AudioManager.AUDIOFOCUS_LOSS:
+//				synchronized (mFocusLock)
+//				{
+//					// this is not a transient loss, we shouldn't automatically resume for now
+//					mResumeOnFocusGain = false;
+//					mPlaybackDelayed = false;
+//				}
+//				//pausePlayback();
+//				break;
+//			case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+//			case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+//				// we handle all transient losses the same way because we never duck audio books
+//				synchronized (mFocusLock)
+//				{
+//					// we should only resume if playback was interrupted
+//					mResumeOnFocusGain = _mediaPlayer.isPlaying();
+//					mPlaybackDelayed = false;
+//				}
+//				//pausePlayback();
+//				break;
+//		}
+//	}
 
 	/***
 	 * Permet de fournir un listener pour etre mis au courant de l'evolution du TTS

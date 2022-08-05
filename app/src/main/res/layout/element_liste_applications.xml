@@ -1,59 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp">
-
-    <ImageView
-        android:id="@+id/imageViewIcone"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewNomAppli"
-        app:srcCompat="@drawable/fond_bouton" />
+    android:layout_marginTop="8dp"
+    android:paddingBottom="8dp">
 
     <TextView
         android:id="@+id/textViewNomAppli"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/PrimaryLight"
+        android:text="Application"
+        android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewIcone"
-        app:layout_constraintTop_toTopOf="@+id/switchNomAppli" />
+        android:textColor="@color/attrColorTexteRadioBoutons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewIcone"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="@dimen/marge_ecran_parametre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNomAppli"
+        app:srcCompat="@drawable/fond_bouton" />
 
     <TextView
         android:id="@+id/textViewPackageName"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="package"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintStart_toEndOf="@+id/imageViewIcone"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNomAppli" />
+        app:layout_constraintTop_toTopOf="@+id/imageViewIcone" />
 
     <Switch
         android:id="@+id/switchNomAppli"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ui_application"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/imageViewIcone"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewIcone" />
 
     <Switch
         android:id="@+id/switchTitre"
         android:layout_width="89dp"
         android:layout_height="10dp"
-        android:layout_marginTop="8dp"
         android:text="@string/ui_titre"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchNomAppli" />
+        app:layout_constraintEnd_toStartOf="@+id/switchContenu"
+        app:layout_constraintStart_toEndOf="@+id/switchNomAppli"
+        app:layout_constraintTop_toTopOf="@+id/switchNomAppli" />
 
     <Switch
         android:id="@+id/switchContenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/contenu"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchTitre" />
+        app:layout_constraintTop_toTopOf="@+id/switchTitre" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,12 +27,15 @@ import androidx.annotation.Nullable;
 
 import com.lpi.compagnonderoute.report.Report;
 
+
 /***************************************************************************************************
  * Controle personnalisé: switch On/Off
  * Attributs: voir @values/attrs_custom_on_off_switch.xml
  */
 public class CustomOnOffSwitch extends View
 {
+	private static final float VALEUR_ON = 1.0f;
+	private static final float VALEUR_OFF = 0.0f;
 	private static final String PROPERTY_VALEUR = "valeur";
 	/**
 	 * Attributs configurables
@@ -108,9 +111,9 @@ public class CustomOnOffSwitch extends View
 
 		_on = a.getBoolean(R.styleable.CustomOnOffSwitch_CCOS_on, false);
 		if (_on)
-			_valeurADessiner = 0f;
+			_valeurADessiner = VALEUR_ON;
 		else
-			_valeurADessiner = 1f;
+			_valeurADessiner = VALEUR_OFF;
 
 		_drawableThumb = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableThumb);
 		_drawableTrack = loadDrawable(a, R.styleable.CustomOnOffSwitch_COOS_drawableTrack);
@@ -299,14 +302,14 @@ public class CustomOnOffSwitch extends View
 		if (_on)
 		{
 			_on = false;
-			valeurdepart = 0;
-			valeurcible = 1;
+			valeurdepart =VALEUR_ON;
+			valeurcible = VALEUR_OFF;
 		}
 		else
 		{
 			_on = true;
-			valeurdepart = 1;
-			valeurcible = 0;
+			valeurdepart = VALEUR_OFF;
+			valeurcible = VALEUR_ON;
 		}
 
 		if (_animator == null)
@@ -345,9 +348,9 @@ public class CustomOnOffSwitch extends View
 				{
 					_animator = null;
 					if (_on)
-						_valeurADessiner = 0f;
+						_valeurADessiner = VALEUR_ON;
 					else
-						_valeurADessiner = 1f;
+						_valeurADessiner = VALEUR_OFF;
 				}
 
 				@Override public void onAnimationCancel(final Animator animator)
@@ -407,9 +410,9 @@ public class CustomOnOffSwitch extends View
 	{
 		_on = b;
 		if (_on)
-			_valeurADessiner = 0f;
+			_valeurADessiner = VALEUR_ON;
 		else
-			_valeurADessiner = 1f;
+			_valeurADessiner = VALEUR_OFF;
 
 		invalidate();
 	}

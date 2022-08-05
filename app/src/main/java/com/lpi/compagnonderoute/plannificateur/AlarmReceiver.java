@@ -28,10 +28,10 @@ public class AlarmReceiver extends BroadcastReceiver
 	public void onReceive(@NonNull Context context, @NonNull Intent intent)
 	{
 		Report r = Report.getInstance(context);
-		r.log(Report.DEBUG, "Alarme recue, action=" + intent.getAction());
-
 		try
 		{
+			r.log(Report.DEBUG, "Alarme recue, action=" + intent.getAction());
+
 			String action = intent.getAction();
 
 			if (Plannificateur.ACTION_ALARME.equals(action))

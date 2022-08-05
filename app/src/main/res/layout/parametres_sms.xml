@@ -28,7 +28,6 @@
         android:id="@+id/radiogroupLireSMS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/marge_categories"
         android:orientation="vertical">
 
         <RadioButton
@@ -37,7 +36,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:padding="@dimen/padding_toggle"
             android:text="@string/ui_toujours" />
 
         <RadioButton
@@ -45,10 +43,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="@dimen/padding_toggle"
             android:text="@string/ui_contacts_seulement" />
 
     </RadioGroup>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/marge_categories" />
 
     <CheckBox
         android:id="@+id/checkBoxExpediteur"
@@ -62,6 +63,10 @@
         android:layout_height="wrap_content"
         android:text="@string/ui_annoncer_le_contenu" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/marge_categories" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,7 +75,7 @@
     <RadioGroup
         android:id="@+id/radiogroupReponseAutoSMS"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <RadioButton
             android:id="@+id/radioButtonJamais"
@@ -92,11 +97,15 @@
 
     </RadioGroup>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/marge_categories" />
+
     <TextView
         android:id="@+id/textViewReponse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/modal_background"
+        android:background="@color/AccentLight"
         android:padding="4dp"
         android:singleLine="false"
         android:text="" />

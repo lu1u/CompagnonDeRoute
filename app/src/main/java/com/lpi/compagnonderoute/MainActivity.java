@@ -26,6 +26,7 @@ import com.lpi.compagnonderoute.parametres.ParametresAutresApplis;
 import com.lpi.compagnonderoute.parametres.ParametresEMails;
 import com.lpi.compagnonderoute.parametres.ParametresHorloge;
 import com.lpi.compagnonderoute.parametres.ParametresSMS;
+import com.lpi.compagnonderoute.parametres.ParametresWhatsApp;
 import com.lpi.compagnonderoute.plannificateur.Plannificateur;
 import com.lpi.compagnonderoute.preferences.Preferences;
 import com.lpi.compagnonderoute.preferences.PreferencesActivity;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity
 	// Codes pour les demandes de permission systeme
 	private static final int PERMISSION_REQUEST_ACTIVER_SMS = 0;
 	private static final int PERMISSION_REQUEST_ACTIVER_TELEPHONE = 1;
+	private static final int PERMISSION_REQUEST_ACTIVER_ALARME = 2;
 
 	// Intercepte les messages du plannificateur pour maj l'interface utilisateur
 	@NonNull final IntentFilter _intentFilter = new IntentFilter(Plannificateur.ACTION_MESSAGE_UI);
@@ -48,7 +50,8 @@ public class MainActivity extends AppCompatActivity
 	Preferences _preferences;
 	private CustomOnOffSwitch _customOnOffSwitch;
 	// Controles de l'interface utilisateur
-	private Switch _swSMS, _swHorloge, _swEMails, _swAppelTelephone, _swAutresApplis;
+	private Switch _swSMS, _swHorloge, _swEMails, _swAppelTelephone, _swAutresApplis, _swWhatsApp;
+	private ImageButton _bSettingsHorloge, _bSettingsSMS, _bSettingsEMails, _bSettingsTelephone, _bSettingsAutresApplis, _bSettingsWhatsApp;
 	private TextView _tvMessage;
 
 	// Broadcast receiver pour recevoir les message de mise a jour envoyes par les services
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity
 			}
 		}
 	};
-	private ImageButton _bSettingsHorloge, _bSettingsSMS, _bSettingsEMails, _bSettingsTelephone, _bSettingsAutresApplis;
+
 
 	/***********************************************************************************************
 	 * Creation de l'activité
@@ -96,12 +99,14 @@ public class MainActivity extends AppCompatActivity
 		_swEMails = findViewById(R.id.switchEMails);
 		_swAppelTelephone = findViewById(R.id.switchTelephone);
 		_swAutresApplis = findViewById(R.id.switchOtherApp);
+		_swWhatsApp = findViewById(R.id.switchWhatsApp);
 
 		_bSettingsHorloge = findViewById(R.id.imageButtonSettingsHorloge);
 		_bSettingsSMS = findViewById(R.id.imageButtonSettingsSMS);
 		_bSettingsEMails = findViewById(R.id.imageButtonSettingsEMails);
 		_bSettingsTelephone = findViewById(R.id.imageButtonSettingsTelephone);
 		_bSettingsAutresApplis = findViewById(R.id.imageButtonSettingsOtherApps);
+		_bSettingsWhatsApp = findViewById(R.id.imageButtonSettingsWhatsApp);
 
 		_tvMessage = findViewById(R.id.textViewMessage);
 	}
@@ -150,7 +155,6 @@ public class MainActivity extends AppCompatActivity
 		// Annoncer l'heure
 		////////////////////////////////////////////////////////////////////////////////////////////
 		if (_swHorloge != null)
-
 		{
 			_swHorloge.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 			{
@@ -160,7 +164,8 @@ public class MainActivity extends AppCompatActivity
 					if (compoundButton.isPressed())
 					{
 						_preferences.horlogeAnnoncer.set(checked);
-						Plannificateur.changeDelai(MainActivity.this);
+						//Plannificateur.changeDelai(MainActivity.this);
+						activerAlarme();
 					}
 				}
 			});
@@ -253,6 +258,28 @@ public class MainActivity extends AppCompatActivity
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////
+		// Intercepter WhatsApp
+		////////////////////////////////////////////////////////////////////////////////////////////
+		if (_swWhatsApp != null)
+
+		{
+			_swWhatsApp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+			{
+				@Override
+				public void onCheckedChanged(@NonNull final CompoundButton compoundButton, final boolean checked)
+				{
+					if (compoundButton.isPressed())
+					{
+						if (checked)
+							activerWhatsApp();
+						else
+							_preferences.messageWhatsAppActif.set(false);
+					}
+				}
+			});
+		}
+
+		////////////////////////////////////////////////////////////////////////////////////////////
 		// Bouton Parametres Horloge
 		////////////////////////////////////////////////////////////////////////////////////////////
 		if (_bSettingsHorloge != null)
@@ -321,6 +348,20 @@ public class MainActivity extends AppCompatActivity
 				}
 			});
 		}
+
+		////////////////////////////////////////////////////////////////////////////////////////////
+		// Bouton Parametres WhatsApp
+		////////////////////////////////////////////////////////////////////////////////////////////
+		if (_bSettingsWhatsApp != null)
+		{
+			_bSettingsWhatsApp.setOnClickListener(new View.OnClickListener()
+			{
+				@Override public void onClick(final View view)
+				{
+					ParametresWhatsApp.start(MainActivity.this);
+				}
+			});
+		}
 	}
 
 	/***********************************************************************************************
@@ -328,8 +369,7 @@ public class MainActivity extends AppCompatActivity
 	 ***********************************************************************************************/
 	private void activerSMS()
 	{
-		final String[] permissions = {Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS,
-				Manifest.permission.READ_CONTACTS};
+		final String[] permissions = {Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_CONTACTS};
 		if (activerSiDroits(permissions, PERMISSION_REQUEST_ACTIVER_SMS, R.string.permissions_telephone))
 			Preferences.getInstance(this).smsGerer.set(true);
 	}
@@ -343,7 +383,7 @@ public class MainActivity extends AppCompatActivity
 	 * @return
 	 ***********************************************************************************************/
 	private boolean activerSiDroits(@NonNull final String[] permissions,
-	                                final int requestCode, @StringRes final int idMessage)
+									final int requestCode, @StringRes final int idMessage)
 	{
 		if (Permissions.verifiePermissions(this, permissions))
 			return true;
@@ -427,6 +467,37 @@ public class MainActivity extends AppCompatActivity
 	}
 
 	/***********************************************************************************************
+	 * Activer la gestion des notifications WhatsApp
+	 ***********************************************************************************************/
+	private void activerWhatsApp()
+	{
+		final Preferences prefs = Preferences.getInstance(this);
+		NotificationListenerManager.checkNotificationServiceEnabled(this, R.string.besoin_accord_notification_listener, new NotificationListenerManager.checkNotificationServiceEnabledListener()
+		{
+			// Deja autorisé, on peut cocher l'option
+			@Override public void onEnabled()
+			{
+				_swWhatsApp.setChecked(true);
+				prefs.messageWhatsAppActif.set(true);
+			}
+
+			// Pas autorisé et l'utilisateur ne veut pas modifier les paramètres, interdire l'option
+			@Override public void onCancel()
+			{
+				_swWhatsApp.setChecked(false);
+				prefs.messageWhatsAppActif.set(false);
+			}
+
+			// Pas autorisé, l'utilisateur a été redirigé vers l'écran de parametrage
+			@Override public void onSettings()
+			{
+				_swWhatsApp.setChecked(false);
+				prefs.messageWhatsAppActif.set(false);
+			}
+		});
+	}
+
+	/***********************************************************************************************
 	 * Activer la gestion des SMS, apres verification des droits
 	 ***********************************************************************************************/
 	private void activerTelephone()
@@ -437,10 +508,20 @@ public class MainActivity extends AppCompatActivity
 	}
 
 	/***********************************************************************************************
+	 * Activer le carillon, apres verification des droits
+	 ***********************************************************************************************/
+	private void activerAlarme()
+	{
+		final String[] permissions = {"android.permission.SCHEDULE_EXACT_ALARM"};
+		if (activerSiDroits(permissions, PERMISSION_REQUEST_ACTIVER_ALARME, R.string.permissions_alarme))
+			Preferences.getInstance(this).telephoneGerer.set(true);
+	}
+
+	/***********************************************************************************************
 	 * Resultat d'une demande de permission systeme
 	 ***********************************************************************************************/
 	@Override public void onRequestPermissionsResult(final int requestCode,
-	                                                 @NonNull final String[] permissions, @NonNull final int[] grantResults)
+													 @NonNull final String[] permissions, @NonNull final int[] grantResults)
 	{
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		for (int result : grantResults)
@@ -459,6 +540,12 @@ public class MainActivity extends AppCompatActivity
 				// Autorisation pour gerer le telephone
 				Preferences.getInstance(this).telephoneGerer.set(true);
 				_swAppelTelephone.setChecked(true);
+				break;
+
+			case PERMISSION_REQUEST_ACTIVER_ALARME:
+				// Autorisation pour creer des alarmes
+				_preferences.horlogeAnnoncer.set(true);
+				Plannificateur.changeDelai(MainActivity.this);
 				break;
 		}
 	}
@@ -497,6 +584,7 @@ public class MainActivity extends AppCompatActivity
 		_swSMS.setChecked(_preferences.smsGerer.get());
 		_swEMails.setChecked(_preferences.eMailsGerer.get());
 		_swAppelTelephone.setChecked(_preferences.telephoneGerer.get());
+		_swWhatsApp.setChecked(_preferences.messageWhatsAppActif.get());
 		_swAutresApplis.setChecked(_preferences.autresApplisActif.get());
 	}
 

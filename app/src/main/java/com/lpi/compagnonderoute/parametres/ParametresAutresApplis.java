@@ -3,9 +3,11 @@ package com.lpi.compagnonderoute.parametres;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import androidx.annotation.NonNull;
 import com.lpi.compagnonderoute.R;
 import com.lpi.compagnonderoute.notificationListener.NotificationListener;
 import com.lpi.compagnonderoute.preferences.Preferences;
+import com.lpi.compagnonderoute.report.Report;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -38,6 +41,7 @@ public class ParametresAutresApplis
 	 *******************************************************************************************/
 	public static void start(@NonNull final Activity context)
 	{
+		Report r = Report.getInstance(context);
 		final AlertDialog dialogBuilder = new AlertDialog.Builder(context).create();
 
 		LayoutInflater inflater = context.getLayoutInflater();
@@ -46,13 +50,17 @@ public class ParametresAutresApplis
 
 		BackgroundTaskWithSpinner.execute(context, R.layout.background_working, new BackgroundTaskWithSpinner.TaskListener()
 		{
-			@Override public void execute()
+			@Override
+			public void execute()
 			{
+				r.log(Report.DEBUG, "ParametresAutresApplis.execute");
 				listView.setAdapter(new ApplicationsAdapter(context));
 			}
 
-			@Override public void onFinished()
+			@Override
+			public void onFinished()
 			{
+				r.log(Report.DEBUG, "ParametresAutresApplis.onFinished");
 				dialogBuilder.setView(dialogView);
 				dialogBuilder.show();
 			}
@@ -83,33 +91,73 @@ public class ParametresAutresApplis
 		 * @param context
 		 * @return
 		 *******************************************************************************************/
-		private static @NonNull List<InfoAppli> getListApplications(@NonNull final Context context)
+		private static @NonNull
+		List<InfoAppli> getListApplications(@NonNull final Context context)
 		{
+			Report r = Report.getInstance(context);
+			r.log(Report.DEBUG, "getListApplications");
 			Preferences prefs = Preferences.getInstance(context);
-			final String notreApplication = context.getPackageName();
-			ArrayList<InfoAppli> liste = new ArrayList<>();
-			List<PackageInfo> packList = context.getPackageManager().getInstalledPackages(0);
-			for (int i = 0; i < packList.size(); i++)
+			ArrayList<InfoAppli> liste = null;
+			PackageManager packageManager = context.getPackageManager();
+			try
 			{
-				PackageInfo packInfo = packList.get(i);
-				if ((packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0              // Ne pas afficher les applications systeme
-						&& !notreApplication.equals(packInfo.packageName)                            // Ne pas annoncer notre propre application, sinon boucle infinie
-						&& !NotificationListener.GMAIL_PACKAGE.equals(packInfo.packageName)          // Application GMail traitée ailleurs
-				)
+				final String notreApplication = context.getPackageName();
+				liste = new ArrayList<>();
+				r.log(Report.DEBUG, "getInstalledPackages");
+				List<PackageInfo> packList = packageManager.getInstalledPackages(0);
+				for (PackageInfo packInfo : packList)
 				{
-					InfoAppli a = new InfoAppli();
-					a.packageName = packInfo.packageName;
-					a.applicationName = getApplicationName(context, packInfo);
-					a.titre = prefs.getNotificationTitre(packInfo.packageName);
-					a.contenu = prefs.getNotificationContenu(packInfo.packageName);
-					a.nomAppli = prefs.getNotificationNomAppli(packInfo.packageName);
-					liste.add(a);
+					if (!systemApp(packInfo) &&             										// Ne pas afficher les applications systeme
+							!notreApplication.equals(packInfo.packageName)                          // Ne pas annoncer notre propre application, sinon boucle infinie
+							&& !NotificationListener.GMAIL_PACKAGE.equals(packInfo.packageName)     // Application GMail traitée ailleurs
+					)
+					{
+						InfoAppli a = new InfoAppli();
+						a.packageName = packInfo.packageName;
+						a.applicationName = getApplicationName(context, packInfo.packageName);
+						a.titre = prefs.getNotificationTitre(packInfo.packageName);
+						a.contenu = prefs.getNotificationContenu(packInfo.packageName);
+						a.nomAppli = prefs.getNotificationNomAppli(packInfo.packageName);
+						liste.add(a);
+					}
 				}
+
+//				Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+//				mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+//				List<ResolveInfo> pkgAppsList = context.getPackageManager().queryIntentActivities(mainIntent, 0);
+//				for ( ResolveInfo info : pkgAppsList)
+//				{
+//					r.log(Report.DEBUG, info.resolvePackageName);
+//				}
+
+				PackageManager pm = context.getPackageManager();
+				List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+				for (ApplicationInfo packageInfo : packages)
+				{
+					if (!systemApp(packageInfo) &&             										// Ne pas afficher les applications systeme
+							!notreApplication.equals(packageInfo.packageName)                          // Ne pas annoncer notre propre application, sinon boucle infinie
+							&& !NotificationListener.GMAIL_PACKAGE.equals(packageInfo.packageName)     // Application GMail traitée ailleurs
+					)
+					{
+						InfoAppli a = new InfoAppli();
+						a.packageName = packageInfo.packageName;
+						a.applicationName = getApplicationName(context, packageInfo.packageName);
+						a.titre = prefs.getNotificationTitre(packageInfo.packageName);
+						a.contenu = prefs.getNotificationContenu(packageInfo.packageName);
+						a.nomAppli = prefs.getNotificationNomAppli(packageInfo.packageName);
+						liste.add(a);
+					}
+				}
+
+			} catch (Exception e)
+			{
+				r.log(Report.ERROR, e);
 			}
 
 			liste.sort(new Comparator<InfoAppli>()
 			{
-				@Override public int compare(final InfoAppli appli1, final InfoAppli appli2)
+				@Override
+				public int compare(final InfoAppli appli1, final InfoAppli appli2)
 				{
 					return appli1.applicationName.compareTo(appli2.applicationName);
 				}
@@ -117,20 +165,51 @@ public class ParametresAutresApplis
 			return liste;
 		}
 
+		/***
+		 * Return TRUE si l'application est une application systeme
+		 * @param packInfo
+		 * @return
+		 */
+		private static boolean systemApp(PackageInfo packInfo)
+		{
+			if ( (packInfo.applicationInfo.flags & (ApplicationInfo.FLAG_UPDATED_SYSTEM_APP | ApplicationInfo.FLAG_SYSTEM)) != 0)
+				return true;
+			// flag FLAG_SYSTEM non fiable sur Samsung A52
+			if (packInfo.packageName.startsWith("com.android.")) return true;
+			if (packInfo.packageName.startsWith("com.samsung.android.")) return true;
+			if (packInfo.packageName.startsWith("com.google.android.")) return true;
+			return false;
+		}
+
+		/***
+		 * Return TRUE si l'application est une application systeme
+		 * @param packInfo
+		 * @return
+		 */
+		private static boolean systemApp(ApplicationInfo packInfo)
+		{
+			if ( (packInfo.flags & (ApplicationInfo.FLAG_UPDATED_SYSTEM_APP | ApplicationInfo.FLAG_SYSTEM)) != 0)
+				return true;
+			// flag FLAG_SYSTEM non fiable sur Samsung A52
+			if (packInfo.packageName.startsWith("com.android.")) return true;
+			if (packInfo.packageName.startsWith("com.samsung.android.")) return true;
+			if (packInfo.packageName.startsWith("com.google.android.")) return true;
+			return false;
+		}
 		/*******************************************************************************************
 		 * Retrouve le nom affichable d'une application a partir de son PackageName
 		 * @param context
-		 * @param packageInfo
+		 * @param packageName
 		 * @return
 		 *******************************************************************************************/
 		private static @NonNull
-		String getApplicationName(@NonNull final Context context, @NonNull final PackageInfo packageInfo)
+		String getApplicationName(@NonNull final Context context, @NonNull final String packageName)
 		{
 			PackageManager packageManager = context.getPackageManager();
 			ApplicationInfo applicationInfo = null;
 			try
 			{
-				applicationInfo = packageManager.getApplicationInfo(packageInfo.packageName, 0);
+				applicationInfo = packageManager.getApplicationInfo(packageName, 0);
 			} catch
 			(final PackageManager.NameNotFoundException e)
 			{
