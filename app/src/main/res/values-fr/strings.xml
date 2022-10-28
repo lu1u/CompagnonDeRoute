@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Compagnon de route</string>
+    <string name="received_sms_sender_and_body">SMS reçu de %1$s.\n%2$s</string>
+    <string name="received_sms_sender">SMS reçu de %1$s.</string>
+    <string name="received_sms_body">SMS reçu: %1$s.</string>
+    <string name="received_sms">SMS reçu</string>
+    <string name="phone_call_format">Appel de %1$s</string>
+    <string name="time_announce">Il est %1$s.</string>
+    <string name="ask_for_permissions">Vous devez accorder certaines autorisation à cette application pour qu\'elle puisse fonctionner:\n-recevoir les sms et appels téléphoniques\n-accéder à vos contacts\n-envoyer des sms</string>
+    <string name="missing_permissions">Autorisation manquante</string>
+    <string name="grant_permissions_button">Accorder des permissions</string>
+    <string name="enabled">Activé</string>
+    <string name="disabled">Désactivé</string>
+    <string name="next_alarm_ui">Prochaine alarme %1$s</string>
+    <string name="sms_answer">Merci pour votre message. Je ne peut pas vous répondre pour l\'instant mais je le ferais dès que possible</string>
+    <string name="call_answer">Merci pour votre appel. Je ne peut pas vous répondre pour l\'instant mais je le ferais dès que possible</string>
+    <string name="ui_hour">Heure</string>
+    <string name="ui_half">Demi</string>
+    <string name="ui_quarter">Quart</string>
+    <string name="deactivated">Désactivé</string>
+    <string name="received_gmail">Nouveau mail reçu de %1$s, %2$s</string>
+    <string name="received_gmail_null">Nouveau mail reçu</string>
+    <string name="besoin_accord_notification_listener">Vous devez accorder à cette application l\'autorisation d\'intercepter les messagtes. Un écran de configuration système va être affiché. Veuillez cocher l\'option correspondant à Compagnon de Route. Pressez Annuler si vous ne voulez pas accorder les autorisation.</string>
+
+    <string name="received_autre_appli_nom">Notification de %1$s. </string>
+
+    <string name="permissions_sms">Vous devez accorder l\'autorisation d\'accéder à vos sms et contacts</string>
+    <string name="permissions_alarme">Vous devez accorder l\'autorisation de plannifier des alarmes</string>
+
+    <string name="permissions_telephone">Vous devez accorder l\'autorisation d\'accéder à vos appels et contacts</string>
+    <string name="ui_sms_reponse_auto">SMS: réponse automatique</string>
+    <string name="ui_parametres_telephone">Paramètres appels</string>
+    <string name="ui_annoncer_les_appels">Annoncer les appels</string>
+    <string name="ui_toujours">Toujours</string>
+    <string name="ui_contacts_seulement">Contacts seulement</string>
+    <string name="ui_parametres_horloge">Paramêtres heure</string>
+    <string name="ui_annoncer_l_heure">Annoncer l\'heure:</string>
+    <string name="sms_copyright_reponse_automatique">\n(Message envoyé automatique par Compagnon de Route ©2019 Lucien Pilloni)</string>
+    <string name="ui_a_propos_icones">Icons from https://materialdesignicons.com/</string>
+    <string name="ui_a_propos_code">Some code from https://stackoverflow.com/</string>
+    <string name="ui_horloge">Horloge:</string>
+    <string name="ui_messages">Messages:</string>
+    <string name="ui_appels">Appels:</string>
+    <string name="ui_horl">Horloge</string>
+    <string name="ui_sms">Sms</string>
+    <string name="ui_emails">Mails</string>
+    <string name="ui_phone">Appels</string>
+    <string name="ui_volume">Volume</string>
+    <string name="ui_parametres">Paramètres</string>
+    <string name="ui_volume_defaut">Volume système</string>
+    <string name="ui_apres_demarrage">Après un redémarrage, réactiver Compagnon s\'il l\'était avant</string>
+    <string name="ui_reactivate_after_restart">Après un redémarrage, réactiver Compagnon s\'il l\'était avant</string>
+    <string name="ui_notifications">Notifications</string>
+    <string name="menu_parametres">Paramètres</string>
+    <string name="menu_tts">Synthèse vocale</string>
+    <string name="menu_apropos">A propos…</string>
+    <string name="menu_report">Rapport</string>
+    <string name="menu_notifications">Permissions d\'accès aux notifications</string>
+    <string name="ui_notidication_sound">Son de notification:</string>
+    <string name="ui_other_applications">Autres applications</string>
+    <string name="menu_notification_log">Journal de notifications</string>
+    <string name="pas_encore_de_notifications">Pas encore de notification</string>
+    <string name="effacer_notifications">Supprimer le journal de notifications?</string>
+    <string name="working_please_wait">Veuillez patienter</string>
+    <string name="ui_application">Application</string>
+    <string name="ui_titre">Titre</string>
+    <string name="contenu">Contenu</string>
+    <string name="ui_autres_applications">Autres applications</string>
+    <string name="ui_annoncer_les_notifications_pour_ces_applications">Annoncer les notifications pour ces applications:</string>
+    <string name="param_tres_emails">Paramètres EMail</string>
+    <string name="ui_annoncer_le_titre">Annoncer titre</string>
+    <string name="ui_annoncer_le_contenu">Annoncer contenu</string>
+    <string name="ui_annoncer_les_sms">Annoncer SMS</string>
+    <string name="ui_annoncer_l_exp_diteur">Annoncer l\'expéditeur</string>
+    <string name="ui_reponse_automatique">Réponse automatique:</string>
+    <string name="ui_jamais">Jamais</string>
+    <string name="browse_genre_subtitle">Genres</string>
+    <string name="browse_genres">genres</string>
+
+    <string name="received_whatsapp">Message WhatsApp reçu de %1$s, %2$s</string>
+    <string name="received_whatsapp_null">Message WhatsApp message reçu</string>
+    <string name="ui_annoncer_expediteur_whatsapp">Annoncer l\'expéditeur si disponible</string>
+</resources>
