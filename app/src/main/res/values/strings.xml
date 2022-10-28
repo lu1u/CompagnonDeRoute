@@ -78,4 +78,5 @@
 
     <string name="received_whatsapp">WhatsApp message received from %1$s, %2$s</string>
     <string name="received_whatsapp_null">WhatsApp message received</string>
+    <string name="ui_annoncer_expediteur_whatsapp">Say sender name if available</string>
 </resources>

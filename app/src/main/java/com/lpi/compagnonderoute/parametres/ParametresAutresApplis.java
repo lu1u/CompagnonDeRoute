@@ -104,39 +104,13 @@ public class ParametresAutresApplis
 				final String notreApplication = context.getPackageName();
 				liste = new ArrayList<>();
 				r.log(Report.DEBUG, "getInstalledPackages");
-				List<PackageInfo> packList = packageManager.getInstalledPackages(0);
-				for (PackageInfo packInfo : packList)
-				{
-					if (!systemApp(packInfo) &&             										// Ne pas afficher les applications systeme
-							!notreApplication.equals(packInfo.packageName)                          // Ne pas annoncer notre propre application, sinon boucle infinie
-							&& !NotificationListener.GMAIL_PACKAGE.equals(packInfo.packageName)     // Application GMail traitée ailleurs
-					)
-					{
-						InfoAppli a = new InfoAppli();
-						a.packageName = packInfo.packageName;
-						a.applicationName = getApplicationName(context, packInfo.packageName);
-						a.titre = prefs.getNotificationTitre(packInfo.packageName);
-						a.contenu = prefs.getNotificationContenu(packInfo.packageName);
-						a.nomAppli = prefs.getNotificationNomAppli(packInfo.packageName);
-						liste.add(a);
-					}
-				}
-
-//				Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-//				mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-//				List<ResolveInfo> pkgAppsList = context.getPackageManager().queryIntentActivities(mainIntent, 0);
-//				for ( ResolveInfo info : pkgAppsList)
-//				{
-//					r.log(Report.DEBUG, info.resolvePackageName);
-//				}
-
 				PackageManager pm = context.getPackageManager();
 				List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
 				for (ApplicationInfo packageInfo : packages)
 				{
 					if (!systemApp(packageInfo) &&             										// Ne pas afficher les applications systeme
-							!notreApplication.equals(packageInfo.packageName)                          // Ne pas annoncer notre propre application, sinon boucle infinie
-							&& !NotificationListener.GMAIL_PACKAGE.equals(packageInfo.packageName)     // Application GMail traitée ailleurs
+							!notreApplication.equals(packageInfo.packageName)                       // Ne pas annoncer notre propre application, sinon boucle infinie
+							&& !NotificationListener.GMAIL_PACKAGE.equals(packageInfo.packageName)  // Application GMail traitée ailleurs
 					)
 					{
 						InfoAppli a = new InfoAppli();
@@ -188,9 +162,10 @@ public class ParametresAutresApplis
 		 */
 		private static boolean systemApp(ApplicationInfo packInfo)
 		{
-			if ( (packInfo.flags & (ApplicationInfo.FLAG_UPDATED_SYSTEM_APP | ApplicationInfo.FLAG_SYSTEM)) != 0)
+			if ( (packInfo.flags &  ApplicationInfo.FLAG_SYSTEM) != 0)
 				return true;
-			// flag FLAG_SYSTEM non fiable sur Samsung A52
+			if ( (packInfo.flags &  ApplicationInfo.FLAG_UPDATED_SYSTEM_APP ) != 0)
+				return true;// flag FLAG_SYSTEM non fiable sur Samsung A52
 			if (packInfo.packageName.startsWith("com.android.")) return true;
 			if (packInfo.packageName.startsWith("com.samsung.android.")) return true;
 			if (packInfo.packageName.startsWith("com.google.android.")) return true;

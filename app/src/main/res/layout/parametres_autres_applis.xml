@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_application"
-        android:drawableTint="@color/Primary"
+        android:drawableTint="@color/Accent"
         android:text="@string/ui_autres_applications"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
@@ -26,7 +26,6 @@
     <ListView
         android:id="@+id/listApplications"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

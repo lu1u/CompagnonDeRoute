@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_phone"
-        android:drawableTint="@color/Primary"
+        android:drawableTint="@color/Accent"
         android:text="@string/ui_parametres_telephone"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />

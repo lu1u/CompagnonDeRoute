@@ -2,11 +2,11 @@
 <resources>
 
     <!-- Theme 1 -->
-    <color name="Primary">#1565c0</color>
-    <color name="PrimaryDark">#003c8f</color>
-    <color name="PrimaryLight">#5e92f3</color>
-    <color name="Accent">#f44336</color>
-    <color name="AccentDark">#ba000d</color>
-    <color name="AccentLight">#ff7961</color>
+    <color name="Primary">#9E9E9E</color>
+    <color name="PrimaryDark">#616161</color>
+    <color name="PrimaryLight">#E0E0E0</color>
+    <color name="Accent">#00BCD4</color>
+    <color name="AccentDark">#0097A7</color>
+    <color name="AccentLight">#4DD0E1</color>
     <color name="attrColorTexteRadioBoutons">#fff</color>
 </resources>

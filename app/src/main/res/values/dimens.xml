@@ -12,4 +12,5 @@
     <dimen name="taille_drawable_enable">48dp</dimen>
     <dimen name="corner_onoff_track">32dp</dimen>
     <dimen name="corner_onoff_thumb">24dp</dimen>
+    <dimen name="radius_liste_application">4dp</dimen>
 </resources>

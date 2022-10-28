@@ -175,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_application"
                 android:drawableTint="@color/Primary"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/switchWhatsApp" />
 
@@ -193,7 +193,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ui_other_applications"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@id/switchOtherApp"
                 app:layout_constraintStart_toStartOf="@+id/textView10"
                 app:layout_constraintTop_toTopOf="@id/switchOtherApp" />
@@ -266,7 +266,7 @@
                 android:background="@drawable/ripple_effect"
                 android:scaleType="fitCenter"
                 android:tint="@color/Accent"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@+id/imageButtonSettingsHorloge"
                 app:layout_constraintStart_toStartOf="@+id/imageButtonSettingsHorloge"
                 app:layout_constraintTop_toTopOf="@+id/switchOtherApp"
